@@ -46,7 +46,7 @@
                 <p>📃 独立页面：<span th:utext="${singlePageFinder.list(1,1).total}"></span> 个</p>
                 <p>💬 评论：<span th:utext="${commentFinder.list({},1,1).total}"></span> 条</p>
                 <p>🪁 Memos：哔哔了 <span class="memos-count">0</span> 条</p>
-                <p>🔖 Memos： <span class="memos-tags-count">0</span> 种哔哔方向</p>
+                <p>🔖 Memos标签： <span class="memos-tags-count">0</span> 种哔哔方向</p>
                 <p>📷 随手拍：<span class="memos-photo-count">0</span> 张照片</p>
                 <p class="mt-3">🐦‍🔥🐦‍🔥🐦‍🔥🐦‍🔥🐦‍🔥🐦‍🔥🐦‍🔥🐦‍🔥</p>
                 <p>🌿🌿🌿🌿🌿🌿🌿🌿</p>
@@ -91,7 +91,8 @@
             <div class="memos-tags_list w-200 mt-1 float-left px-1.5">
             </div>
 
-            <p class="w-200 flex flex-wrap float-left px-2 mt-12 pb-4 text-xl font-bold text-slate-200">状态</p>
+            <!--徽章-->
+            <p class="w-200 flex flex-wrap float-left px-2 mt-11 pb-4 text-xl font-bold text-slate-200">状态</p>
             <div class="w-200 flex px-2.5 animated fadeIn gap-x-3 stats-badges">
 
             <th:block th:with="posts = ${postFinder.list({page: 1,size: 5,sort: {'spec.publishTime,desc'}})}">
@@ -103,13 +104,15 @@
             <a href="http://memo.reverier16.com/explore" target="_blank" rel="noopener noreferrer">
               <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.reverier16.com%2Fmemos%2Fdata%3FpageSize%3D20&query=memos%5B0%5D.createTime&label=Memos%E6%9C%80%E8%BF%91%E5%8F%91%E5%B8%83" />
             </a>
+            <a href="https://status.reverier16.com/status/1" target="_blank" rel="noopener noreferrer">
+              <img src="https://status.reverier16.com/api/badge/1/uptime/72" />
+            </a>
             
-
             </div>
             <div class="w-200 flex flex-wrap px-2.5 mt-4 animated fadeIn gap-x-3 gap-y-4">
 
               <a href="https://github.com/ihavenoideaa/halo-theme-joe3.0" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.shields.io/github/last-commit/ihavenoideaa/halo-theme-joe3.0" />
+                <img src="https://img.shields.io/github/last-commit/ihavenoideaa/halo-theme-joe3.0?color=blue" />
               </a>
               <a href="https://github.com/ihavenoideaa/halo-theme-joe3.0" target="_blank" rel="noopener noreferrer">
                 <img src="https://img.shields.io/github/commits-since/ihavenoideaa/halo-theme-joe3.0/v1.4.0?label=commits%20since%20fork" />
@@ -117,11 +120,8 @@
               <a href="https://github.com/ihavenoideaa/halo-theme-joe3.0" target="_blank" rel="noopener noreferrer">
                 <img src="https://img.shields.io/github/repo-size/ihavenoideaa/halo-theme-joe3.0" />
               </a>
-
-              <!--uptime kuma-->
-
-              <a href="https://github.com/ihavenoideaa/halo-theme-joe3.0" target="_blank" rel="noopener noreferrer">
-                <img src="https://img.shields.io/github/repo-size/ihavenoideaa/halo-theme-joe3.0" />
+              <a href="https://wakatime.com/@f069ffe3-fc81-4b46-b1e3-420e3b757ee8" target="_blank" rel="noopener noreferrer">
+                <img src="https://wakatime.com/badge/user/f069ffe3-fc81-4b46-b1e3-420e3b757ee8.svg" alt="Total time coded since Apr 3 2025" />
               </a>
             </div>
 
@@ -147,7 +147,7 @@
             </th:block >
             </div>  
             
-            <p class="w-200 flex flex-wrap float-left px-2 mt-12 pb-4 text-xl font-bold text-slate-200">开发/技术/应用</p>
+            <p class="w-200 flex flex-wrap float-left px-2 mt-11 pb-4 text-xl font-bold text-slate-200">博客开发/技术/应用</p>
             <div class="w-200 flex flex-wrap px-2.5 animated fadeIn gap-x-3 gap-y-4">
               <img src="https://img.shields.io/badge/-HTML5-E34F26?style=plastic&logo=html5&logoColor=white" /> 
               <img src="https://img.shields.io/badge/-CSS-663399?style=plastic&logo=css&logoColor=white" />

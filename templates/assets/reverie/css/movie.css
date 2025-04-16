@@ -3,7 +3,7 @@
 html {
     --color-title: #262626;
     --color-border: #161616;
-    --color-line-bg: #ffffff70;
+    --color-line-bg: #ffffff38;
 
     &[data-mode="dark"] {
         --color-title: #f0f0f0;

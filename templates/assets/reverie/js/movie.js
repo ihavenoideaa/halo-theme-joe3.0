@@ -207,12 +207,20 @@ async function updateLineContent() {
                 setInterval(updateText, 8000);
             });
         }
+
+        $('.movie-lines').hover(
+            function () {
+                $(this).find('#lines-content').removeClass('line-clamp-1')
+            },
+            function () {
+                $(this).find('#lines-content').addClass('line-clamp-1')
+            }
+        )
     }
     catch (error) {
         console.error('updateLineContent Error:', error);
     }
 }
-
 
 function getContrastYIQ(r, g, b) {
     const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;

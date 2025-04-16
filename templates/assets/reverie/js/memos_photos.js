@@ -2,12 +2,11 @@ const memosHost = memosPhotos.memosHost.endsWith("/") ?
                     memosPhotos.memosHost:memosPhotos.memosHost + "/";
 const memosFilterTag = memosPhotos.memosFilterTag;
 const memosPhotoTags = memosPhotos.memosPhotoTags;
-
 const photo_tags = memosPhotoTags.split(' ');
-  
 const photoLinkPrefix = `${memosHost}file/`;
 const pageSize = 25;
 const memosPageApi = `${memosHost}api/v1/memos?filter=tag%20in%20["${memosFilterTag}"]&pageSize=${pageSize}&pageToken=`; // 构建 API 请求 URL
+const photoTimeShow = memosPhotos.photoTimeShow;
 
 $(document).ready(async function () {
     const $grid = $('#image-grid').isotope({
@@ -150,10 +149,12 @@ $(document).ready(async function () {
                             if (titleSpan) {
                                 titleSpan.style.display = 'inline';
                             }
-                            // const timespan = entry.target.querySelector('.memos_photo_time');
-                            // if (timespan) {
-                            //     timespan.style.display = 'inline';
-                            // }
+                            if(photoTimeShow) {
+                                const timeSpan = entry.target.querySelector('.memos_photo_time');
+                                if (timeSpan) {
+                                    timeSpan.style.display = 'inline';
+                                }
+                            }
                         };
                     }
                 }

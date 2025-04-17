@@ -62,4 +62,8 @@ spec:
         description: 导航页面
         screenshot:
         file: reverie/heolink/heo_link.html
+      - name: 书影音
+        description: 观影阅读等展示页面
+        screenshot:
+        file: reverie/movie.html
 

@@ -1,0 +1,85 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{modules/layout :: html(title = ${site.title},htmlType = movie,header = null,leftSidebar = true,content = ~{::content}, head = null, footer = null)}"
+>
+  <th:block th:fragment="content">
+    <body>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="/res/fontawesome/fontawesome-free-6.7.2-web/css/all.min.css" rel="stylesheet">
+      <script src="/res/js/tailwind_3.4.16.min.js"></script>
+      <link rel="stylesheet" th:href="@{/assets/reverie/css/movie.css}" />
+      <script src='/res/js/TweenMax_1.20.2.min.js'></script>
+      <div class="loading-screen">
+        <main role="main" class="main-content" id="main-content">
+          <div class="titleCont">
+              <h1 class="main-title flex flex-col gap-y-4" id="main-title">
+                <span>"Good morning,</span><span style="padding-left:100px">And in case I don't see you,</span><span style="padding-right:110px">Good afternoon, Good evening,</span><span style="padding-left:-20px">And good night."</span>
+              </h1>
+          </div>
+          <canvas id="noise" class="noise"></canvas>
+          <div class="vignette"></div>
+        </main>
+      </div>
+      
+      <div id="Joe">
+        <th:block th:replace="~{modules/macro/navbar :: navbar}" />
+        <div class="flex flex-col items-center mb-12 mt-20"  th:classappend="${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}">
+            <div id="spinner"></div>
+            <div class="content lg:w-[1100px] md:w-[880px] sm:w-[440px]">
+                <h1 class="heading">[[${theme.config.movie.title ?: '书影音'}]]</h1>
+                <p class="description ml-2 mb-3">[[${theme.config.movie.description ?: " "}]]</p>
+                <div class="movie-lines mb-1">
+                  <div class="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 36 36"><path fill=var(--color-title) d="M31.87 10h-5.55l1-4.83A1 1 0 0 0 26.35 4h-2a1 1 0 0 0-1 .78L22.33 10h-5.4l1-4.83A1 1 0 0 0 17 4h-2a1 1 0 0 0-1 .78L13 10H7a1 1 0 0 0-1 .8l-.41 2a1 1 0 0 0 1 1.2h5.55l-1.64 8h-6a1 1 0 0 0-1 .8l-.41 2a1 1 0 0 0 1 1.2h5.59l-1 4.83a1 1 0 0 0 1 1.17h2a1 1 0 0 0 .95-.78L13.67 26h5.4l-1 4.83A1 1 0 0 0 19 32h2a1 1 0 0 0 1-.78L23.05 26h6a1 1 0 0 0 1-.8l.4-2a1 1 0 0 0-1-1.2h-5.58l1.63-8h6a1 1 0 0 0 1-.8l.41-2a1 1 0 0 0-1.04-1.2m-12 12h-5.4l1.64-8h5.4Z"/></svg>
+                  </div>
+                  <div id="lines-content" class="line-clamp-1 ml-3 mr-1 my-0.5 items-center">
+                    [[${theme.config.movie.def_lines ?: "Good morning, and in case I don't see you, Good afternoon, Good evening, And good night."}]]
+                  </div>
+                </div>
+                <div class="card_container grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mt-4 w-full">
+                </div>
+            </div>
+
+            <div class="overlay text-white">
+              <div class="bg-white rounded overflow-hidden shadow-lg m-4 flex justify-between w-[820px]">
+                <div class="movie-cover md:flex-shrink-0">
+                </div>
+                <div class="movie-info-block flex flex-col flex-grow px-8 py-4 bg-white">
+                  <h3 class="movie-title mt-2 font-bold text-4xl md:text-2xl lg:text-2xl ">电影名</h3>
+                  <span class="text-sm mt-3">⭕ 于 <span class="movie-create_time"></span> 记录</span>
+
+                  <div class="mt-2.5">
+                    <p class="star-title text-lg mb-1 font-[900]">评分</p>
+                    <span class="movie-comment_stars"></span> 
+                    <i class="movie-rating_grade ml-1.5 text-sm"></i>
+                  </div>
+                  <div class="flex-grow">
+                    <h2 class="comment-title text-lg mt-3.5 font-[900]">评论</h2>
+                    <p class="movie-comment mt-1.5 font-normal text-sm md:text-base lg:text-sm leading-snug truncate-overflow display-none">没有评论</p>
+                  </div>
+                  <div class="flex justify-between items-center mb-2">
+                    <div class="site-list flex gap-x-2">
+                    </div>
+
+                    <button id="close-detail" class="text-lg lg:text-sm font-bold py-2 px-4 rounded bg-orange-200 text-orange-700">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        <th:block th:replace="~{modules/common/actions :: actions}" />
+        <th:block th:replace="~{modules/common/footer :: footer}" />
+      </div>
+      <th:block th:replace="~{modules/macro/tail :: tail}" />
+      <script th:inline="javascript">
+        const memosLinesApi = /*[[${theme.config.movie.memos_lines_api}]]*/"";
+        const movieJsonFile = /*[[${theme.config.movie.movie_json_file}]]*/"";
+      </script>
+
+     <script th:src="@{/assets/reverie/js/movie.js}"></script>
+    </body>
+  </th:block>
+</html>

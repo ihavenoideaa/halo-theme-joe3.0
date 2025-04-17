@@ -198,4 +198,12 @@ $(document).ready(function () {
     .fail(function (error) {
         console.error('请求出错:', error);
     });
+
+    $.getJSON(movieJsonFile, res => {
+        console.log(res)
+        document.querySelector(".movie-count").textContent = res.data.length;
+    })
+    .fail(function (error) {
+        console.error('请求出错:', error);
+    });
 });

@@ -3157,7 +3157,16 @@ spec:
           name: photo_tags
           label: 相册分类标签
           value: ' '
-          help: '用于随手拍页面导航栏选择，需要根据Memos的标签来填，用空格隔开'       
+          help: '用于随手拍页面导航栏选择，需要根据Memos的标签来填，用空格隔开'      
+        - $formkit: radio
+          name: show_photo_time
+          label: 是否显示相片时间
+          value: false
+          options:
+            - value: true
+              label: 显示
+            - value: false
+              label: 不显示
     - group: timeline
       label: 里程碑
       formSchema:
@@ -3491,6 +3500,31 @@ spec:
               label: PostChat智能对话按钮文本
               value: "智能对话"
               help: 在使用PostChat插件时，智能对话按钮的文本
+    - group: movie
+      label: 书影音
+      formSchema:
+        - $formkit: text
+          name: title
+          label: 页面标题
+          value: '书影音'
+        - $formkit: text
+          name: description
+          label: 页面简介
+          value: '基于 NeoDB 的观影📽️、阅读📖记录展示'
+        - $formkit: text
+          name: def_lines
+          label: 默认台词
+          value: "Good morning, and in case I don't see you, Good afternoon, Good evening, And good night."
+          help: "Memos API 不生效时显示的台词"
+        - $formkit: text
+          name: memos_lines_api
+          label: 'Memos 台词 API'
+          value: ''
+        - $formkit: text
+          name: movie_json_file
+          label: JSON 文件路径
+          value: ""
+          help: '用于渲染画面的 JSON 文件'
     - group: custom
       label: 自定义
       formSchema:

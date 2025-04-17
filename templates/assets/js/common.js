@@ -36,7 +36,7 @@ const commonContext = {
 					// var commentElement = document.querySelector("halo\\:comment"); // 使用反斜杠转义冒号
 					// commentElement.setAttribute("colorScheme", "'" + local_theme + "'");
 				} else {
-					theme = "dark";
+					theme = "light";
 					$icon_light.removeClass("active");
 					$icon_dark.addClass("active");
 				}

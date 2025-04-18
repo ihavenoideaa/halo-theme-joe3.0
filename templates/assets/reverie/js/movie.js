@@ -106,22 +106,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             info_block.style.backgroundColor = `rgba(${color[0]},${color[1]},${color[2]})`
 
             let isDark = getContrastYIQ(color[0], color[1], color[2]);
-            info_block.style.color = isDark ? 'black' : 'white';
 
-            info_block.querySelector(".star-title").style.color = isDark ? '#434343' : '#adb5bd';
-            info_block.querySelector(".comment-title").style.color = isDark ? '#434343' : '#adb5bd';
+            info_block.style.color = isDark ? '#262626' : '#f0f0f0';
+            info_block.querySelector(".movie-title").style.color = isDark ? '#262626' : '#f0f0f0';
+            info_block.querySelector(".star-title").style.color = isDark ? '#262626' : '#f0f0f0';
+            info_block.querySelector(".comment-title").style.color = isDark ? '#262626' : '#f0f0f0';
 
 
             overlay.querySelector('.movie-title').textContent = movie_info.title;
             overlay.querySelector('.movie-create_time').textContent = Utils.formatDate(movie_info.created_time, "yyyy年MM月dd日");
 
-            overlay.querySelector('.movie-comment_stars').innerHTML = `🚩 ${createStarRating(movie_info.rating_grade)}`;
+            overlay.querySelector('.movie-comment_stars').innerHTML = `${createStarRating(movie_info.rating_grade)}`;
             
             let grade = movie_info.rating_grade;
             let gread_comment = grade==10 ? " 我给满分✨": (grade>=8 ? `👍🏻`:"")
             overlay.querySelector('.movie-rating_grade').innerHTML = `${movie_info.rating_grade} / 10 ${gread_comment}`;
 
-            overlay.querySelector('.movie-comment').textContent = `🔴 ${movie_info.comment_text?movie_info.comment_text:"忘记评论了"}`;
+            overlay.querySelector('.movie-comment').textContent = `${movie_info.comment_text?movie_info.comment_text:"忘记评论了"}`;
 
 
             overlay.querySelector('.site-list').innerHTML = `

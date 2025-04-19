@@ -21,6 +21,11 @@ spec:
         description: 链接跳转
         screenshot: 
         file: reverie/jump_link.html
+    category:
+      - name: 父分类
+        description: 展示子分类
+        screenshot:
+        file: reverie/parent_category.html
     page:
       - name: 留言板
         description: 留言板文章

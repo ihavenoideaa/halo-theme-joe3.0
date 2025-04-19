@@ -2,30 +2,32 @@
 <html
   lang="en"
   xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{modules/layout :: html(title = ${theme.config.categories.categories_title ?: '全部分类'}+'-'+${site.title},htmlType = categories,header = null,leftSidebar = true,content = ~{::content}, head = null, footer = null)}"
+  th:replace="~{modules/layout :: html(title = ${category.spec.displayName}+'-'+${site.title},htmlType = category,header = null,leftSidebar = true,content = ~{::content}, head = null, footer = null)}"
 >
   <th:block th:fragment="content">
     <body>
-      <div id="Joe" th:with="categories = ${categoryFinder.listAll()}">
+      <div id="Joe" th:with="children_name = ${categoryFinder.getByName(category.metadata.name).spec.children}">
         <th:block th:replace="~{modules/macro/navbar :: navbar}" />
         <!--          首页大图-->
         <th:block th:if="${theme.config.beauty.enable_big_banner}">
           <th:block th:replace="~{modules/macro/big_banner :: big_banner(${title})}" />
         </th:block>
+
+        <!--展示子分类-->
         <div
           class="joe_container joe_main_container page-categories"
           th:classappend="|${theme.config.theme.enable_show_in_up ?'animated showInUp':''} ${theme.config.aside.aside_position == 'left' ? 'revert':''}|"
         >
           <div class="joe_main">
             <div class="joe_index">
-              <div class="joe_index__title">
-                <ul class="joe_index__title-title pl-15">
-                  <li class="item active">
-                    [[${theme.config.categories.categories_title ?: '全部分类'}]]<span
-                      class="totals"
-                      >[[${#lists.size(categories)}]]</span
-                    >
-                  </li>
+              <div style="margin-left:15px;" class="joe_index__title">
+                <ul class="joe_index__title-title">
+                    <li class="item active">
+                        <i class="joe-font joe-icon-feather joe_archive__title-icon" style="font-weight:500;"></i>
+                        <span class="muted ellipsis">[[${category.spec.displayName}]]</span>
+                        <span style="font-weight:500;color:var(--main);"> 子分类</span>
+                        <span class="totals">[[${#lists.size(children_name)}]]</span>
+                    </li>
                 </ul>
               </div>
               <div class="joe_index__hot categories">
@@ -33,7 +35,8 @@
                   th:class="'joe_index__hot-list'+${theme.config.categories.categories_type  == 'card'?' ':'-tag'}+ ' animated fadeIn'"
                 >
                   <th:block th:if="${theme.config.categories.categories_type=='card'}">
-                    <li class="item" th:each="category : ${categories}">
+
+                    <li class="item" th:each="category : ${categoryFinder.getByNames(children_name)}">
                       <a
                         class="link"
                         th:href="${category.status.permalink}"
@@ -49,7 +52,7 @@
                             height="120"
                             class="image lazyload"
                             th:with="cover = ${category.spec.cover ?: theme.config.basic.random_img_api_url+'?pageid='+category.metadata.name}"
-                            th:data-src="${cover}"  
+                            th:data-src="${cover}"
                             th:src="${theme.config.home.lazyload_thumbnail}"
                             th:alt="${category.spec.displayName}"
                             onerror="Joe.errorImg(this, 'HomeErrImg')"
@@ -58,9 +61,10 @@
                         </figure>
                       </a>
                     </li>
+
                   </th:block>
                   <th:block th:if="${theme.config.categories.categories_type=='tag'}">
-                    <li class="item" th:each="category : ${categories}">
+                    <li class="item" th:each="category : ${categoryFinder.getByNames(children_name)}">
                       <a
                         class="link"
                         th:href="${category.status.permalink}"
@@ -76,6 +80,37 @@
                 </ul>
               </div>
             </div>
+            <!--展示子分类end-->
+            
+            <!--展示分类文章-->
+            <th:block th:if="${posts.total != 0}">
+              <div class="joe_archive" style="margin-top:15px;padding:0 15px;">
+                  <div class="joe_archive__title">
+                      <div class="joe_archive__title-title">
+                        <i class="joe-font joe-icon-feather joe_archive__title-icon"></i>
+                        <span class="muted ellipsis">[[${category.spec.displayName}]]
+                            <span style="font-weight:500;color:var(--main);margin-right:5px;">文章</span>
+                            <span style="display: inline-block;
+                            padding: 0 5px;
+                            line-height: 18px;
+                            font-size: 12px;
+                            color: var(--minor);
+                            background: var(--sub-background);
+                            border-radius: 3px;">[[${posts.total}]]</span>
+                        </span>
+                      </div>
+                  </div>
+      
+                  <ul class="joe_archive__list joe_list">
+                      <th:block th:each="post, iteration : ${posts.items}">
+                      <th:block th:replace="~{modules/macro/post_item :: post_item}" />
+                      </th:block>
+                  </ul>
+                  <th:block th:replace="~{modules/common/pagination :: category}" />
+              </div>
+            </th:block>
+            <!--展示分类文章 end-->
+
           </div>
           <th:block th:if="${theme.config.aside.enable_categories_aside}">
             <th:block th:replace="~{modules/common/aside :: aside}" />

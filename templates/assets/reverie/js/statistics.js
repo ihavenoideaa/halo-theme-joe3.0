@@ -4,10 +4,9 @@ function categoryDataHandle() {
     let categoryLink = [];
     
     categoryList.forEach(item => {
-        postCount.push(item.postCount);
+        postCount.push(item.postCount == null ? 0 : item.postCount);
         categoryNames.push(item.spec.displayName)
         categoryLink.push(item.status.permalink)
-        
     });
     const colorList = ['#4dabf7', '#ffa8a8', '#099268', '#ae3ec9', '#3bc9db', '#f03e3e','#6e9bc5', '#c3d94e', '#b1d5c8', '#bba1cb', '#e66767', '#706fd3', '#0be881', '#fff200'];
 
@@ -15,7 +14,7 @@ function categoryDataHandle() {
     const data = {
     labels: categoryNames,
     datasets: [{
-        label: "分类文章数",
+        label: "文章数",
         data: postCount,
         backgroundColor: colorList,
         hoverOffset: 30
@@ -97,7 +96,7 @@ function tagDataHandle() {
 
     tagList.forEach(item => {
         tagName.push(item.spec.displayName);
-        postCount.push(item.postCount);
+        postCount.push(item.postCount == null ? 0 : item.postCount);
         tagLink.push(item.status.permalink);
     });
 
@@ -109,7 +108,7 @@ function tagDataHandle() {
     const data = {
         labels: tagName,
         datasets: [{
-            label: '标签文章数',
+            label: '文章数',
             data: postCount,
             backgroundColor: colorList,
             hoverOffset: 20
@@ -200,7 +199,6 @@ $(document).ready(function () {
     });
 
     $.getJSON(movieJsonFile, res => {
-        console.log(res)
         document.querySelector(".movie-count").textContent = res.data.length;
     })
     .fail(function (error) {

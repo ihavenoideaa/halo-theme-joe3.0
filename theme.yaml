@@ -71,4 +71,8 @@ spec:
         description: 观影阅读等展示页面
         screenshot:
         file: reverie/movie.html
+      - name: Memos_Optimize
+        description: Memos_Optimize
+        screenshot:
+        file: reverie/memos_optimize.html
 

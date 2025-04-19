@@ -24,7 +24,7 @@ html {
     }
 }
     
-    .heatmap_wrapper {
+.heatmap_wrapper {
     display: flex;
     align-items: center;
     justify-content: center;

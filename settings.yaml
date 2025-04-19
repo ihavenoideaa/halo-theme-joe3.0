@@ -3112,12 +3112,22 @@ spec:
           name: memos_host
           label: Memos Host URL
           value: ''
-          help: '填写Memos服务的地址'
+          help: '填写Memos服务的地址，结尾不要"/"'
         - $formkit: text
           name: memos_user
           label: User Id
-          value: ''
-          help: '填写用户ID（users/-），默认为全部用户，即展示全部用户的 Memos，初始用户为 users/1'
+          value: 'users/1'
+          help: '填写用户ID（默认users/1），选择Memos页面展示的用户'
+        - $formkit: select
+          name: enable_user_select
+          label: 是否启用用户筛选
+          value: false
+          help: '启用则只展示User Id指定的用户，默认为全部用户，初始用户为 users/1（使用缓存API无法指定用户）'
+          options:
+            - value: true
+              label: 启用
+            - value: false
+              label: 关闭
         - $formkit: text
           name: memos_cache_api
           label: API URL

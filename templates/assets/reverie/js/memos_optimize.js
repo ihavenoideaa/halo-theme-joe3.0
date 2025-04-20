@@ -2,12 +2,16 @@ marked.setOptions({
     breaks: true // 将 \n 解析为 <br>
 });
 
+let avatar,user_nickname,user_name;
+let all_memos = [];
+let isTagFiltering = false;
+let lastFilter;
+let nowFilterTag = '';
+
 document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执行
-    let all_memos = [];
     let isLoading = false; // 防止重复加载
     let page_token = '';
     let host_url = '';
-    let avatar,user_nickname,user_name;
     ({avatar, user_nickname, user_name} = await renderUserDisplay());
 
     const user_param = memosSelectUser === false ? '' : `parent=${memosUserId}&`;
@@ -19,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
         try {
             const response = await fetch(host_url);
             const { memos, nextPageToken } = await response.json(); //获取memos和nextPageToken
-            document.querySelector('.memos_container').innerHTML = '';
+            document.getElementById('memos_container').innerHTML = '';
             all_memos = memos;
             page_token = nextPageToken;
             loadData();
@@ -30,45 +34,34 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
 
     //渲染以及预获取下一部分数据 loadData()
     const loadData = async () => {
-    if (isLoading) {
-        return;
-    }
-    isLoading = true;
-
-    renderMemos();
-    if(page_token != '') {
-        let token_url = host_url + page_token;
-        try {
-            const response = await fetch(token_url);
-            const { memos, nextPageToken } = await response.json();
-            all_memos = [...all_memos, ...memos]; // 追加预加载的数据
-            page_token = nextPageToken;
-        } catch (error) {
-            console.error('预加载失败:', error);
-        } finally {
-            isLoading = false;
+        if (isLoading) {
+            return;
         }
-    }
+        isLoading = true;
+
+        renderMemos();
+        if(page_token != '') {
+            let token_url = host_url + page_token;
+            try {
+                const response = await fetch(token_url);
+                const { memos, nextPageToken } = await response.json();
+                all_memos = [...all_memos, ...memos]; // 追加预加载的数据
+                page_token = nextPageToken;
+            } catch (error) {
+                console.error('预加载失败:', error);
+            } finally {
+                isLoading = false;
+            }
+        }
     };
     
     // 渲染动态列表
     const renderMemos = () => {
-    const container = document.querySelector('.memos_container');
+        const container = document.getElementById('memos_container');
     
-    const currentItemCount = container.children.length;
-    const newData = all_memos.slice(currentItemCount); // 只获取新增数据
-    
-    newData.forEach((memo, index) => {
-        const item = document.createElement('div');
-        item.className = `memos-card relative flex flex-col justify-start items-start w-full p-[15px] mb-2.5 gap-2 bg-white dark:bg-[#202020] rounded-lg border border-white dark:border-zinc-800 hover:border-gray-200 dark:hover:border-zinc-700 animated wow`;
-        item.setAttribute('data-wow-delay', `0.${index}s`);
-        item.setAttribute('data-cid', `${memo.creator}`);
-        item.innerHTML = `
-        ${renderHeader(memo, avatar, user_nickname, user_name)}
-        ${renderContent(memo)}
-        `;
-        container.appendChild(item); // 追加新数据
-    });
+        const currentItemCount = container.children.length;
+        const newData = all_memos.slice(currentItemCount); // 只获取新增数据
+        renderMemosCard(newData);
     }
 
     renderSideBar();
@@ -77,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
     // 滚动加载逻辑
     const handleScroll = () => {
         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-        if (scrollTop + clientHeight >= scrollHeight - 100) {
+        if (!isTagFiltering && scrollTop + clientHeight >= scrollHeight - 100) { // 滚动到底部
             loadData(); // 加载下一页
         }
     };
@@ -87,6 +80,24 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
 
     intiLoad();
 });
+
+function renderMemosCard(renderMemos) {
+    const container = document.getElementById('memos_container');
+    container.innerHTML = ''; // 清空容器
+    renderMemos.forEach((memo, index) => {
+        const tagsString = memo.tags.join(' ');
+        const item = document.createElement('div');
+        item.className = `memos-card relative flex flex-col justify-start items-start w-full p-[18px] mb-2.5 gap-2 bg-white dark:bg-[#202020] rounded-lg border border-white dark:border-zinc-800 hover:border-gray-200 dark:hover:border-zinc-700 animated wow`;
+        item.setAttribute('data-tags', tagsString);
+        item.setAttribute('data-wow-delay', `0.${index}s`);
+        item.setAttribute('data-cid', memo.creator);
+        item.innerHTML = `
+            ${renderHeader(memo, avatar, user_nickname, user_name)}
+            ${renderContent(memo)}
+        `;
+        container.appendChild(item); // 追加新数据
+    });
+}
 
 // 渲染页面顶部用户信息
 async function renderUserDisplay() {
@@ -101,7 +112,7 @@ async function renderUserDisplay() {
         const description = user ? user.description : "随记页面基于 Memos📒 数据创建";
         const user_nickname = user&&user.nickname!=="" ? user.nickname : user_name;
 
-        const userDisplay = document.querySelector('.user_display');
+        const userDisplay = document.getElementById('user_display');
         userDisplay.innerHTML=`
             <div class="w-8 h-8 overflow-clip !w-16 !h-16 drop-shadow rounded-3xl">
                 <img class="user_avatr w-full h-auto shadow min-w-full min-h-full object-cover dark:opacity-80 avatar lazyload" data-src="${avatar}" src="${lazyAvatar}"/>
@@ -226,67 +237,125 @@ function renderFooter(memo) {
 
 // 侧边栏
 async function renderSideBar() {
-    const statsData = await getMemosStats();
-    // 数据
-    const timeDifference = new Date() - new Date('2025-03-15T18:03:07Z');
-    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const statsDom = document.querySelector('.stats_datas');
-    statsDom.querySelector('.memos-total').textContent = statsData.total;
-    statsDom.querySelector('.tag-total').textContent = statsData.tagTotal;
-    statsDom.querySelector('.day-count').textContent = daysDifference;
 
-    // 热力图
-    await handleHeatMap();
-
-    // 其他类型
-    handleXtype(statsData);
-
-    showAllTags(statsData.tags);
-}
-
-function showAllTags(tags) {
-    const all_tags = document.querySelector('.all-tags');
-    for (const [tag, count] of Object.entries(tags)) {
-        all_tags.innerHTML += `<div>#${tag}&nbsp;(${count})</div>`
-    }
-
-}
-
-async function getMemosStats() {
     try {
-        const timeApiUrl = `${memosCacheApi}/stats/1`
+        const url = `${memosCacheApi}/stats/1`
+        const response = await fetch(url);
+        const statsData = await response.json();
+        // 数据
+        showNumberDate(statsData);
+        // 热力图
+        createHeatmap(statsData.timeStats.timeList);
+        // 特殊类型
+        handleXtype(statsData);
+        // 标签 tags
+        handleAllTags(statsData.tags);
 
-        const response = await fetch(timeApiUrl);
-        const data = await response.json();
-        return data;
     } catch (error) {
         console.error('Error fetching post:', error);
         return null;
     }
+  
 }
 
-
-function getStartDate() {
-    const numMonths = 3;
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - (numMonths * 4 * 7));
-    startDate.setDate(startDate.getDate() + 1);
-
-    return startDate;
+function showNumberDate(statsData) {
+    const timeDifference = new Date() - new Date('2025-03-15T18:03:07Z');
+    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    document.getElementById('memos-total').textContent = statsData.total;
+    document.getElementById('tag-total').textContent = statsData.tagTotal;
+    document.getElementById('day-count').textContent = daysDifference;
 }
 
-function getWeekDay(date) {
-    const day = date.getDay();
-    return day === 0 ? 6 : day - 1;
+// 处理3个特殊类型的标签
+function handleXtype(data) {
+    const container = document.getElementById('memos-xtype');
+
+    function createMemoElement(icon, text, filter, total) {
+        const memo = document.createElement('div');
+        memo.className = 'tag-filter statsTag w-auto border dark:border-zinc-800 pl-1.5 pr-2 py-0.5 rounded-md theme-cursor';
+        memo.setAttribute('data-filter', filter);
+        memo.innerHTML = `
+            <div class="w-auto flex justify-start items-center mr-1">${icon} </div>
+            <span class="block text-sm mr-1"> ${text} </span>
+            <span class="text-sm truncate"> ${total}</span>
+        `;
+        return memo;
+    }
+
+    const memoConfigs = [
+        { icon: '✅', text: '待办', filter: 'isCode', total: `${data.taskTotal - data.incompleteTaskTotal}/${data.taskTotal}` },
+        { icon: '📷', text: '随手拍', filter: '随手拍', total: data.photoTotal },
+        { icon: '🔗', text: '链接', filter: 'isLink', total: data.linkTotal },
+        { icon: '💻', text: '代码', filter: 'isTask', total: data.codeTotal },
+    ];
+
+    memoConfigs.forEach(config => {
+        const memo = createMemoElement(config.icon, config.text, config.filter, config.total);
+        container.appendChild(memo);
+    });
+}
+
+// 标签
+function handleAllTags(tags) {
+    const all_tags = document.getElementById('all-tags');
+    for (const [tag, count] of Object.entries(tags)) {
+        all_tags.innerHTML += `
+            <a data-filter="${tag}" class="tag-filter theme-cursor hover:underline focus:underline">#${tag}&nbsp;(${count})</a>
+        `
+    }
+    handleTagFilter();
+}
+// 标签过滤
+function handleTagFilter() {
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    tagFilters.forEach(tagFilter => {
+        tagFilter.addEventListener('click', function() {
+            isTagFiltering = true;
+
+            if(this.dataset.filter !== nowFilterTag) {
+                nowFilterTag = this.dataset.filter;
+                
+                this.style.textDecoration = 'underline';
+
+                if(lastFilter) {
+                    lastFilter.style.removeProperty('text-decoration');
+                }
+                lastFilter = tagFilter;
+
+                const tagUrl = `${memosCacheApi}/tag?tagName=${nowFilterTag}`;
+                fetch(tagUrl)
+                .then(response => response.json())
+                .then(data => {
+
+                    document.getElementById('memos_container').innerHTML = '';
+                    renderMemosCard(data.memos);
+                })
+                .catch(console.error);
+            }
+            else {
+                lastFilter.style.removeProperty('text-decoration');
+                nowFilterTag = '';
+                isTagFiltering = false;
+                lastFilter = null;
+                document.getElementById('memos_container').innerHTML = '';
+                renderMemosCard(all_memos);
+            }
+
+            setTimeout(function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }, 300);
+        });
+    });
+
 }
 
 function createDay(date, post) {
     const day = document.createElement("div");
 
     day.className = "heatmap_day";
-
-    day.setAttribute("data-post", post);
-    day.setAttribute("data-date", date);
 
     day.addEventListener("mouseenter", function () {
         const tooltip = document.createElement("div");
@@ -329,31 +398,28 @@ function createWeek() {
     return week;
 }
 
-function createHeatmap() {
-    const container = document.querySelector('.heatmap');
-    container.innerHTML = '';
-    const startDate = getStartDate();
-    const endDate = new Date();
+function createHeatmap(timelist) {
+    const container = document.getElementById('heatmap');
+    container.innerHTML = ''; // 清空容器
+
+    const nowDate = new Date();
+    const startDate = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() - 3 * 4 * 7 + 1); 
+
     let currentWeek = createWeek();
     container.appendChild(currentWeek);
 
     let currentDate = startDate;
     let i = 0;
-    
-    while (currentDate <= endDate) {
+    while (currentDate <= nowDate) {
         if (i % 7 === 0 && i !== 0) {
             currentWeek = createWeek();
             container.appendChild(currentWeek);
         }
 
-        const dateString = `${currentDate.getFullYear()}-${("0" + (currentDate.getMonth()+1)).slice(-2)}-${("0" + (currentDate.getDate())).slice(-2)}`;
-        const memosDataList = memosInfo.pages.filter(page => page.date === dateString);
-
-        if (memosDataList.length > 0) {
-            let memosCount = memosDataList.length;
-
+        const sameDayCount = filterOlderDates(currentDate, timelist);
+        if (sameDayCount) {
             const formattedDate = formatDate(currentDate);
-            const day = createDay(formattedDate, memosCount);
+            const day = createDay(formattedDate, sameDayCount);
             currentWeek.appendChild(day);
         } else {
             const formattedDate = formatDate(currentDate);
@@ -365,80 +431,6 @@ function createHeatmap() {
         currentDate.setDate(currentDate.getDate() + 1);
     }
 }
-
-const memosInfo = {"pages":[]};
-
-async function handleHeatMap() {
-    try {
-        const timeApiUrl = `${memosCacheApi}/stats/timeData`
-
-        const response = await fetch(timeApiUrl);
-        const { timeList } = await response.json();
-
-        timeList.forEach(item => {
-            page = {
-                "date": formatDate(item, false, "yyyy-MM-dd"),
-                "year":formatDate(item, false, "yyyy"),
-                "month": formatDate(item, false, "MM"),
-                "day": formatDate(item, false, "dd"),
-            };
-            memosInfo.pages.push(page);
-        })
-              
-        createHeatmap();
-    } catch (error) {
-        console.error('Error fetching post:', error);
-        return null;
-    }
-}
-
-// 处理3个特殊类型的标签
-function handleXtype(data) {
-    const container = document.querySelector('.memos-xtype');
-    // 待办📝✅
-    const todo_memos = document.createElement('div');
-    todo_memos.className = 'statsTag w-auto border dark:border-zinc-800 pl-1.5 pr-2 py-0.5 rounded-md';
-    todo_memos.innerHTML = `
-    <a href='${memosHost}?filter=property.hasTaskList%3A' target="_blank" rel="noopener noreferrer">
-        <div class="w-auto flex justify-start items-center mr-1">✅ </div>
-        <span class="block text-sm mr-1"> 待办 </span>
-        <div class="text-sm flex flex-row items-start justify-center">
-            <span class="truncate">${data.taskTotal - data.incompleteTask}</span><span class="font-mono opacity-50">/</span><span class="truncate"> ${data.taskTotal}</span>
-        </div>
-        </a>`;
-    container.appendChild(todo_memos);
-
-    //链接
-    const link_memos = document.createElement('div');
-    link_memos.className = 'statsTag w-auto border dark:border-zinc-800 pl-1.5 pr-2 py-0.5 rounded-md';
-    link_memos.innerHTML = `
-    <a href='${memosHost}?filter=property.hasLink%3A' target="_blank" rel="noopener noreferrer">
-    <div class="w-auto flex justify-start items-center mr-1">🔗 </div>
-        <span class="block text-sm mr-1">链接 </span>
-        <span class="text-sm truncate"> ${data.linkTotal}</span></a>`;
-    container.appendChild(link_memos);
-
-    //代码
-    const code_memos = document.createElement('div');
-    code_memos.className = 'statsTag w-auto border dark:border-zinc-800 pl-1.5 pr-2 py-0.5 rounded-md';
-    code_memos.innerHTML = `
-    <a href='${memosHost}?filter=property.hasCode%3A' target="_blank" rel="noopener noreferrer">
-        <div class="w-auto flex justify-start items-center mr-1">💻</div>
-        <span class="block text-sm mr-1">代码</span>
-        <span class="text-sm truncate"> ${data.linkTotal}</span></a>`;
-    container.appendChild(code_memos);
-
-    // 图片
-    const photo_memos = document.createElement('div');
-    photo_memos.className = 'statsTag w-auto border dark:border-zinc-800 pl-1.5 pr-2 py-0.5 rounded-md';
-    photo_memos.innerHTML = `
-    <a href='${memosHost}?filter=tagSearch:随手拍' target="_blank" rel="noopener noreferrer">
-        <div class="w-auto flex justify-start items-center mr-1">📷 </div>
-        <span class="block text-sm mr-1">随手拍 </span>
-        <span class="text-sm truncate"> ${data.photoTotal}</span></a>`;
-    container.appendChild(photo_memos);
-}
-
 
 // 防抖函数
 const Debounce = (func, delay) => {
@@ -488,5 +480,29 @@ const formatDate = (isoString, dateAgo = false, format = 'yyyy/MM/dd HH:mm:ss') 
     })[tag]);
 };
 
+function isSameDay(date1, date2) {
+    const firstDate = new Date(date1);
+    const secondDate = date2;
+    return firstDate.getFullYear() === secondDate.getFullYear() &&
+        firstDate.getMonth() === secondDate.getMonth() &&
+        firstDate.getDate() === secondDate.getDate();
+}
 
+function filterOlderDates(targetDate, timeList) {
+    let count = 0;
+    let i = 0;
+    for(let i = 0; i < timeList.length; i++) {
+        const currentDate = timeList[i];
+        if (new Date(currentDate) - targetDate < 0) { // 更早的日期
+            timeList.splice(i, 1);
+        }
+        else if (isSameDay(currentDate, targetDate)) {  // 同一天
+            timeList.splice(i, 1);
+            count++;
+        } else {
+            break;
+        }
+    }
+    return count;
+}
 

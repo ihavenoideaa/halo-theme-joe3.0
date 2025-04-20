@@ -32,6 +32,11 @@ html {
 
     --ht-tooltip: #efefef !important;
     --ht-tooltip-bg: #303133;
+
+    --siderColor: #323232;
+    --hoverBg: #00000015;
+    --svg-page: #a7a7a7;
+    --green: #30cf79;
   
     &[data-mode="dark"] {
         --color-tag_bg: #3a4359;
@@ -53,6 +58,11 @@ html {
 
         --ht-tooltip: #efefef;
         --ht-tooltip-bg: #303133;
+
+        --siderColor: #d4d3d3;
+        --hoverBg: #18181879;
+        --svg-page: #cececee0;
+        --green: #397354;
     }
 }
   
@@ -69,6 +79,9 @@ html {
     .main_container {
         display:flex;
         margin: 0 18px;
+    }
+    .memos_aside {
+        display: none;
     }
 }
 
@@ -233,4 +246,89 @@ html {
 .statsTag a {
     display: flex;
     flex-direction: row;
+}
+
+
+.tags-container {
+    color: var(--siderColor);
+    font-size: 14px;
+    list-style-type: none;
+    -webkit-padding-start: 0;
+    padding-inline-start: 0;
+    margin: 8px 0 2px 0;
+    width: 100%;
+    display: grid;
+    grid-template-rows: repeat(8, minmax(0, 1fr));
+}
+
+.selected {
+    color: var(--siderColor);
+}
+
+.tags-container .selected .tag-wrap{
+    background: var(--green);
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.tag-select {
+
+}
+
+.tag-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 14px 7px 0px;
+    margin: 5px 0 5px 0;
+}
+
+.tag-wrap:hover {
+    background: var(--hoverBg);
+    color: var(--siderColor);
+    border-radius: 5px;
+}
+
+.tag-name {
+    margin-left: 9px;
+    margin-right: auto;
+}
+
+.tag_emoji{
+    justify-self: start; 
+}
+
+.tag-count {
+    opacity: 0;
+    font-weight: normal;
+    transition: opacity .2s;
+}
+
+.tags-container .selected .tag-wrap .tag-count{
+    opacity: 1;
+    color: #fff;
+}
+
+.tags-container:hover .tag-count {
+    font-weight: normal;
+    transition: opacity .2s;
+    opacity: 1;
+}
+
+.svg-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    overflow: hidden;
+    color: #9d9d9d;
+    flex-shrink: 0;
+    opacity: 0;
+}
+
+.tags-container:hover .svg-icon {
+    font-weight: normal;
+    opacity: 1;
+    transition: opacity .3s;
 }

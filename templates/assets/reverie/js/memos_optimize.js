@@ -7,6 +7,9 @@ let all_memos = [];
 let isTagFiltering = false;
 let lastFilter;
 let nowFilterTag = '';
+const tagFilterPage = {};
+let curTagPage = 0;
+let maxTagPage = 0;
 
 document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执行
     let isLoading = false; // 防止重复加载
@@ -83,7 +86,6 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
 
 function renderMemosCard(renderMemos) {
     const container = document.getElementById('memos_container');
-    container.innerHTML = ''; // 清空容器
     renderMemos.forEach((memo, index) => {
         const tagsString = memo.tags.join(' ');
         const item = document.createElement('div');
@@ -297,13 +299,63 @@ function handleXtype(data) {
 
 // 标签
 function handleAllTags(tags) {
-    const all_tags = document.getElementById('all-tags');
+    const all_tags = document.getElementById('tags-selector');
+
+    let index = 0;
     for (const [tag, count] of Object.entries(tags)) {
+        // all_tags.innerHTML += `
+        //     <a data-filter="${tag}" class="tag-filter theme-cursor hover:underline focus:underline">#${tag}&nbsp;(${count})</a>
+        // `
+        const displayStr = index / 8 >= 1 ? "style='display:none'" : "";
         all_tags.innerHTML += `
-            <a data-filter="${tag}" class="tag-filter theme-cursor hover:underline focus:underline">#${tag}&nbsp;(${count})</a>
-        `
+          <li class="tag-select theme-cursor tag-filter" data-page=${Math.floor(index / 8)} data-filter="${tag}" ${displayStr}>
+            <div  class="tag-wrap">
+              <i class="svg-icon arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" viewBox="0 0 24 24"><path fill="#999999" d="M12 15a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z"/></svg>
+              </i>
+              <i class="tag_emoji">
+                  <p class=" theme-cursor">🌠</p>
+              </i>
+              <label class="tag-name  theme-cursor">${tag}</label>
+              <div class="tag-count">${count}</div>
+            </div>
+          </li>`;
+        index++;
     }
     handleTagFilter();
+
+    maxTagPage = Math.ceil(index / 8) - 1;
+    const pageControl = document.getElementById('page-control');
+    if(maxTagPage === 0) {
+        pageControl.style.display = 'none';
+        return;
+    }
+
+    const prevPage = document.getElementById('prev-page');
+    const nextPage = document.getElementById('next-page');
+    pageControl.addEventListener('click', function (e) {
+        let lastPage = curTagPage;
+        if(nextPage.contains(e.target) && curTagPage < maxTagPage) {
+            curTagPage++;
+        }
+        else if(prevPage.contains(e.target) && curTagPage > 0) {
+            curTagPage--;
+        }
+
+        if(lastPage !== curTagPage) {
+            const tagFilters = document.querySelectorAll('.tag-select');
+            tagFilters.forEach(tagFilter => {
+                const page = parseInt(tagFilter.dataset.page);
+                if(page === curTagPage) {
+                    tagFilter.style.removeProperty('display');
+                }
+                else if(page === lastPage) {
+                    tagFilter.style.display = 'none';
+                }
+            });
+        }
+
+    })
 }
 // 标签过滤
 function handleTagFilter() {
@@ -315,10 +367,12 @@ function handleTagFilter() {
             if(this.dataset.filter !== nowFilterTag) {
                 nowFilterTag = this.dataset.filter;
                 
-                this.style.textDecoration = 'underline';
+                // this.style.textDecoration = 'underline';
+                this.classList.add('selected');
 
                 if(lastFilter) {
-                    lastFilter.style.removeProperty('text-decoration');
+                    // lastFilter.style.removeProperty('text-decoration');
+                    lastFilter.classList.remove('selected');
                 }
                 lastFilter = tagFilter;
 
@@ -326,14 +380,14 @@ function handleTagFilter() {
                 fetch(tagUrl)
                 .then(response => response.json())
                 .then(data => {
-
                     document.getElementById('memos_container').innerHTML = '';
                     renderMemosCard(data.memos);
                 })
                 .catch(console.error);
             }
             else {
-                lastFilter.style.removeProperty('text-decoration');
+                // lastFilter.style.removeProperty('text-decoration');
+                lastFilter.classList.remove('selected');
                 nowFilterTag = '';
                 isTagFiltering = false;
                 lastFilter = null;

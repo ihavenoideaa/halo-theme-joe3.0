@@ -79,7 +79,7 @@ function categoryDataHandle() {
         li_item.target = `_blank`;
         li_item.rel = `noopener noreferrer`;
         li_item.innerHTML = `
-        <li class="flex flex-row items-center text-slate-200 font-semibold transition duration-150 ease-in-out hover:scale-125 cursor-pointer">
+        <li class="flex flex-row items-center text-slate-700 dark:text-slate-200 font-semibold transition duration-150 ease-in-out hover:scale-125 cursor-pointer">
             <span class="px-3.5 h-[15px] rounded-[1px] border-2 bg-[${colorList[index]}] mr-2 "></span>
             <span class="text-nowrap">${item}</span>
         <li>
@@ -155,11 +155,11 @@ function createHaloTagList() {
     const haloTagList = document.querySelector(".stats-tag_list");
     sortedTagList.forEach(tag => {
         const tagItem = document.createElement('li');
-        tagItem.className = "item mt-1 mr-3 mb-2.5 bg-[#35353e] border border-[#454545] group";
+        tagItem.className = "item mt-1 mr-3 mb-2.5 bg-[#1c88fb] dark:bg-[#35353e] border border-[#c6e0fb] dark:border-[#454545] group";
         tagItem.innerHTML = `
             <a th:href="${tag.status.permalink}" th:title="${tag.spec.displayName}" >
                 <span class="text-slate-200">${tag.spec.displayName}</span>
-                <em class="text-[#9999ff]">${tag.status.visiblePostCount ? tag.status.visiblePostCount : 0 }篇</em>
+                <em class="text-[#fb8f1c] dark:text-[#9999ff]">${tag.status.visiblePostCount ? tag.status.visiblePostCount : 0 }篇</em>
             </a>
         `;
         haloTagList.appendChild(tagItem);
@@ -187,7 +187,7 @@ $(document).ready(function () {
             tagItem.rel = `noopener noreferrer`;
             tagItem.innerHTML =`
             <li class="flex float-left text-[12px] font-light text-white mr-3 mb-3 items-center justify-items-center">
-                <span class="inline-block px-[6px] py-[2px] rounded-l-[4px] bg-[#343a40]">${tag}</span>
+                <span class="inline-block px-[6px] py-[2px] rounded-l-[4px] bg-[#546e7a] dark:bg-[#343a40]">${tag}</span>
                 <span class="inline-block px-[6px] py-[2px] rounded-r-[4px] bg-[${level_color[count>10?8:(count>7?7:count)]}]">${count}</span>
             </li>
             `;

@@ -6,10 +6,11 @@
 >
   <th:block th:fragment="content">
     <script>
-      document.querySelector('html').setAttribute('data-mode', "dark");
+      // document.querySelector('html').setAttribute('data-mode', "dark");
     </script>
     <body>
-      <script src="https://cdn.tailwindcss.com"></script>
+      <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+      <script src="/res/js/tailwind_3.4.16.min.js"></script>
       <link rel="stylesheet" th:href="@{/assets/reverie/css/statistics.css}" />
       <script th:src="@{/assets/reverie/js/lib/chart.js}"></script>
 
@@ -18,20 +19,20 @@
 
         <div class="flex flex-col items-center mb-auto mt-20"  th:classappend="${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}">
 
-            <h1 class="	text-4xl font-bold text-slate-200 flex justify-center">博客数据统计</h1>
+            <h1 class="	text-4xl font-bold text-gray-700 dark:text-slate-200 flex justify-center">博客数据统计</h1>
           </br>
 
             <!--热力图-->
-            <p class="w-200 flex float-left px-2 pt-4 pb-3 text-xl font-bold text-slate-200">文章热力图</p>
+            <p class="w-200 flex float-left px-2 pt-4 pb-3 text-xl font-bold text-gray-600 dark:text-slate-200">文章热力图</p>
             <div class="w-200 animated fadeIn">
               <th:block th:replace="~{reverie/widgets/heat_map :: heatMap(numMonths=12)}" />
             </div>
 
             <!--博客基本信息-->
-            <p class="w-200 flex float-left px-2 pt-5 pb-4 text-xl font-bold text-slate-200">博客数据</p>
+            <p class="w-200 flex float-left px-2 pt-5 pb-4 text-xl font-bold text-gray-600 dark:text-slate-200">博客数据</p>
             <div class="w-200 block">
             <div class="float-left pb-2 info-container">
-              <div class="flex flex-col gap-1 pl-10 pr-14 text-base font-semibold text-slate-400">
+              <div class="flex flex-col gap-1 pl-10 pr-14 text-base font-semibold text-[#404e61] dark:text-slate-400">
                 <p class="site_life">🕑 博客至今已运行&nbsp;
                   <strong class="joe_run__day">00</strong> 天 
                   <strong class="joe_run__hour">00</strong> 时
@@ -52,14 +53,14 @@
             </div> 
 
             <div class="w-[400px] flex float-left px-8 mt-3 items-center justify-items-center overflow-visible">
-              <p class="font-bold text-slate-200 text-xl mr-3">标签数据</p>
+              <p class="font-bold text-gray-600 dark:text-slate-200 text-xl mr-3">标签数据</p>
               <canvas id="tagChart" class="hover:scale-110" style="transition: transform 0.23s ease-out;"></canvas>
             </div>
 
             </div>
 
             <!--分类信息-->
-            <p class="w-200 flex float-left px-2 pt-2 pb-3 text-xl font-bold text-slate-200">分类数据</p>
+            <p class="w-200 flex float-left px-2 pt-2 pb-3 text-xl font-bold text-gray-600 dark:text-slate-200">分类数据</p>
             <!-- <div class="w-200 inline-block"> -->
             <div class="w-200 mt-2 mr-5 flex float-left px-8 items-center justify-items-center overflow-visible">
               <canvas id="categoryChart" class="max-w-64"></canvas>
@@ -72,7 +73,7 @@
             <!-- </div> -->
 
             <!--博客标签-->
-            <p class="w-200 flex float-left px-2 mt-10 pb-4 text-xl font-bold text-slate-200">博客标签</p>
+            <p class="w-200 flex float-left px-2 mt-10 pb-4 text-xl font-bold text-gray-600 dark:text-slate-200">博客标签</p>
             <div class="w-200 flex px-1.5 animated fadeIn">
               <ul class="stats-tag_list overflow-visible">
                   <!-- <li class="item mt-1 mr-3 mb-2.5 bg-[#35353e] border border-[#454545] group" th:each="tag : ${tagFinder.listAll()}">
@@ -85,12 +86,12 @@
             </div>
 
             <!--Memos标签-->
-            <p class="w-200 flex float-left px-2 mt-10 pb-4 text-xl font-bold text-slate-200">Memos 标签</p>
+            <p class="w-200 flex float-left px-2 mt-10 pb-4 text-xl font-bold text-gray-600 dark:text-slate-200">Memos 标签</p>
             <div class="memos-tags_list w-200 mt-1 float-left px-1.5">
             </div>
 
             <!--徽章-->
-            <p class="w-200 flex flex-wrap float-left px-2 mt-11 pb-4 text-xl font-bold text-slate-200">状态</p>
+            <p class="w-200 flex flex-wrap float-left px-2 mt-11 pb-4 text-xl font-bold text-gray-600 dark:text-slate-200">状态</p>
             <div class="w-200 flex px-2.5 animated fadeIn gap-x-3 stats-badges">
 
             <th:block th:with="posts = ${postFinder.list({page: 1,size: 5,sort: {'spec.publishTime,desc'}})}">
@@ -133,7 +134,7 @@
 
                 <th:block th:each="page, iter : ${theme.spec.customTemplates.page}">
                   <th:block th:with="breakFlag = false">
-                      <th:block th:if="${iter.index >= 4}" th:each="singlePages : ${singlePageFinder.list(1, 10).items}">
+                      <th:block th:if="${iter.index >= 4}" th:each="singlePages : ${singlePageFinder.list(1, 30).items}">
                           <th:block th:if="${!breakFlag}">
                               <a th:if="${singlePages.spec.template == page.file}" th:href="${singlePages.status.permalink}" th:with="breakFlag = true" target="_blank" rel="noopener noreferrer">
                                   <img th:src="'https://img.shields.io/badge/custom page-' + ${page.name} + '-eb6ea5'" />
@@ -145,7 +146,7 @@
             </th:block >
             </div>  
             
-            <p class="w-200 flex flex-wrap float-left px-2 mt-11 pb-4 text-xl font-bold text-slate-200">博客开发/技术/应用</p>
+            <p class="w-200 flex flex-wrap float-left px-2 mt-11 pb-4 text-xl font-bold text-gray-600 dark:text-slate-200">博客开发/技术/应用</p>
             <div class="w-200 flex flex-wrap px-2.5 animated fadeIn gap-x-3 gap-y-4">
               <img src="https://img.shields.io/badge/-HTML5-E34F26?style=plastic&logo=html5&logoColor=white" /> 
               <img src="https://img.shields.io/badge/-CSS-663399?style=plastic&logo=css&logoColor=white" />
@@ -238,6 +239,7 @@
               </a>
             </div>  
         </div>
+        <th:block th:replace="~{modules/common/actions :: actions}" />  
         <th:block th:replace="~{modules/common/footer :: footer}" />
       </div>
       <th:block th:replace="~{modules/macro/tail :: tail}" />

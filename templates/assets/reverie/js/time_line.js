@@ -121,14 +121,13 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
                         </div>
                         <div class="timeline-item-description">
                             <p>${timeline_item.description}</p>
-                            <div class="timeline-item-img" data-fancybox="Joe" href="${timeline_item.img_url}">
-                                <img class="lazyload" src="${timeline_item.img_url}" />
+                            <div class="timelime-img-container">
+                                ${addImage(timeline_item.imgs, timeline_item.img_style)}
                             </div>
                         </div>
                     </div>
                 `;
-                container.appendChild(item); // 追加新数据
-
+                container.appendChild(item); // 追加新数据 
             } else if (timeline_item.type == '4') {    //文章卡片
                 const loadingElement = document.createElement('p');
                 loadingElement.textContent = '正在加载文章数据...';
@@ -224,6 +223,27 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
     const inputField = document.getElementById('noInput');
     setupGradualDeletion(inputField);
 });
+
+const addImage = (imgs, style) => { 
+    const gridStyleMap = {
+        '1': 'max-width:80%',
+        '2': 'max-width:50%',
+        '3': 'max-width:33%'
+    };
+
+    let img_style = gridStyleMap[style] || style; 
+
+    let imgHtml = '';
+    imgs.forEach((url) => {
+        imgHtml +=`
+        <div class="timeline-item-img" data-fancybox="Joe" href="${url}" style="${img_style}">
+            <img class="lazyload" src="${url}" />
+        </div>
+        `;
+    });
+    return imgHtml;
+}
+
 
 const renderPostMetadata = (postData) => {
     const meta_item = postData.time.formatDate();

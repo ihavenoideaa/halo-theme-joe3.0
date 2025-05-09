@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadingScreen.classList.add('fade-out');
     }
     requestAnimationFrame(() => {
-        setTimeout(hideLoadingScreen, 2000);
+        setTimeout(hideLoadingScreen, 1500);
     });
 });
 

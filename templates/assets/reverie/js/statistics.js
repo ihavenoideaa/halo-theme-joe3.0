@@ -155,7 +155,7 @@ function createHaloTagList() {
     const haloTagList = document.querySelector(".stats-tag_list");
     sortedTagList.forEach(tag => {
         const tagItem = document.createElement('li');
-        tagItem.className = "item mt-1 mr-3 mb-2.5 bg-[#1c88fb] dark:bg-[#35353e] border border-[#c6e0fb] dark:border-[#454545] group";
+        tagItem.className = "item mt-1 mr-3 mb-2.5 bg-[#446385] dark:bg-[#35353e] border border-[#c6e0fb] dark:border-[#454545] group";
         tagItem.innerHTML = `
             <a th:href="${tag.status.permalink}" th:title="${tag.spec.displayName}" >
                 <span class="text-slate-200">${tag.spec.displayName}</span>

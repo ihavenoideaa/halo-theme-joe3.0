@@ -216,7 +216,7 @@
                   </article>
                   <!--emaction-->
                   <th:block th:if="${theme.config.emaction.post_enable} and ${#annotations.getOrDefault(post, 'post_reaction_list', '') != ''}">
-                      <th:block th:replace="~{reverie/emaction :: emaction}" />
+                      <th:block th:replace="~{reverie/widgets/emaction :: emaction}" />
                   </th:block>       
                   <th:block
                     th:if="${#annotations.getOrDefault(post, 'enable_like' ,'true') == 'true'} and ${theme.config.post.enable_like}"
@@ -327,7 +327,7 @@
 
         <!--音乐播放器-->
         <th:block th:if="${theme.config.musicplayer.music_action.post.enable} and ${#annotations.getOrDefault(post, 'post_song_id', '') != ''}">
-          <th:block th:replace="~{reverie/music_action :: music_action}" />
+          <th:block th:replace="~{reverie/widgets/music_action :: music_action}" />
         </th:block>
 
         <th:block th:if="${theme.config.footer.enable_footer}">

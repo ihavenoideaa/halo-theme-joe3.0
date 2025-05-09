@@ -1,0 +1,191 @@
+
+@import url('/res/css/font/Barlow.css');
+
+html {
+    --quote-color: #0000001a;    
+    &[data-mode="dark"] {
+        --quote-color: #ffffff26;
+    }
+}
+    
+
+.Barlow {
+    font-family: Barlow, "PingFang SC", Helvetica, Arial, sans-serif !important;
+}
+
+
+.site_driven {
+    display: flex;
+}
+
+
+.blockquote {
+    padding: 60px 10px 40px;
+    position: relative;
+}
+.blockquote p {
+    font-size: 22px;
+    font-weight: 400;
+    margin-left: 3rem;
+}
+
+.blockquote:before {
+    position:absolute;
+    font-family: 'FontAwesome';
+    top: -20px;
+    content:"\f10d";
+    font-size: 120px;
+    color: var(--quote-color); 
+}
+
+
+.wish_main{
+    margin: 4.5rem;
+    columns: 2;
+}
+.wish-card{
+    width: 450px;
+    margin:0 auto 4.5rem auto;
+}
+
+@media screen and (max-width: 1100px) {
+    .wish_main{
+        margin-top: 5rem;
+        columns: 1;
+    }
+    .wish-card{
+        width: 650px;
+        margin:0 auto 4.5rem auto;
+    }
+}
+
+.wish-card .card{
+    position: relative;
+    line-height: 1.75;
+    color: #24292e;
+    background-color: #fff;
+    font-size: 16px;
+    word-wrap: break-word;
+    position: relative;
+    font-family: 'PingFang SC', sans-serif;
+    background: #f5f5f5;
+    padding: 2px;
+    overflow: hidden;
+}
+
+.wish-card .card-content {
+    font-size: 16px;
+    background: #fff;
+    color: #34495e;
+    border: 1px solid #ddd;
+    padding: 16px;
+    background-image: linear-gradient(#eee 1px, transparent 1px);
+    background-size: 100% 24px;
+    height: auto;
+}
+
+.card-content-inner h1{
+    margin-top: 16px;
+    font-family: 'Caveat', 'Ma Shan Zheng', cursive;
+    font-size: 28px;
+    line-height: 1.5;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 2px dashed #3498db;
+}
+
+.card-content-inner blockquote{
+    position: relative;
+    background-color: #f8f9fa;
+    border-left: 4px solid #3498db;
+    color: #7f8c8d;
+    padding: 10px 20px;
+    margin: 20px 0;
+    font-style: italic;
+}
+
+.card-content-inner blockquote p{
+    margin-top: 0;
+    font-size: 15px;
+    line-height: 24px;
+    margin: 0;
+    color: #7f8c8d;
+}
+
+.card-content-inner hr{
+    margin: 24px 0;
+    border: 0;
+    height: 1px;
+    background-color: #eaecef;
+}
+
+.wish-image-wrap {
+    margin-top: 0;
+    color: #34495e;
+    font-size: 15px;
+    line-height: 24px;
+    margin: 16px 0;
+}
+
+.wish-image-wrap img{
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 20px auto;
+    display: block;
+    width: auto;
+    height: auto;
+}
+
+.contains-wish-list {
+    padding-left: 20px;
+    list-style: none;
+    margin: 20px 0;
+    padding: 10px 10px 10px 32px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #ecf0f1;
+}
+
+.wish-list-item{
+    display: flex;
+    justify-items: center;
+    position: relative;
+    list-style: none;
+    line-height: 24px;
+    color: #34495e;
+    padding-left: 24px;
+    margin:0 0px 10px 0px;
+}
+
+.wish-content {
+    top: 0;
+}
+
+.wish-box{
+    appearance: none;
+    border: 2px solid #888;
+    border-radius: 2px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    background-color: #fff;
+}
+
+.box-checked{
+    background-color: #1677ff; 
+    border-color: #1677ff; 
+    background-position: 1px 2px; 
+    background-repeat: no-repeat; 
+    background-size: 80%; 
+    background-image: url(data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAUCAYAAACXtf2DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACLSURBVHgB7ZPBDYAgDEX/SI7AJjIKGziCozCKIzBChRiSHgoIlHjxJb3BexoA+GEQ0RYnxDmgDZNnPLQQ5BmDWSpyh1nSF66U7yTjShvOOFf65RVyzxaFWmREvgmLxUi3nG10rciw/E2kIrfooRAhFXlnxGKGRsRCg0LEQhMWSYdtsAJ6blHzdX/GDSY+GhmjX+BiAAAAAElFTkSuQmCC);
+}
+
+.wish-text {
+    margin-left: 5px;
+}
+

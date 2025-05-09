@@ -1,0 +1,69 @@
+<th:block th:fragment="bangumi-item(bangumiAll)">
+    <th:block th:each="bangumi : ${bangumiAll}">
+        <div class="bangumi-item" th:with="spec = ${bangumi.spec}">
+            <div class="bangumi-picture">
+                <img
+                    class="lazyload"
+                    data-fancybox="Joe" href="${spec.cover}"
+                    th:data-src="${spec.cover}"
+                    th:src="${theme.config.home.lazyload_thumbnail}"
+                    th:alt="${spec.title}"
+                    onerror="Joe.errorImg(this, 'HomeErrImg')"
+                    referrerpolicy="no-referrer"
+                >
+            </div>
+            <div class="bangumi-info">
+                <div class="bangumi-title">
+                    <a target="_blank" th:href="${spec.url}">[[${spec.title}]]</a>
+                </div>
+                <div class="bangumi-meta">
+                    <span class="bangumi-info-items">
+                        <span class="bangumi-info-item">
+                            <span class="bangumi-info-total">[[${spec.totalCount}]]</span>
+                            <em class="bangumi-info-label-em">0</em>
+                        </span>
+                        <span class="bangumi-info-item bangumi-info-item-score">
+                            <span class="bangumi-info-label">评分</span>
+                            <em th:text="${#strings.isEmpty(spec.score)? '暂无' :spec.score}"></em>
+                        </span>
+                        <span class="bangumi-info-item bangumi-play">
+                            <span class="bangumi-info-label">总播放</span>
+                            <em th:text="${#strings.isEmpty(spec.score)? '未知' :spec.view}"></em>
+                        </span>
+                        <span class="bangumi-info-item bangumi-area">
+                            <span class="bangumi-info-label">[[${spec.type}]]</span>
+                            <em th:text="${#strings.isEmpty(spec.score)? '未知' :spec.area}"></em>
+                        </span>
+                        <span class="bangumi-info-item bangumi-follow">
+                            <span class="bangumi-info-label">追番人数</span>
+                            <em th:text="${#strings.isEmpty(spec.score)? '未知' :spec.follow}"></em>
+                        </span>
+                        <span class="bangumi-info-item bangumi-coin">
+                            <span class="bangumi-info-label">硬币数</span>
+                            <em th:text="${#strings.isEmpty(spec.score)? '未知' :spec.coin}"></em>
+                        </span>
+                        <span class="bangumi-info-item bangumi-danmaku">
+                            <span class="bangumi-info-label">弹幕总数</span>
+                            <em th:text="${#strings.isEmpty(spec.score)? '未知' :spec.danmaku}"></em>
+                        </span>
+                    </span>
+                </div>
+                <div class="bangumi-comments">
+                    <p>[[${spec.des}]]</p>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <!--翻页-->
+    <div class="bangumi-pagination">
+        <a class="bangumi-button bangumi-firstpage" href="javascript:;" target="_self"
+           onclick="return false" data-pjax-state=""> 首页</a>
+        <a class="bangumi-button bangumi-previouspage" href="javascript:;" target="_self"
+           onclick="return false" data-pjax-state="">上一页</a>
+        <span class="bangumi-pagenum">1 / 1</span>
+        <a class="bangumi-button bangumi-nextpage" href="javascript:;" target="_self"
+           onclick="return false" data-pjax-state="">下一页</a>
+        <a class="bangumi-button bangumi-lastpage" href="javascript:;" target="_self"
+           onclick="return false" data-pjax-state="">尾页</a>
+    </div>
+</th:block>

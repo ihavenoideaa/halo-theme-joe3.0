@@ -1,0 +1,408 @@
+
+html {
+    --tab-color: #6596f0;
+    --info-item: #ee7800;
+    --bangumi-title: #495057;
+    --bangumi-comment: #495057;
+    --bottom: #495057;
+    &[data-mode="dark"] {
+        --tab-color: #6596f0;
+        --info-item: #f2b94b;
+        --bangumi-title: #ced4da;
+        --bangumi-comment: #ced4da;
+        --bottom: #ced4da;
+    }
+}
+
+.back-image {
+    position: fixed;
+    z-index: 7;
+    height: 80vh;
+    bottom: 0;
+    right: 0;
+}
+@media screen and (max-width: 650px) {
+    .back-image {
+        display: none;
+    }
+}
+
+.bangumi-content {
+    position: inherit;
+    z-index: 8;
+}
+
+.bangumi-page-title {
+    font-size: 24px;
+    color: var(--classF);
+    text-align: center;
+    padding-top: 40px;
+    word-break: break-word;
+    text-shadow: var(--text-shadow);
+    position: inherit;
+    z-index: 8;
+}
+
+.bangumi-page-quote{
+    line-height: 26px;
+    margin-bottom: 18px;
+    padding: 8px 15px;
+    color: var(--routine);
+    background: var(--classD);
+    /* border-left: 5px solid var(--quote); */
+    border-radius: var(--radius-inner);
+    margin: 30px 0 30px 0;
+}
+
+.bangumi-tabs {
+    margin: 15px 0 20px 2px;
+    font-size: 16px;
+    font-weight: bold;
+    position: inherit;
+    z-index: 8;
+}
+
+.bangumi-tab {
+    padding: 12px;
+    border-radius: 5px;
+    color: var(--tab-color);
+}
+
+a.bangumi-tab {
+    text-decoration: none;
+    padding: 8px 10px !important;
+}
+
+.bangumi-active {
+    background: var(--theme);
+    color: #fff
+}
+
+.bangumi-item {
+    clear: both;
+    padding: 15px 0;
+    margin: 0 10px;
+    border-bottom: 1px solid #ddd;
+    min-height: 180px;
+    display: flex;
+    flex-direction: row;
+    gap: 1px;
+}
+
+@media screen and (max-width: 600px) {
+    .bangumi-item {
+        width: 100%
+    }
+}
+
+.bangumi-picture {
+    width: 110px;
+}
+
+.bangumi-picture img {
+    border-radius: 6px;
+    min-width: 115px;
+}
+
+.bangumi-info {
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bangumi-meta {
+    font-size: 14px;
+    padding-right: 10px;
+    height: 45px
+}
+
+.bangumi-comments {
+    font-size: 14px;
+    margin-top: 8px;
+    margin-left: 20px;
+    margin-right: 40px;
+    color: var(--bangumi-comment);
+}
+
+.bangumi-comments > p {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3
+}
+
+.bangumi-hide {
+    display: none
+}
+
+.bangumi-show {
+    display: block
+}
+
+.bangumi-title {
+    margin-left: 16px;
+    margin-top: 2px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--bangumi-title);
+}
+
+.bangumi-title a {
+    line-height: 1;
+    text-decoration: none;
+    color: var(--bangumi-title);
+    padding: 3px 5px;
+    border-radius: 6px;
+    transition: all 0.2s ease 0s;
+}
+
+.bangumi-title a:hover {
+    background-color: var(--theme);
+    color: #fff;
+}
+
+.bangumi-info-items {
+    font-size: 12px;
+    color: #2fd8d8;
+    padding-top: 10px;
+    line-height: 1;
+    float: left;
+    width: 100%
+}
+
+.bangumi-info-item {
+    display: inline-block;
+    width: 13%;
+    border-right: 1px solid #2fd8d8;
+    text-align: center;
+    height: 34px
+}
+
+.bangumi-info-label {
+    display: block;
+    line-height: 12px
+}
+
+.bangumi-info-item em {
+    display: block;
+    padding-top: 6px;
+    line-height: 17px;
+    font-style: normal;
+    font-weight: 700
+}
+
+.bangumi-info-total {
+    padding-top: 11px;
+    display: block;
+    line-height: 12px;
+    font-weight: 700;
+}
+
+.bangumi-info-item-score {
+    border-right: 1px solid #0000;
+    width: 70px
+}
+
+.bangumi-info-label-em {
+    color: transparent;
+    opacity: 0;
+    visibility: hidden;
+    line-height: 6px !important;
+    padding: 0 !important
+}
+
+@media (max-width: 650px) {
+
+    .bangumi-coin,
+    .bangumi-type {
+        display: none
+    }
+
+    .bangumi-info-item {
+        width: 16%
+    }
+}
+
+@media (max-width: 590px) {
+
+    .bangumi-danmaku,
+    .bangumi-wish {
+        display: none
+    }
+
+    .bangumi-info-item {
+        width: 19%
+    }
+}
+
+@media (max-width: 520px) {
+
+    .bangumi-doing,
+    .bangumi-play {
+        display: none
+    }
+
+    .bangumi-info-item {
+        width: 24%
+    }
+}
+
+@media (max-width: 480px) {
+
+    .bangumi-collect,
+    .bangumi-follow {
+        display: none
+    }
+
+    .bangumi-info-item {
+        width: 30%
+    }
+}
+
+@media (max-width: 400px) {
+    .bangumi-area {
+        display: none
+    }
+
+    .bangumi-info-item {
+        width: 45%
+    }
+}
+
+.bangumi-my-comments {
+    border: 1px dashed #8f8f8f;
+    padding: 3px;
+    border-radius: 5px;
+    margin-left: -120px
+}
+
+.bangumi-starstop {
+    background: url(https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.7.9/lib/img/rate_star_2x.png) 100% 100%/10px 19.5px repeat-x;
+    height: 10px;
+    width: 50px;
+    display: inline-block;
+    float: none
+}
+
+.bangumi-starlight {
+    background: url(https://cdn.jsdelivr.net/npm/hexo-bilibili-bangumi@1.7.9/lib/img/rate_star_2x.png) 0 0/10px 19.5px repeat-x;
+    height: 10px;
+    display: block;
+    width: 100%
+}
+
+.bangumi-starlight.stars1 {
+    width: 5px
+}
+
+.bangumi-starlight.stars2 {
+    width: 10px
+}
+
+.bangumi-starlight.stars3 {
+    width: 15px
+}
+
+.bangumi-starlight.stars4 {
+    width: 20px
+}
+
+.bangumi-starlight.stars5 {
+    width: 25px
+}
+
+.bangumi-starlight.stars6 {
+    width: 30px
+}
+
+.bangumi-starlight.stars7 {
+    width: 35px
+}
+
+.bangumi-starlight.stars8 {
+    width: 40px
+}
+
+.bangumi-starlight.stars9 {
+    width: 45px
+}
+
+.bangumi-starlight.stars10 {
+    width: 50px
+}
+
+#article-container .bangumi-picture a {
+    padding-left: 0px;
+    padding-right: 0px;
+    border-bottom-width: 0px;
+}
+
+#page #article-container .bangumi-tab.bangumi-active {
+    background: var(--heo-theme);
+    color: var(--heo-ahoverbg);
+    border-radius: 10px;
+}
+
+#page #article-container .bangumi-tabs .bangumi-tab {
+    border-bottom: none;
+    border-radius: 10px;
+}
+
+#page #article-container .bangumi-tabs a.bangumi-tab:hover {
+    text-decoration: none !important;
+    border-radius: 10px;
+    column-gap: var(--heo-ahoverbg);
+}
+
+#page #article-container .bangumi-pagination a.bangumi-button {
+    border-bottom: none;
+    border-radius: 10px;
+}
+
+.bangumi-pagination {
+    color: var(--bottom);
+    margin-top: 26px;
+    margin-bottom: 9px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.bangumi-button {
+    color: var(--bottom);
+    padding: 5px 10px !important;
+}
+
+.bangumi-button:hover {
+    background: #339af0 !important;
+    border-radius: 6px !important;
+    color: #fff !important;
+}
+
+.bangumi-pagenum {
+    padding: 0 15px;
+}
+
+a.bangumi-button.bangumi-nextpage:hover {
+    text-decoration: none !important;
+}
+
+svg.icon.faa-tada {
+    font-size: 1.1em;
+}
+
+.bangumi-info-item {
+    border-right: 1px solid var(--info-item);
+}
+
+.bangumi-info-item span {
+    color: var(--info-item);
+}
+
+.bangumi-info-item em {
+    color: var(--info-item);
+}

@@ -21,11 +21,23 @@ spec:
         description: 链接跳转
         screenshot: 
         file: reverie/jump_link.html
+      - name: 日志
+        description: 日志文章
+        screenshot: 
+        file: reverie/diary/diary.html
     category:
       - name: 父分类
         description: 展示子分类
         screenshot:
         file: reverie/parent_category.html
+      - name: 日志类模板
+        description: 日志类模板
+        screenshot:
+        file: reverie/diary/diarys.html
+      - name: 知识卡片类
+        description: 知识卡片类
+        screenshot:
+        file: reverie/knowledge_cards.html
     page:
       - name: 留言板
         description: 留言板文章
@@ -75,4 +87,16 @@ spec:
         description: Memos_Optimize
         screenshot:
         file: reverie/memos_optimize.html
+      - name: 抽屉页面
+        description: 抽屉页面
+        screenshot:
+        file: reverie/drawer.html
+      - name: 愿望页面
+        description: 愿望页面
+        screenshot:
+        file: reverie/wish.html
+      - name: 追番页面
+        description: 追番页面
+        screenshot:
+        file: reverie/bangumi.html
 

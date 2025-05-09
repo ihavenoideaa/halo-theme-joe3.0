@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+        <!-- <link rel="alternate icon" type="image/png" href="<%- url_for('/img/favicon.png') %>"> -->
+        <title>[[${post.spec.title + ' | ' + site.title}]]</title>
+        <!-- <%- css('css/fonts.css') %> -->
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/diary/css/reset.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/diary/css/style.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/diary/css/markdown.css}" />
+    </head>
+    <body>
+        <div class="paper">
+            <div class="paper-main" th:with="viewParam=${#strings.isEmpty(param.v) ? '' : '?v=archive'}, pageParam=${param.p}">
+                <div class="post-header">
+                    <a class="logo" th:href="${post.categories[0].status.permalink}+ ${pageParam} + ${viewParam}">[[${post.categories[0].spec.displayName}]]</a>
+                    <a class="go-home" th:href="${post.categories[0].status.permalink} + ${pageParam} + ${viewParam}">
+                        <svg width="8" height="14" viewBox="0 0 8 14">
+                            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="post-main">
+                    <div class="post-main-title">
+                        [[${post.spec.title}]]
+                    </div>
+                    <div class="post-meta">
+                        Written on [[${#dates.format(post.spec.publishTime,'yyyy-MM-dd')}]]
+                    </div>
+                    <div class="post-md">
+                        <th:block th:utext="${post.content.content}"></th:block>
+                    </div>
+                </div>
+                <div class="footer">
+                    <span>Copyright © 2025 [[${site.title}]]</span>
+                    <span>Page theme by <a target="_blank" href="https://github.com/liruiying728/hexo-theme-one-paper">one-paper</a></span>
+                    <span><a target="_blank" th:href="${theme.config.basic.icp_police.icp_link}" th:if="${theme.config.basic.icp_police.icp}">
+                        [[${theme.config.basic.icp_police.icp}]]
+                    </a></span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

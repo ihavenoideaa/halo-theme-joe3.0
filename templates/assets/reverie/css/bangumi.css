@@ -20,6 +20,7 @@ html {
     height: 80vh;
     bottom: 0;
     right: 0;
+    transition: opacity 1s ease-in-out;
 }
 @media screen and (max-width: 650px) {
     .back-image {
@@ -405,4 +406,21 @@ svg.icon.faa-tada {
 
 .bangumi-info-item em {
     color: var(--info-item);
+}
+
+.rebecca {
+    pointer-events: auto;
+    margin-bottom: 15px;
+}
+
+.rebecca_img {
+    background-image: url('/res/images/rebecca_icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #55e7a6;
+    transition: border-color 0.8s ease 0s;
 }

@@ -153,7 +153,7 @@ spec:
         - value: "false"
           label: 否
     - $formkit: "text"
-      name: "post_song_id"
+      name: "song_id"
       label: "配置网易云单曲ID"
       help:  填 '#' 使用后台配置的音乐，为空则不开启音乐播放功能
     - $formkit: "text"
@@ -314,6 +314,10 @@ spec:
           label: 是
         - value: "false"
           label: 否
+    - $formkit: "text"
+      name: "song_id"
+      label: "配置网易云单曲ID"
+      help:  填 '#' 使用后台配置的音乐，为空则不开启音乐播放功能
 
 
 ---

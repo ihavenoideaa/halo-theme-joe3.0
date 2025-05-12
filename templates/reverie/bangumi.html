@@ -154,7 +154,9 @@
                     const rect = referenceElement.getBoundingClientRect();
                     const newLeft = rect.left + (rect.width - fixedImage.offsetWidth);
                     fixedImage.style.left = `${newLeft}px`;
-                    fixedImage.style.opacity = '1';
+                    if(fixedImage.style.opacity === '0') {
+                        fixedImage.style.opacity = '1';
+                    }
                 }
                 updateImagePosition();
                 // 监听窗口滚动和调整大小事件，更新图片位置
@@ -223,6 +225,10 @@
             </svg>
             </div>
         </div>
+        <!--音乐播放-->
+        <th:block th:if="${theme.config.musicplayer.music_action.post.enable} and ${#annotations.getOrDefault(singlePage, 'song_id', '') != ''}">
+          <th:block th:replace="~{reverie/widgets/music_action :: music_action(${#annotations.getOrDefault(singlePage, 'song_id', '')})}" />
+        </th:block>
         <th:block th:replace="~{modules/common/footer :: footer}" />
       </div>
       <th:block th:replace="~{modules/macro/tail :: tail}" />

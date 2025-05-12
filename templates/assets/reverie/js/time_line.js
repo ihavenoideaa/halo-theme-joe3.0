@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
         input_item.innerHTML = `
         <span class="timeline-item-icon | avatar-icon">
             <i class="timeline-avatar">
-                <img src="${avatar_show}" />
+                <img src="/themes/theme-Joe3/assets/img/peeps-avatar.png" />
             </i>
         </span>
         <div class="new-comment">

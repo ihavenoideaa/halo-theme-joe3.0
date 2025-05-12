@@ -15,10 +15,10 @@
         <div class="pb-5 mb-auto mt-20 flex flex-col items-center justify-items-start Barlow"
           th:classappend="|${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}|">
             <div class="md:w-[800px] sm:w-[440px]">
-                <header class="block text-[35px] font-semibold mb-10 text-[#111827] dark:text-[#d1d5db]">
+                <header class="block text-[35px] font-semibold mb-10 ml-16 text-[#111827] dark:text-[#d1d5db]">
                     [[${theme.config.drawer.title ?: '抽屉'}]]
                 </header>
-                <blockquote class="blockquote text-[#111827] dark:text-[#d1d5db]">
+                <blockquote class="ml-5 blockquote text-[#111827] dark:text-[#d1d5db]">
                     <p>[[${theme.config.drawer.description ?: '这里是抽屉📱'}]]</p>
                 </blockquote>
             </div>

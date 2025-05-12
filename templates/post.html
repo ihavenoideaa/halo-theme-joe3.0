@@ -17,7 +17,7 @@
         >
           <div class="joe_main joe_post">
             <th:block
-              th:with="contributor = ${contributorFinder.getContributor(post.status.contributors[post.status.contributors.size()-1])}"
+              th:with="contributor = ${post.owner}"
             >
               <div
                 class="joe_detail"
@@ -326,8 +326,8 @@
         </th:block>
 
         <!--音乐播放器-->
-        <th:block th:if="${theme.config.musicplayer.music_action.post.enable} and ${#annotations.getOrDefault(post, 'post_song_id', '') != ''}">
-          <th:block th:replace="~{reverie/widgets/music_action :: music_action}" />
+        <th:block th:if="${theme.config.musicplayer.music_action.post.enable} and ${#annotations.getOrDefault(post, 'song_id', '') != ''}">
+          <th:block th:replace="~{reverie/widgets/music_action :: music_action(${#annotations.getOrDefault(post, 'song_id', '')})}" />
         </th:block>
 
         <th:block th:if="${theme.config.footer.enable_footer}">

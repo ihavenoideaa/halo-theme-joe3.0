@@ -3360,12 +3360,12 @@ spec:
                       validation: 'required'
             - $formkit: group
               name: post
-              label: 文章页
+              label: 其他页面
               children:
                 - $formkit: radio
                   name: enable
                   id: music_action_post
-                  label: 启用文章页单曲音乐播放器
+                  label: 启用其他页面单曲音乐播放器
                   value: false
                   options:
                     - value: true
@@ -3373,9 +3373,9 @@ spec:
                     - value: false
                       label: 关闭
                 - $formkit: text
-                  name: post_song_id
+                  name: song_id
                   if: $get(music_action_post).value
-                  label: 文章页默认背景歌曲单曲ID
+                  label: 默认背景歌曲单曲ID
                   value: '1361299492'
                   help: '只能填网易云单曲的ID'
                   validation: 'required'
@@ -3566,6 +3566,7 @@ spec:
               label: 链接图标
               value: ''
               help: '请填写图标的链接地址'
+              validation: 'required'
     - group: todo
       label: 待办清单
       formSchema:
@@ -3601,6 +3602,91 @@ spec:
               label: 待办筛选标签
               value: ''
               validation: 'required'
+    - group: console_panel
+      label: 控制面板
+      formSchema:
+        - $formkit: text
+          name: words
+          label: 控制面板显示文字
+          value: ''
+        - $formkit: repeater
+          name: posts
+          label: 控制面板推荐文章
+          max: 6
+          children:
+            - $formkit: postSelect
+              name: post
+              label: 文章
+              value: ""
+              validation: required
+        - $formkit: text
+          name: newest_post_size
+          label: 最新文章显示数量
+          value: '6'
+        - $formkit: repeater
+          name: posts
+          label: 控制面板推荐文章
+          max: 6
+          children:
+            - $formkit: postSelect
+              name: post
+              label: 文章
+              value: ""
+              validation: required
+        - $formkit: categorySelect
+          name: categories
+          key: categories
+          label: 控制面板显示分类
+          multiple: true
+          clearable: true
+          searchable: true
+          sortable: true
+        - $formkit: tagSelect
+          name: tags
+          key: tags
+          label: 控制面板显示标签
+          multiple: true
+          clearable: true
+          searchable: true
+          sortable: true
+        - $formkit: repeater
+          name: drawers
+          label: 抽屉项目列表
+          children:
+            - $formkit: text
+              name: drawer_name
+              label: 抽屉应用名称
+        - $formkit: text
+          name: comment_size
+          label: 最新评论显示数量
+          value: '3'
+        - $formkit: repeater
+          name: musics
+          label: 控制面板音乐
+          max: 4
+          children:
+            - $formkit: text
+              name: music_name
+              label: 音乐名称
+              value: ""
+              validation: required
+            - $formkit: text
+              name: music_artist
+              label: 音乐作者
+              value: ""
+            - $formkit: attachment
+              name: music_url
+              label: 音乐链接
+              value: ""
+              validation: required
+            - $formkit: attachment
+              name: music_cover
+              label: 音乐封面
+              value: ""
+            - $formkit: attachment
+              name: music_lrc
+              label: 音乐歌词
+              value: ""
     - group: custom
       label: 自定义
       formSchema:

@@ -38,7 +38,7 @@
                     height="35"
                     class="avatar lazyload"
                     th:src="${theme.config.blogger.lazyload_avatar}"
-                    th:data-src="${theme.config.blogger.default_avatar ?: '/themes/theme-Joe3/assets/img/transparent-placeholder.png'}"
+                    th:data-src="${theme.config.blogger.avatar ?: '/themes/theme-Joe3/assets/img/transparent-placeholder.png'}"
                     th:alt="${contributor.displayName}"
                     onload="Joe.loadedPlaceholderReplaceImg(this, 'AvatarImg')"
                     onerror="Joe.errorImg(this, 'ErrAvatarImg')"
@@ -101,6 +101,7 @@
             memosPageSize: /*[[${theme.config.memos.memos_page_size}]]*/ 10,
             memosLinkShow: /*[[${theme.config.memos.enable_memos_link}]]*/true,
             memosCacheApi: /*[[${theme.config.memos.memos_cache_api}]]*/'',
+            memosSelectUser : /*[[${theme.config.memos.enable_user_select}]]*/false
         };
       </script>
       <script th:src="@{/assets/reverie/js/memos_display.js}"></script>

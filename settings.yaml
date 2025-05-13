@@ -874,6 +874,16 @@ spec:
           help: '填写图片地址或者随机图api地址'
         - $formkit: select
           if: '$get(enable_big_banner).value === true'
+          name: big_banner_img_mask
+          label: 是否开启图片遮罩
+          value: true
+          options:
+            - value: true
+              label: 开启
+            - value: false
+              label: 关闭
+        - $formkit: select
+          if: '$get(enable_big_banner).value === true'
           name: enable_big_banner_hitokoto
           id: enable_big_banner_hitokoto
           label: 是否启用一言
@@ -3112,12 +3122,22 @@ spec:
           name: memos_host
           label: Memos Host URL
           value: ''
-          help: '填写Memos服务的地址'
+          help: '填写Memos服务的地址，结尾不要"/"'
         - $formkit: text
           name: memos_user
           label: User Id
-          value: ''
-          help: '填写用户ID（users/-），默认为全部用户，即展示全部用户的 Memos，初始用户为 users/1'
+          value: 'users/1'
+          help: '填写用户ID（默认users/1），选择Memos页面展示的用户'
+        - $formkit: select
+          name: enable_user_select
+          label: 是否启用用户筛选
+          value: false
+          help: '启用则只展示User Id指定的用户，默认为全部用户，初始用户为 users/1（使用缓存API无法指定用户）'
+          options:
+            - value: true
+              label: 启用
+            - value: false
+              label: 关闭
         - $formkit: text
           name: memos_cache_api
           label: API URL
@@ -3350,12 +3370,12 @@ spec:
                       validation: 'required'
             - $formkit: group
               name: post
-              label: 文章页
+              label: 其他页面
               children:
                 - $formkit: radio
                   name: enable
                   id: music_action_post
-                  label: 启用文章页单曲音乐播放器
+                  label: 启用其他页面单曲音乐播放器
                   value: false
                   options:
                     - value: true
@@ -3363,9 +3383,9 @@ spec:
                     - value: false
                       label: 关闭
                 - $formkit: text
-                  name: post_song_id
+                  name: song_id
                   if: $get(music_action_post).value
-                  label: 文章页默认背景歌曲单曲ID
+                  label: 默认背景歌曲单曲ID
                   value: '1361299492'
                   help: '只能填网易云单曲的ID'
                   validation: 'required'
@@ -3525,6 +3545,146 @@ spec:
           label: JSON 文件路径
           value: ""
           help: '用于渲染画面的 JSON 文件'
+    - group: drawer
+      label: 抽屉
+      formSchema:
+        - $formkit: text
+          name: title
+          label: 抽屉标题
+          value: '抽屉'
+        - $formkit: text
+          name: description
+          label: 抽屉简介
+          value: ''
+        - $formkit: repeater
+          name: link_list
+          label: 抽屉链接列表
+          value: [ ]
+          children:
+            - $formkit: text
+              name: link_name
+              label: 链接名称
+              value: ''
+              validation: 'required'
+            - $formkit: text
+              name: link_url
+              label: 链接地址
+              value: ''
+            - $formkit: attachment
+              name: link_icon
+              label: 链接图标
+              value: ''
+              help: '请填写图标的链接地址'
+    - group: todo
+      label: 待办清单
+      formSchema:
+        - $formkit: text
+          name: title
+          label: 待办页标题
+          value: '待办'
+        - $formkit: text
+          name: description
+          label: 待办页简介
+          value: ''
+        - $formkit: repeater
+          name: todo_list
+          label: 待办列表
+          value: [ ]
+          children:
+            - $formkit: text
+              name: todo_name
+              label: 待办显示名称
+              value: ''
+              validation: 'required'
+            - $formkit: text
+              name: todo_brief
+              label: 待办简述
+              value: ''
+              validation: 'required'
+            - $formkit: attachment
+              name: todo_img
+              label: 图片
+              value: 'https://picsum.photos/600/300'
+            - $formkit: text
+              name: todo_tag
+              label: 待办筛选标签
+              value: ''
+              validation: 'required'
+    - group: console_panel
+      label: 控制面板
+      formSchema:
+        - $formkit: text
+          name: words
+          label: 控制面板显示文字
+          value: ''
+        - $formkit: repeater
+          name: posts
+          label: 控制面板推荐文章
+          max: 6
+          children:
+            - $formkit: postSelect
+              name: post
+              label: 文章
+              value: ""
+              validation: required
+        - $formkit: text
+          name: newest_post_size
+          label: 最新文章显示数量
+          value: '6'
+        - $formkit: categorySelect
+          name: categories
+          key: categories
+          label: 控制面板显示分类
+          multiple: true
+          clearable: true
+          searchable: true
+          sortable: true
+        - $formkit: tagSelect
+          name: tags
+          key: tags
+          label: 控制面板显示标签
+          multiple: true
+          clearable: true
+          searchable: true
+          sortable: true
+        - $formkit: repeater
+          name: drawers
+          label: 抽屉项目列表
+          children:
+            - $formkit: text
+              name: drawer_name
+              label: 抽屉应用名称
+        - $formkit: text
+          name: comment_size
+          label: 最新评论显示数量
+          value: '3'
+        - $formkit: repeater
+          name: musics
+          label: 控制面板音乐
+          max: 4
+          children:
+            - $formkit: text
+              name: music_name
+              label: 音乐名称
+              value: ""
+              validation: required
+            - $formkit: text
+              name: music_artist
+              label: 音乐作者
+              value: ""
+            - $formkit: attachment
+              name: music_url
+              label: 音乐链接
+              value: ""
+              validation: required
+            - $formkit: attachment
+              name: music_cover
+              label: 音乐封面
+              value: ""
+            - $formkit: attachment
+              name: music_lrc
+              label: 音乐歌词
+              value: ""
     - group: custom
       label: 自定义
       formSchema:

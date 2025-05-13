@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+        <title>[[${category.spec.displayName + ' | ' + site.title}]]</title>
+
+        <!--<%- css('css/fonts.css') %> -->
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/diary/css/reset.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/diary/css/style.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/diary/css/markdown.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/css/global.css}" />
+    </head>
+    <body>
+        <div class="paper">
+            <div id="content" class="paper-main" th:with="viewParam=${#strings.isEmpty(param.v) ? '' : '?v=archive'}, pageIndex=${posts.page},
+                pageParam=${#strings.isEmpty(viewParam) ? '?p=/page/'+pageIndex : '&p=/page/'+pageIndex}">
+                <div class="header">
+                    <a class="logo" th:href="${category.status.permalink}">[[${category.spec.displayName}]]</a>
+                    <ul class="nav">
+                        <li><a href="/" class="reverie-tooltip reverie-tooltip-bottom" data-tooltip="返回博客首页">返回</a></li>
+                        <li><a th:href="${category.status.permalink}" th:title="${category.spec.displayName}">[[${category.spec.displayName}]]</a></li>
+                        <li><a th:href="${category.status.permalink + '?v=archive'}" title="归档">归档</a></li>
+                        <li><a th:href="${category.status.permalink + '?v=about'}" title="关于">关于</a></li>
+                    </ul>
+                </div>
+
+                <!-- 文章列表 -->
+                <div class="post-list" id="post-list">
+                    <div class="post" th:each="post : ${posts.items}">
+                        <a class="post-title" th:href="${post.status.permalink} + ${viewParam} + ${pageParam} ">[[${post.spec.title}]]</a>
+                        <div class="post-except">
+                            <span>[[${post.status.excerpt}]]</span>
+                            <a class="read-more" th:if="${#strings.length(post.status.excerpt) > 130}" th:href="${post.status.permalink} + ${viewParam} + ${pageParam}"> ... </a>
+                        </div>
+                        <div class="post-date">[[${#dates.format(post.spec.publishTime,'yyyy.MM.dd')}]]</div>
+                    </div>
+                </div>
+                <!-- 归档页面 -->
+                <div class="archive-list" id="archive-list" style="display: none;">
+                    <ul class="archive">
+                        <li th:each="post : ${posts.items}">
+                            <span class="archive-date">[[${#dates.format(post.spec.publishTime,'yyyy.MM.dd')}]]</span>
+                            <div class="archive-main">
+                                <a class="archive-title" th:href="${post.status.permalink} + ${viewParam} + ${pageParam}">[[${post.spec.title}]]</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            
+                <th:block
+                    th:if="${posts.hasPrevious() || posts.hasNext()}"
+                    th:with="totalPages = ${posts.totalPages}">
+                    <!--        页面总数小于等于7-->
+                    <div class="paginator" th:if="${(totalPages le 7) && (totalPages gt 0)}">
+                        <a th:href="@{${posts.prevUrl}} + ${viewParam}" th:classappend="${1 eq pageIndex} ? ' disabled':''">
+                            上一页
+                        </a>
+                        <a th:classappend="${index eq pageIndex} ? 'current'"
+                            th:each="index : ${#numbers.sequence(1, totalPages)}" 
+                            th:href="${category.status.permalink}+'/page/' + ${index} + ${viewParam}" th:text="${index}">
+                        </a>
+                        <a th:href="@{${posts.nextUrl}} + ${viewParam}" th:classappend="${pageIndex eq totalPages} ? ' disabled':''">
+                            下一页
+                        </a>
+                    </div>
+                    <!--        页面总数大于7-->
+                    <div class="paginator" th:if="${totalPages gt 7}">
+                        <a th:href="@{${posts.prevUrl}} + ${viewParam}"  th:classappend="${1 eq pageIndex} ? ' disabled':''">
+                            上一页
+                        </a>
+                        <a th:href="${category.status.permalink} + ${viewParam}" th:classappend="${1 eq pageIndex} ? 'current':''">1</a>
+                    <!-- 当前页面小于等于4 -->
+                        <a th:classappend="${index eq pageIndex} ? 'current':''"
+                            th:each="index : ${#numbers.sequence(2,5)}"
+                            th:if="${pageIndex le 4}"
+                            th:href="${category.status.permalink}+'/page/' + ${index} + ${viewParam}" th:text="${index}">
+                        </a>
+                        <a th:if="${pageIndex le 4}" href="#">...</a>
+                    <!-- 最后一页与当前页面之差小于等于3 -->
+                        <a th:if="${totalPages - pageIndex le 3}" href="#">...</a>
+                        <a th:classappend="${index eq pageIndex} ? 'current':''"
+                            th:each="index : ${#numbers.sequence(totalPages - 4, totalPages - 1)}"
+                            th:if="${totalPages - pageIndex le 3}"
+                            th:href="${category.status.permalink}+'/page/' + ${index} + ${viewParam}" th:text="${index}">
+                        </a>
+                    <!-- 最后一页与当前页面之差大于3 且当前页面大于4 -->
+                        <a th:if="${(pageIndex gt 4) && (totalPages - pageIndex gt 3)}" href="#">...</a>
+                        <a th:each="index : ${#numbers.sequence(pageIndex - 1,pageIndex + 1)}"
+                            th:classappend="${index eq pageIndex} ? 'current':''"
+                            th:if="${(pageIndex gt 4) && (totalPages - pageIndex gt 3)}"
+                            th:href="${category.status.permalink}+'/page/' + ${index} + ${viewParam}" th:text="${index}">
+                        </a>
+                        <a th:if="${(pageIndex gt 4) && (totalPages - pageIndex gt 3)}" href="#">...</a>
+                    <!-- 尾页 -->
+                        <a th:classappend="${totalPages eq pageIndex} ? 'current':''"
+                            th:href="${category.status.permalink}+'/page/' + ${totalPages} + ${viewParam}"
+                            th:text="${totalPages}">
+                        </a>
+                        <a th:href="@{${posts.nextUrl}} + ${viewParam}" th:classappend="${pageIndex eq totalPages} ? ' disabled':''">
+                            下一页
+                        </a>
+                    </div>
+                </th:block>
+                <div class="footer">
+                    <span>Copyright © 2025 [[${site.title}]]</span>
+                    <span>Page theme by <a target="_blank" href="https://github.com/liruiying728/hexo-theme-one-paper">one-paper</a></span>
+                    <span><a target="_blank" th:href="${theme.config.basic.icp_police.icp_link}" th:if="${theme.config.basic.icp_police.icp}">
+                        [[${theme.config.basic.icp_police.icp}]]
+                    </a></span>
+                </div>
+            </div>
+
+            <div id="about" style="display: none;" class="paper-main">
+                <div class="post-header">
+                    <a class="logo" th:href="${category.status.permalink}">[[${category.spec.displayName}]]</a>
+                    <a class="go-home" th:href="${category.status.permalink}">
+                        <svg width="8" height="14" viewBox="0 0 8 14">
+                            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="post-main">
+                    <div class="post-main-title">
+                        关于
+                    </div>
+                    <div class="post-md">
+                        <th:block th:utext="${#annotations.getOrDefault(category, 'about', category.spec.description)}"></th:block>
+                    </div>
+                </div>
+                <div class="footer">
+                    <span>Copyright © 2025 [[${site.title}]]</span>
+                    <span>Page theme by <a target="_blank" href="https://github.com/liruiying728/hexo-theme-one-paper">one-paper</a></span>
+                    <span><a target="_blank" th:href="${theme.config.basic.icp_police.icp_link}" th:if="${theme.config.basic.icp_police.icp}">
+                        [[${theme.config.basic.icp_police.icp}]]
+                    </a></span>
+                </div>
+            </div>
+                
+            <script>
+                const about = document.getElementById('about');
+                const content = document.getElementById('content');
+
+                const postList = document.getElementById('post-list');
+                const archiveList = document.getElementById('archive-list');
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlView  = urlParams.get('v');
+                if(urlView === 'archive') {
+                    postList.style.display = 'none';
+                    archiveList.style.removeProperty('display');
+                } else if(urlView === 'about') {
+                    about.style.removeProperty('display');
+                    content.style.display = 'none';
+                } else {
+                    postList.style.removeProperty('display');
+                    archiveList.style.display = 'none';
+                }
+            </script>
+        </div>
+    </body>
+</html>

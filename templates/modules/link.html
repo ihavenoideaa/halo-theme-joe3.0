@@ -175,5 +175,10 @@
       th:if="${theme.config.custom.custom_css != null and theme.config.custom.custom_css != ''}"
       th:utext="${theme.config.custom.custom_css}"
     ></style>
+    <!--自定义添加全局css代码-->
+    <link
+      rel="stylesheet"
+      th:href="${source_link+'/assets/reverie/css/global.css'}"
+    />
   </th:block>
 </html>

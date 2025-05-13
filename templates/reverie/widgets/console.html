@@ -1,0 +1,288 @@
+<th:block th:fragment="console">
+<th:block th:if="${true}">
+    <link rel="stylesheet" href="https://cdn-font.hyperos.mi.com/font/css?family=MiSans_VF:VF:Chinese_Simplify,Latin&amp;display=swap" type="text/css" media="all">
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/css/console.css}" /> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/css/min/console.min.css}" />
+    <div id="r-console" class="r-console animated showInUp" style="display: none;">
+        <div class="console-main font-Misans">
+            <a onclick="hideConsole()" class="console-close" data-tooltip="关闭控制台">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75l-1.48 1.48L6 9.48l-3.75 3.75l-1.48-1.48L4.52 8L.77 4.25l1.48-1.48L6 6.52l3.75-3.75l1.48 1.48L7.48 8z" fill="#ced4da"/></svg>
+            </a>
+            <!--标语-->
+            <div class="console-item" style="padding-bottom: 0.7rem;">
+                <div class="console-word">
+                    <p>[[${theme.config.console_panel.words ?: '欢迎'}]]</p>
+                </div>
+            </div>
+            <!--标语end-->
+
+            <!--音乐切换-->
+            <div class="console-item" th:if="${#lists.size(theme.config.console_panel.musics) > 0}">
+                <div >
+                    <p>背景音乐</p>
+                </div>
+                <div class="console-music">
+                    <th:block th:each="music, iteration : ${theme.config.console_panel.musics}">
+                        <div class="console-music-buttom reverie-tooltip reverie-tooltip-top" th:data-tooltip="${music.music_name}" 
+                            th:style="'background-image: url(\'' + ${music.music_cover ?: theme.config.basic.random_img_api_url} + '\');'">
+                            <a href="javascript:void(0)" th:onclick="musicPlay(this,[[${iteration.index}]])">
+                                <svg th:id="'start-'+${iteration.index}" class="hovering" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path d="M21.409 9.353a2.998 2.998 0 0 1 0 5.294L8.597 21.614C6.534 22.737 4 21.277 4 18.968V5.033c0-2.31 2.534-3.769 4.597-2.648z"/></svg>
+                                <svg th:id="'pause-'+${iteration.index}" class="hidding" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path d="M5.746 3a1.75 1.75 0 0 0-1.75 1.75v14.5c0 .966.784 1.75 1.75 1.75h3.5a1.75 1.75 0 0 0 1.75-1.75V4.75A1.75 1.75 0 0 0 9.246 3zm9 0a1.75 1.75 0 0 0-1.75 1.75v14.5c0 .966.784 1.75 1.75 1.75h3.5a1.75 1.75 0 0 0 1.75-1.75V4.75A1.75 1.75 0 0 0 18.246 3z"/></svg>
+                                <svg th:id="'playing-'+${iteration.index}" class="hidding" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path d="M14 20q-1.65 0-2.825-1.175T10 16t1.175-2.825T14 12q.575 0 1.063.138t.937.412V4h6v3h-4v9q0 1.65-1.175 2.825T14 20M2 16q0-2.475.95-4.663t2.575-3.812T9.338 4.95T14 4v2q-2.05 0-3.875.788t-3.187 2.15t-2.15 3.174T4 16zm4 0q0-1.65.638-3.113t1.725-2.55T10.9 8.625T14 8v2q-2.5 0-4.25 1.75T8 16z"/></svg>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <!--音乐切换end-->
+
+            <!--简单数据-->
+            <div class="console-item">
+                <div class="console-data-wrap">
+                    <div class="console-data">
+                        <a href="/statistics">
+                            <span>[[${postFinder.list(1,1).total}]]</span>
+                            <p class="theme-cursor">文章数</p>
+                        </a>
+                    </div>
+                    <div class="console-data">
+                        <a href="/statistics">
+                        <span>[[${categoryFinder.list(1,1).total}]]</span>
+                        <p class="theme-cursor">分类数</p>
+                        </a>
+                    </div>
+                    <div class="console-data theme-cursor">
+                        <a href="/statistics">
+                        <span>[[${tagFinder.list(1,1).total}]]</span>
+                        <p class="theme-cursor">标签数</p>
+                        </a>
+                    </div>
+                    <div class="console-data theme-cursor">
+                        <a href="/statistics">
+                        <span>[[${singlePageFinder.list(1,1).total}]]</span>
+                        <p class="theme-cursor">自定义页面数</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--简单数据end-->
+
+            <!--最新文章-->
+            <div class="console-item">
+                <div class="console-item-title" style="border-bottom: 1px solid #adb5bd;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ced4da" d="M3 20q-.825 0-1.412-.587T1 18V6q0-.825.588-1.412T3 4h18q.825 0 1.413.588T23 6v12q0 .825-.587 1.413T21 20zm.5-5h1.25v-3.5L7.3 15h1.2V9H7.25v3.5L4.75 9H3.5zm6 0h4v-1.25H11v-1.1h2.5V11.4H11v-1.15h2.5V9h-4zm6 0h4q.425 0 .713-.288T20.5 14V9h-1.25v4.5h-1.1V10H16.9v3.5h-1.15V9H14.5v5q0 .425.288.713T15.5 15"/></svg>
+                    <p>最新文章</p>
+                    <a class="more" href="/archives">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ced4da" d="m19.164 12l-6.207-6.207l-1.414 1.414L16.336 12l-4.793 4.793l1.414 1.414zm-5.65 0L7.307 5.793L5.893 7.207L10.686 12l-4.793 4.793l1.414 1.414z"/></svg>
+                    </a>
+                </div>
+                <ul class="console-posts text-sm font-medium">
+                    <th:block th:with="posts = ${postFinder.list({page: 1,size: theme.config.console_panel.newest_post_size ?: 5,
+                        sort: {'spec.publishTime,desc', 'metadata.creationTimestamp,asc'}})}">
+                        <li class="console-post" th:each="post : ${posts.items}">
+                            <a class="r-underline" th:href="@{${post.status.permalink}}">
+                                <i class="joe-font joe-icon-link"></i>
+                                <p class="line-clamp-1 theme-cursor">[[${post.spec.title}]]</p>
+                            </a>
+                            <span>[[${#dates.format(post.spec.publishTime,'yyyy-MM-dd')}]]</span>                            
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+            <!--最新文章 end-->
+
+            <!--推荐文章-->
+            <div class="console-item">
+                <th:block th:if="${#lists.size(theme.config.console_panel.posts) > 0}" th:with="postsName = ${theme.config.console_panel.posts}">
+                    <div class="console-item-title" style="border-bottom: 1px solid #adb5bd;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ced4da" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8"/><path fill="#ced4da" d="M17 10h-4.59l.58-3.41v-.2c-.01-.26-.12-.51-.3-.7L12 5l-4.6 5c-.27.26-.42.62-.4 1v5c0 1.1.9 2 2 2h5.5c.56.03 1.08-.29 1.3-.8l2.1-4.9c.08-.15.12-.33.1-.5V11c0-.55-.45-1-1-1"/></svg>
+                        <p>文章推荐</p>
+                        <a class="more" href="/archives">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ced4da" d="m19.164 12l-6.207-6.207l-1.414 1.414L16.336 12l-4.793 4.793l1.414 1.414zm-5.65 0L7.307 5.793L5.893 7.207L10.686 12l-4.793 4.793l1.414 1.414z"/></svg>
+                        </a>
+                    </div>
+                    <ul class="console-posts text-sm font-medium">
+                        <th:block th:each="post_name : ${postsName}">
+                            <li class="console-post console-post-like" th:data-cid="${post_name.post}"
+                            th:with="post = ${postFinder.getByName(post_name.post)}">
+                                <a class="r-underline" th:href="@{${post.status.permalink}}">
+                                    <i class="joe-font joe-icon-dianzan"></i>
+                                    <p class="line-clamp-1 theme-cursor">[[${post.spec.title}]]</p>
+                                </a>
+                                <a class="console-icon-wrap">
+                                    <i class="joe-font joe-icon-like console-icon console-icon-like" th:data-cid="${post_name}"></i>
+                                    <i class="joe-font joe-icon-like-fill console-icon console-icon-liked" th:data-cid="${post_name}"></i>
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </th:block>
+            </div>
+            <!--推荐文章 end-->
+            
+            <!--分类-->
+            <div class="console-item">
+                <div class="console-item-title">
+                    <p>分类推荐</p>
+                    <a class="more" href="/categories">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ced4da" d="m19.164 12l-6.207-6.207l-1.414 1.414L16.336 12l-4.793 4.793l1.414 1.414zm-5.65 0L7.307 5.793L5.893 7.207L10.686 12l-4.793 4.793l1.414 1.414z"/></svg>
+                    </a>
+                </div>
+                <th:block th:with="categories = ${#lists.size(theme.config.console_panel.categories) > 0 ? categoryFinder.getByNames(theme.config.console_panel.categories) : categoryFinder.list(1, 8).items}">
+                    <div class="console-categories">
+                        <a class="console-category" th:each="category : ${categories}" th:href="@{${category.status.permalink}}" th:with="pCount = ${category.postCount ?: 0}">
+                            <pixel-canvas th:data-gap="${pCount < 5 ? 9 - pCount : 2}" data-speed="80" data-colors="#e0f2fe, #7dd3fc, #0ea5e9" data-no-focus></pixel-canvas>
+                            <span>[[${category.spec.displayName}]]<sup>[[${pCount==0?"*":pCount}]]</sup></span>
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+            <!--分类 end-->
+
+            <!--标签-->
+            <div class="console-item">
+                <div class="console-item-title">
+                    <p>标签推荐</p>
+                    <a class="more" href="/tags">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ced4da" d="m19.164 12l-6.207-6.207l-1.414 1.414L16.336 12l-4.793 4.793l1.414 1.414zm-5.65 0L7.307 5.793L5.893 7.207L10.686 12l-4.793 4.793l1.414 1.414z"/></svg>
+                    </a>
+                </div>
+                <th:block th:with="tags = ${#lists.size(theme.config.console_panel.tags) > 0 ? tagFinder.getByNames(theme.config.console_panel.tags) : tagFinder.list(1, 20)}">
+                    <div class="console-tags">
+                        <a th:each="tag : ${tags}" th:href="@{${tag.status.permalink}}">[[${tag.spec.displayName}]]<sup>[[${tag.postCount}]]</sup>
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+            <!--标签 end-->
+
+            <!--抽屉-->
+            <th:block th:if="${#lists.size(theme.config.console_panel.drawers) > 0}">
+                <div class="console-item">
+                    <div class="console-item-title">
+                        <p>页面推荐</p>
+                        <a class="more" href="/more">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ced4da" d="m19.164 12l-6.207-6.207l-1.414 1.414L16.336 12l-4.793 4.793l1.414 1.414zm-5.65 0L7.307 5.793L5.893 7.207L10.686 12l-4.793 4.793l1.414 1.414z"/></svg>
+                        </a>
+                    </div>
+                    <div class="console-drawer">
+                        <th:block th:each="drawer : ${theme.config.console_panel.drawers}">
+                            <th:block th:each="item : ${theme.config.drawer.link_list}" th:if="${item.link_name == drawer.drawer_name}">
+                                <a class="console-drawer-item" th:href="${item.link_url ?: 'javascript:void(0)'}">
+                                    <img th:src="@{${item.link_icon}}" alt="icon" />
+                                    <p>[[${item.link_name}]]</p>
+                                </a>
+                            </th:block>
+                        </th:block>
+                    </div>
+                </div>
+            </th:block>
+            <!--抽屉end-->
+            
+            <!--评论展示-->
+            <div class="console-item">
+                <div class="console-item-title">
+                    <p>最新留言</p>
+                    <a class="more" href="/message_board">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#ced4da" d="m19.164 12l-6.207-6.207l-1.414 1.414L16.336 12l-4.793 4.793l1.414 1.414zm-5.65 0L7.307 5.793L5.893 7.207L10.686 12l-4.793 4.793l1.414 1.414z"/></svg>
+                    </a>
+                </div>
+                <div class="console-comment">
+                    <th:block th:if="${theme.config.basic.comment_option == 'default'} or ${#strings.trim(theme.config.basic.waline.waline_serverURL) ==''}"
+                        th:each="result : ${commentFinder.list(null,1, theme.config.console_panel.comment_size ?: 3)}">
+                        
+                        <div class="console-comment-item">
+                            <div class="console-comment-meta">
+                                <div class="console-comment-avatar">
+                                    <img
+                                        width="25" height="25" class="avatar lazyload"
+                                        th:data-src="${#strings.isEmpty(result.owner.avatar)? 'https://cravatar.cn/avatar/'+result.spec.owner.annotations['email-hash'] :result.owner.avatar}"
+                                        th:src="${theme.config.blogger.lazyload_avatar}" alt="头像"
+                                        th:data-text-avatar="${result.owner.displayName}"
+                                        onload="Joe.loadedPlaceholderReplaceImg(this, 'AvatarImg')"
+                                        onerror="Joe.errorImg(this, 'ErrAvatarImg')"
+                                    />
+                                </div>
+                                <p>[[${result.owner.displayName}]]</p>
+                                <span>[[${#temporals.format(result.spec.creationTime, 'MM / dd')}]]</span>
+                            </div>
+                            <div class="console-comment-content theme-cursor">
+                                <th:block th:with="
+                                    subjectKind = ${result.spec.subjectRef.kind},
+                                    subjectName = ${result.spec.subjectRef.name},
+                                    permalink = ${
+                                        (subjectKind == 'SinglePage' and subjectName != 'links') ? singlePageFinder.getByName(subjectName).status.permalink :
+                                        (subjectKind == 'Post') ? postFinder.getByName(subjectName).status.permalink :
+                                        (subjectKind == 'Plugin') ? '/links' :
+                                        (subjectKind == 'Moment') ? '/moments/' + subjectName : '#'},
+                                    specTitle = ${
+                                        (subjectKind == 'SinglePage' and subjectName != 'links') ? singlePageFinder.getByName(subjectName).spec.title :
+                                        (subjectKind == 'Post') ? postFinder.getByName(subjectName).spec.title :
+                                        (subjectKind == 'Plugin') ? '友链' :
+                                        (subjectKind == 'Moment') ? '瞬间' : '#'
+                                    }">
+                                    <a th:href="@{${permalink}}">
+                                        <p  class="theme-cursor line-clamp-3">[[${result.spec.content}]]</p>
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20"><path fill="#495057" fill-rule="evenodd" d="M2 10c0-3.967 3.69-7 8-7s8 3.033 8 7s-3.69 7-8 7a9 9 0 0 1-1.504-.123a5.98 5.98 0 0 1-3.935 1.107a.75.75 0 0 1-.584-1.143a3.5 3.5 0 0 0 .522-1.756C2.979 13.825 2 12.025 2 10" clip-rule="evenodd"/></svg>
+                                            <p class="theme-cursor line-clamp-1" th:text="'From ' + ${specTitle}"></p>
+                                        </span>
+                                    </a>
+                                </th:block>
+                            </div>
+                        </div>
+                    </th:block>
+                </div> 
+            </div>
+            <!--评论展示end-->
+
+            <!-- 功能按钮-->
+            <div class="console-buttom-wrap">
+                <!--背景切换-->
+                <div class="console-buttom-square theme-cursor reverie-tooltip reverie-tooltip-top" data-tooltip="背景控制">
+                    <a href="javascript:void(0)" onclick="swtichBackgroud()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 432 432"><path d="M43 45v150H0V45q0-17 12.5-29.5T43 3h149v42zm128 192l63 79l43-57l64 85H85zm149-95.5q0 13.5-9.5 22.5t-22.5 9t-22.5-9t-9.5-22.5t9.5-23T288 109t22.5 9.5t9.5 23M384 3q18 0 30.5 12.5T427 45v150h-43V45H235V3zm0 384V237h43v150q0 17-12.5 29.5T384 429H235v-42zM43 237v150h149v42H43q-18 0-30.5-12.5T0 387V237z"/></svg>
+                    </a>
+                </div>
+                <!--侧边栏切换-->
+                <div class="console-buttom-square theme-cursor reverie-tooltip reverie-tooltip-top" data-tooltip="侧边栏控制">
+                    <a href="javascript:void(0)" onclick="swtichSidebar()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path  d="M13 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h9zm2 18V3h5a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1zM11 8.5v7L7 12z"/></svg>
+                    </a>
+                </div>
+                <!--夜间模式控制-->
+                <div class="console-buttom-circle reverie-tooltip reverie-tooltip-top" data-tooltip="切换主题">
+                    <div class="joe_action_item mode" style="margin-bottom:0;background:transparent">
+                        <svg class="mode-light active" height="25" viewBox="0 0 1024 1024" width="25" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M234.24 512a277.76 277.76 0 1 0 555.52 0 277.76 277.76 0 1 0-555.52 0zM512 187.733a42.667 42.667 0 0 1-42.667-42.666v-102.4a42.667 42.667 0 0 1 85.334 0v102.826A42.667 42.667 0 0 1 512 187.733zm-258.987 107.52a42.667 42.667 0 0 1-29.866-12.373l-72.96-73.387a42.667 42.667 0 0 1 59.306-59.306l73.387 72.96a42.667 42.667 0 0 1 0 59.733 42.667 42.667 0 0 1-29.867 12.373zm-107.52 259.414H42.667a42.667 42.667 0 0 1 0-85.334h102.826a42.667 42.667 0 0 1 0 85.334zm34.134 331.946a42.667 42.667 0 0 1-29.44-72.106l72.96-73.387a42.667 42.667 0 0 1 59.733 59.733l-73.387 73.387a42.667 42.667 0 0 1-29.866 12.373zM512 1024a42.667 42.667 0 0 1-42.667-42.667V878.507a42.667 42.667 0 0 1 85.334 0v102.826A42.667 42.667 0 0 1 512 1024zm332.373-137.387a42.667 42.667 0 0 1-29.866-12.373l-73.387-73.387a42.667 42.667 0 0 1 0-59.733 42.667 42.667 0 0 1 59.733 0l72.96 73.387a42.667 42.667 0 0 1-29.44 72.106zm136.96-331.946H878.507a42.667 42.667 0 1 1 0-85.334h102.826a42.667 42.667 0 0 1 0 85.334zM770.987 295.253a42.667 42.667 0 0 1-29.867-12.373 42.667 42.667 0 0 1 0-59.733l73.387-72.96a42.667 42.667 0 1 1 59.306 59.306l-72.96 73.387a42.667 42.667 0 0 1-29.866 12.373z"></path>
+                        </svg>
+                        <svg class="mode-dark" height="25" viewBox="0 0 1024 1024" width="25" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M587.264 104.96c33.28 57.856 52.224 124.928 52.224 196.608 0 218.112-176.128 394.752-393.728 394.752-29.696 0-58.368-3.584-86.528-9.728C223.744 832.512 369.152 934.4 538.624 934.4c229.376 0 414.72-186.368 414.72-416.256 1.024-212.992-159.744-389.12-366.08-413.184z"></path>
+                          <path d="M340.48 567.808l-23.552-70.144-70.144-23.552 70.144-23.552 23.552-70.144 23.552 70.144 70.144 23.552-70.144 23.552-23.552 70.144zM168.96 361.472l-30.208-91.136-91.648-30.208 91.136-30.208 30.72-91.648 30.208 91.136 91.136 30.208-91.136 30.208-30.208 91.648z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <!--随机文章-->
+                <div class="console-buttom-square theme-cursor reverie-tooltip reverie-tooltip-top" data-tooltip="随机文章">
+                    <a href="javascript:void(0)" onclick="randomPost()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 512 512"><path d="M440.88 129.37L288.16 40.62a64.14 64.14 0 0 0-64.33 0L71.12 129.37a4 4 0 0 0 0 6.9L254 243.85a4 4 0 0 0 4.06 0L440.9 136.27a4 4 0 0 0-.02-6.9M256 152c-13.25 0-24-7.16-24-16s10.75-16 24-16s24 7.16 24 16s-10.75 16-24 16m-18 118.81L54 163.48a4 4 0 0 0-6 3.46v173.92a48 48 0 0 0 23.84 41.39L234 479.48a4 4 0 0 0 6-3.46V274.27a4 4 0 0 0-2-3.46M96 368c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m96-32c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m266-172.49L274 271.56a4 4 0 0 0-2 3.45V476a4 4 0 0 0 6 3.46l162.15-97.23A48 48 0 0 0 464 340.86V167a4 4 0 0 0-6-3.49M320 424c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m0-88c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m96 32c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m0-88c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24"/></svg>
+                    </a>
+                </div>
+                <!--控制台-->
+                <div class="console-buttom-square theme-cursor reverie-tooltip reverie-tooltip-top" data-tooltip="控制台">
+                    <a href="/console" target="_blank" rel="noreferren noopener">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88a9.95 9.95 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20"/></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 13q1.45 0 2.475-1.025T15.5 9.5t-1.025-2.475T12 6T9.525 7.025T8.5 9.5t1.025 2.475T12 13m-7 8q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14v-1.15q-1.35-1.325-3.137-2.087T12 15t-3.863.763T5 17.85z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <!--功能按钮end -->
+        </div>
+    </div>
+    <script th:inline="javascript">
+        const consoleMusics = /*[[${theme.config.console_panel.musics}]]*/ [];
+    </script>
+    <script th:src="@{/assets/reverie/js/min/console.min.js}"></script> 
+    <!-- <script th:src="@{/assets/reverie/js/console.js}"></script>  -->
+</th:block>
+</th:block>

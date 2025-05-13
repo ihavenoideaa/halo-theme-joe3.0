@@ -1,0 +1,113 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{modules/layout :: html(title = ${theme.config.memos.memos_title ?: '日常随记'}+'-'+${site.title},htmlType = journals,header = null,leftSidebar = true,content = ~{::content}, head = null, footer = null)}"
+>
+  <th:block th:fragment="content">
+    <body>
+      <style>
+        .theme-cursor{cursor:url(/themes/theme-Joe3/assets/cursor/[[${theme.config.theme.cursor_skin}]]/link.cur), auto !important;}
+      </style>
+      <script src="/res/js/tailwind_3.4.16.min.js"></script>
+
+      <link rel="stylesheet" th:href="@{/assets/reverie/css/memos_optimize.css}" />
+
+      <div id="Joe">
+        <th:block th:replace="~{modules/macro/navbar :: navbar}" />
+        <div
+          class="joe_container Barlow joe_main_container page-journals"
+          th:classappend="|${theme.config.theme.enable_show_in_up ? 'animated showInUp':''} ${theme.config.aside.aside_position == 'left' ? 'revert':''}|"
+        >
+
+        <!--start-->
+        <!-- Memos 展示 -->
+        <div class="main_container">
+        <div class="joe_main memos_main">
+          <div class="flex flex-col justify-start items-start w-full max-w-full">
+            <div id="tag-toc" class="flex items-center m-y-auto text-black text-base mb-3 text-black dark:text-gray-200 opacity-80 font-medium">
+              <span id="tag-toc-all" class="pl-[0.2rem] pr-[0.3rem] py-[0.2rem] rounded hover:bg-[#00000041] theme-cursor">🧩 全部 MEMOS</span>
+            </div>
+            <div class="w-full grid gap-2" style="grid-template-columns: repeat(1, 1fr);">
+              <div id="memos_container" class="min-w-full mx-auto w-full ">
+                <!--memos-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <!--是否开启侧边栏-->
+          <th:block th:if="${#annotations.getOrDefault(singlePage, 'enable_aside', 'true') == 'true'}">
+            
+            <aside class="joe_aside memos_aside" th:classappend="${theme.config.aside.aside_position == 'left' ? 'pos_left':''}">
+              <div class="memos_stats memos_aside__item mb-[20px]">
+                <div id="user_display" class="w-full flex flex-row gap-2 justify-start items-start pt-4 pb-6 px-3">
+                  <!--头像-->
+                </div>
+                <div class="stats_datas px-[20px] flex flex-row justify-between">
+                  <div class="data">
+                    <div id="memos-total" class="number">60</div>
+                    <div class="type">笔记</div>
+                  </div>
+                  <div class="data">
+                      <div id="tag-total" class="number">24</div>
+                      <div class="type">标签</div>
+                  </div>
+                  <div class="data">
+                      <div id="day-count" class="number">429</div>
+                      <div class="type">天</div>
+                  </div>
+                </div>
+                <div id="heatmap" class="heatmap mt-1 mb-2">
+                  <div class="week">
+                    <div class="heatmap_day" tabindex="0"></div><div class="heatmap_day" tabindex="0"></div><div class="heatmap_day" tabindex="0"></div><div class="heatmap_day" tabindex="0"></div><div class="heatmap_day" tabindex="0"></div><div class="heatmap_day" tabindex="0"></div><div class="heatmap_day" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-3815" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7908" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-318" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-1802" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9066" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2974" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-4684" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8303" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2622" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2745" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9959" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9070" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-3696" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8331" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-504" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7572" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8421" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8392" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7964" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9911" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7762" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9718" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-4947" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-671" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-5634" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-5998" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-3048" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-217" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-5977" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9394" tabindex="0"></div><div class="el-tooltip heatmap_day light_green" aria-describedby="el-tooltip-5014" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-6966" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7378" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-943" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8753" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2839" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-1817" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7811" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9349" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7320" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7175" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9730" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8262" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-841" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-1648" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-687" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-6957" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-4668" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-1318" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-4868" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2043" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-453" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-7142" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2985" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2384" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9745" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-1909" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8578" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-44" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9756" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9820" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-581" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-5733" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9074" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2802" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-3691" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-8659" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-4675" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-4936" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-1088" tabindex="0"></div></div><div class="week"><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-9223" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-2906" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-1994" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-56" tabindex="0"></div><div class="el-tooltip heatmap_day light_green" aria-describedby="el-tooltip-212" tabindex="0"></div><div class="el-tooltip heatmap_day dark_green today" aria-describedby="el-tooltip-5210" tabindex="0"></div><div class="el-tooltip heatmap_day" aria-describedby="el-tooltip-3409" tabindex="0"></div></div>
+                </div>
+                <div id="memos-xtype" class="pt-5 pl-2 w-full flex flex-row justify-start items-center gap-2.5 flex-wrap"></div>
+                <div id="tags-main" class="flex flex-col justify-start items-start w-full mt-5 pb-5 px-1 h-auto shrink-0 flex-nowrap group">
+                  <div class="w-full gap-1 mb-1 text-base text-gray-700 font-bold border-b-[1px] border-[#282f39] dark:text-[#cbd5e1] dark:border-[#cbd5e1]">标签</div>
+
+                  <ul id="tags-selector" class="tags-container">                  
+                  </ul>
+                  <div id="page-control" class="flex flex-row justify-self-center mx-auto mt-1 gap-x-2 theme-cursor opacity-0 hover:opacity-100 group-hover:opacity-100 transition-opacity duration-150 ease-in-out">
+                      <div id="prev-page" class="px-2 hover:bg-[#00000041] rounded-lg dark:hover:bg-[#181818b9]">
+                        <a href="javascript:void(0)">  
+                          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 512 512"><path d="M189.3 128.4L89 233.4c-6 5.8-9 13.7-9 22.4s3 16.5 9 22.4l100.3 105.4c11.9 12.5 31.3 12.5 43.2 0 11.9-12.5 11.9-32.7 0-45.2L184.4 288h217c16.9 0 30.6-14.3 30.6-32s-13.7-32-30.6-32h-217l48.2-50.4c11.9-12.5 11.9-32.7 0-45.2-12-12.5-31.3-12.5-43.3 0z" fill="var(--svg-page)"/></svg>
+                          <!-- var(--svg-page) -->
+                        </a>
+                      </div>
+                      <div id="next-page" class="px-2 hover:bg-[#00000041] rounded-lg dark:hover:bg-[#181818b9]">
+                        <a href="javascript:void(0)">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 512 512"><path d="M322.7 128.4l100.3 105c6 5.8 9 13.7 9 22.4s-3 16.5-9 22.4L322.7 383.6c-11.9 12.5-31.3 12.5-43.2 0-11.9-12.5-11.9-32.7 0-45.2l48.2-50.4h-217c-17 0-30.7-14.3-30.7-32s13.7-32 30.6-32h217l-48.2-50.4c-11.9-12.5-11.9-32.7 0-45.2 12-12.5 31.3-12.5 43.3 0z" fill="var(--svg-page)"/></svg>
+                        </a>
+                      </div>
+                  </div>
+
+                  <!-- <div id="all-tags" class="w-full flex flex-col mt-1.5 justify-start items-center pr-7 relative flex-wrap gap-x-2 gap-y-1.5 dark:text-[#cbd5e1]"></div> -->
+                </div>
+                <div class="bottom-5 fixed underline"><a href="/memos-display">旧版 Memos 页面</a></div>
+              </div>
+            </aside>
+          </th:block>
+          <!--end-->
+        </div>
+
+        </div>
+        <th:block th:replace="~{modules/common/actions :: actions}" />
+        <!--/* <th:block th:replace="~{modules/common/footer :: footer}" /> */-->
+      </div>
+      <th:block th:replace="~{modules/macro/tail :: tail}" />
+      <script th:src="@{/assets/lib/j-marked/marked.min.js}"></script>
+      <script th:inline="javascript">
+            memosHost = /*[[${theme.config.memos.memos_host}]]*/ '';
+            memosUserId = /*[[${theme.config.memos.memos_user}]]*/'users/1';
+            memosPageSize = /*[[${theme.config.memos.memos_page_size}]]*/ 10;
+            memosCacheApi = /*[[${theme.config.memos.memos_cache_api}]]*/'';
+            memosSelectUser = /*[[${theme.config.memos.enable_user_select}]]*/false;
+            haloAvatar = /*[[${theme.config.blogger.avatar ?: (theme.config.blogger.default_avatar ?: '/themes/theme-Joe3/assets/img/transparent-placeholder.png')}]]*/"";
+            lazyAvatar = /*[[${theme.config.blogger.lazyload_avatar}]]*/"";
+            lazyThumbnail = /*[[${theme.config.home.lazyload_thumbnail}]]*/"";
+      </script>
+      <script th:src="@{/assets/reverie/js/memos_optimize.js}"></script>
+    </body>
+  </th:block>
+</html>

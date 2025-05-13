@@ -11,7 +11,7 @@
       <script src="/res/js/tailwind_3.4.16.min.js"></script>
       <link rel="stylesheet" th:href="@{/assets/reverie/css/movie.css}" />
       <script src='/res/js/TweenMax_1.20.2.min.js'></script>
-      <div class="loading-screen">
+      <!-- <div class="loading-screen">
         <main role="main" class="main-content" id="main-content">
           <div class="titleCont">
               <h1 class="main-title flex flex-col gap-y-4" id="main-title">
@@ -21,8 +21,8 @@
           <canvas id="noise" class="noise"></canvas>
           <div class="vignette"></div>
         </main>
-      </div>
-      
+      </div> -->
+
       <div id="Joe">
         <th:block th:replace="~{modules/macro/navbar :: navbar}" />
         <div class="flex flex-col items-center mb-12 mt-20"  th:classappend="${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}">

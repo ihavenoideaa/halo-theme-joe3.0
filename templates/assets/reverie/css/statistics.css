@@ -18,7 +18,7 @@
 }
 
 .info-container p span {
-    color:#9999ff;
+    color: var(--theme);
     font-weight: 600;
 }
 

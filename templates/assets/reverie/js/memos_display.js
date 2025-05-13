@@ -6,6 +6,7 @@ const memosBlockHeight = memosConfig.memosBlockHeight;
 const memosPageSize = memosConfig.memosPageSize;
 const memosLinkShow = memosConfig.memosLinkShow;
 const memosCacheApi = memosConfig.memosCacheApi;
+const memosSelectUser = memosConfig.memosSelectUser;
 
 marked.setOptions({
     breaks: true // 将 \n 解析为 <br>
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => { // DOM 加载后执�
     if(memosCacheApi != '') {
         host_url = `${memosCacheApi}/data?pageSize=${memosPageSize}&pageToken=`
     } else {
-        const user_param = memosUserId == '' ? '' : `parent=${memosUserId}&`;
+        const user_param = memosSelectUser === false ? '' : `parent=${memosUserId}&`;
         host_url = `${memosHost}api/v1/memos?${user_param}pageSize=${memosPageSize}&pageToken=`;
     }
     // 初次获取数据 intiLoad()

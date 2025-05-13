@@ -15,7 +15,7 @@
           <div class="joe_main">
             <div
               class="joe_detail"
-              th:with="contributor = ${contributorFinder.getContributor(singlePage.status.contributors[0])}"
+              th:with="contributor = ${singlePage.owner}"
             >
               <h1
                 class="joe_detail__title"
@@ -176,6 +176,10 @@
             <th:block th:replace="~{modules/common/aside :: aside}" />
           </th:block>
         </div>
+        <!--音乐播放-->
+        <th:block th:if="${theme.config.musicplayer.music_action.post.enable} and ${#annotations.getOrDefault(singlePage, 'song_id', '') != ''}">
+          <th:block th:replace="~{reverie/widgets/music_action :: music_action(${#annotations.getOrDefault(singlePage, 'song_id', '')})}" />
+        </th:block>
         <!--    action-->
         <th:block th:replace="~{modules/common/actions :: actions}" />
         <th:block th:replace="~{modules/common/footer :: footer}" />

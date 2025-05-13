@@ -29,8 +29,8 @@
                       height="35"
                       class="avatar lazyload"
                       th:src="${theme.config.blogger.lazyload_avatar}"
-                      th:data-src="${contributor.avatar ?: (theme.config.blogger.default_avatar ?: '/themes/theme-Joe3/assets/img/transparent-placeholder.png')}"
-                      th:alt="${contributor.displayName}"
+                      th:data-src="${theme.config.blogger.avatar ?: '/themes/theme-Joe3/assets/img/transparent-placeholder.png'}"
+                      th:alt="${theme.config.blogger.nickname ?: site.title}"
                       onerror="Joe.errorImg(this, 'ErrAvatarImg')"
                     />
                     <div class="meta">
@@ -158,7 +158,7 @@
       <th:block th:replace="~{modules/macro/tail :: tail}" />
       <script th:inline="javascript"> // 将动态值注入到全局变量中
         const timelineConfig = {
-            avatar: /*[[${theme.config.blogger.default_avatar}]]*/ '',
+            avatar: /*[[${theme.config.blogger.avatar}]]*/ '',
             content: /*[[${singlePage.content.content}]]*/ '',
         };
       </script>

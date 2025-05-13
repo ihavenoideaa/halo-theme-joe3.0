@@ -1,0 +1,47 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{modules/layout :: html(title = ${site.title},htmlType = tags,header = null,leftSidebar = true,content = ~{::content}, head = null, footer = null)}"
+>
+  <th:block th:fragment="content">
+    <body>
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/css/drawer.css}" /> 
+      <script src="/res/js/tailwind_3.4.16.min.js"></script>
+      <link href="/res/fontawesome/fontawesome-free-6.7.2-web/css/all.min.css" rel="stylesheet">
+
+      <div id="Joe">
+        <th:block th:replace="~{modules/macro/navbar :: navbar}" /> 
+        <div class="pb-5 mb-auto mt-20 flex flex-col items-center justify-items-start Barlow"
+          th:classappend="|${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}|">
+            <div class="md:w-[800px] sm:w-[440px]">
+                <header class="block text-[35px] font-semibold mb-10 ml-16 text-[#111827] dark:text-[#d1d5db]">
+                    [[${theme.config.drawer.title ?: '抽屉'}]]
+                </header>
+                <blockquote class="ml-5 blockquote text-[#111827] dark:text-[#d1d5db]">
+                    <p>[[${theme.config.drawer.description ?: '这里是抽屉📱'}]]</p>
+                </blockquote>
+            </div>
+            <div class="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4" >
+                <div class="w-[150px]" th:each="link : ${theme.config.drawer.link_list}">
+                    <a class="flex flex-col justify-center items-center" th:href="${link.link_url?:'javascript:void(0)'}" 
+                        th:target="${link.link_url != '' ? '_blank' : ''}" th:rel="${link.link_url != '' ? 'noopener noreferrer':''}">
+                        <img class="lazyload hover:-translate-y-2 hover:scale-110 transition ease-in-out delay-80"
+                        th:data-src="${link.link_icon ?: '/themes/theme-Joe3/assets/reverie/img/question.png'}"
+                        th:title="${link.link_name}"/>
+                        <span class="text-[20px] font-semibold text-[#1f2937] dark:text-[#d1d5db]" th:text="${link.link_name}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="tinycop pl-5"></div>
+            <div class="pixelart-to-css"></div>
+        </div>
+        <th:block th:replace="~{modules/common/actions :: actions}" />  
+        <th:block th:replace="~{modules/common/footer :: footer}" />
+      </div>
+      <th:block th:replace="~{modules/macro/tail :: tail}" />
+    </body>
+  </th:block>
+</html>

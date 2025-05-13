@@ -1,0 +1,623 @@
+html {
+    --btn-bg: #f2b94bdd;
+
+    &[data-mode="dark"] {
+        --btn-bg: #9999ff;
+    }
+}
+
+.font-Misans {
+    font-family: Misans VF,ui-sans-serif,PingFang SC,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+.line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+.line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.text-sm {
+    font-size: .875rem;
+    line-height: 1.25rem;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.r-console {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    /* background-color: #00000080; */
+    /* opacity: 0.5; */
+    z-index: 8888;
+    transition: background-color 0.2s ease-in;
+}
+
+.console-main {
+    width: 27rem;
+    height: 100vh;
+    padding: 0.5rem 1rem 4rem 0;
+
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+}
+.console-main::-webkit-scrollbar {
+    display: none; /* WebKit浏览器 */
+}
+
+.console-close {
+    position: fixed;
+    right: 13rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 1rem;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #343a40;
+    z-index: 9999;
+}
+
+.console-item{
+    margin-top: 0.78rem;
+    width: 100%;
+    background-color: #000000;
+    color: #ced4da;
+    border-radius: 1rem;
+    padding: 0.7rem 1rem 1.1rem 1rem;
+    border: 1px solid #242424;
+}
+
+/* 句子 */
+.console-word {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 数据 */
+.console-data-wrap {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+}
+
+.console-data a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    padding: 0.3rem 1rem 0 1rem;
+    color: #ced4da;
+}
+
+.console-data:hover a{
+    color: var(--theme);
+}
+
+.console-data a span {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+}
+
+.console-item-title {
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.console-item-title .more {
+    margin-left: auto;
+    margin-right: 2px;
+}
+
+/* 文章 */
+.console-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.console-post {
+    display: flex;
+    justify-content: space-between;
+}
+
+.console-post .r-underline{
+    max-width: 65%;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    position: relative;
+    color: #adb5bd;
+    transition: color 0.2s ease;
+}
+.console-post .r-underline:hover a:after {
+    width: 100%
+}
+
+.console-post .r-underline::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--theme);
+    transition: width 0.4s ease;
+    transform-origin: left;
+}
+  
+.console-post .r-underline:hover::after {
+    width: 100%;
+}
+
+.console-post .r-underline i {
+    font-size: 18px;
+    color: #868e96;
+    transition: transform .5s;
+}
+.console-post .r-underline:hover i {
+    transform: rotate(-135deg);
+    color: var(--theme)
+}
+
+.console-post .r-underline:hover p {
+    color: var(--theme);
+    font-size: 16px;
+}
+
+.console-post span {
+    color: var(--routine);
+    font-size: 12px;
+}
+
+.console-post .r-underline:hover + span {
+    color: #ced4da;
+    transform: scale(1.15);
+    transition: transform 0.2s ease;
+}
+
+.console-post .r-underline:hover + a .console-icon-like {
+    color: #fff;
+}
+.console-post .r-underline:hover + a .console-icon {
+    transform: scale(1.3);
+    transition: transform 0.15s;
+}
+
+.console-post-like .console-icon-wrap {
+    min-width: 20px;
+    position:relative;
+}
+.console-post-like .console-icon-wrap .console-icon {
+    position: absolute;
+    right: 0.3rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in, visibility 0.2s ease-in;
+}
+.console-post-like .console-icon-wrap .console-icon:hover {
+    color: #f8f9fa;
+}
+.console-post-like .console-icon-wrap .console-icon.active {
+    opacity: 1;
+    visibility: visible;
+}
+.console-post-like .console-icon-wrap .console-icon-liked.active {
+    color: #0074ba;
+}
+
+.console-post-like .console-icon-wrap:hover {
+    color: #fff;
+    transform: scale(1.3);
+    transition: transform 0.15s;
+}
+
+/* 标签 */
+.console-tags {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    gap: 6px;
+}
+.console-tags a {
+    color: #ced4da !important;
+    padding: 5px 12px;
+    border-radius: 8px;
+    background: #1b1c20;
+    border: 1px solid #3d3d3f;
+    font-size: 14px !important;
+    font-weight: 700;
+}
+
+.console-tags a:hover {
+    background: var(--theme);
+    color: #1b1c20 !important;
+    box-shadow: 0 8px 12px -3px #f2b94b23;
+}
+
+.console-tags a sup {
+    opacity: .6;
+    font-weight: 500;
+}
+
+:root {
+    --space: 1rem;
+    --bg: #09090b;
+    --fg: #e3e3e3;
+    --surface-1: #101012;
+    --surface-2: #27272a;
+    --surface-3: #52525b;
+    --ease-out: cubic-bezier(0.5, 1, 0.89, 1);
+    --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* 分类 */
+.console-categories {
+    display: grid;
+    grid-template-columns: repeat(var(--count, 1), 1fr);
+    gap: var(--space);
+    margin: auto;
+    inline-size: min(var(--max, 15rem), 100%);
+  
+    @media (min-width: 25rem) {
+      --count: 2;
+      --max: 30rem;
+    }
+  
+    @media (min-width: 45rem) {
+      --count: 4;
+      --max: 60rem;
+    }
+}
+  
+.console-category {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-areas: "card";
+    place-items: center;
+    aspect-ratio: 4/5;
+    border: 1px solid var(--surface-2);
+    isolation: isolate;
+    transition: border-color 200ms var(--ease-out);
+    user-select: none;
+  
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at bottom left,
+        transparent 55%,
+        var(--surface-1)
+      );
+      pointer-events: none;
+      box-shadow: var(--bg) -0.5cqi 0.5cqi 2.5cqi inset;
+      transition: opacity 900ms var(--ease-out);
+    }
+  
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      aspect-ratio: 1;
+      background: radial-gradient(circle, var(--bg), transparent 65%);
+      opacity: 0;
+      transition: opacity 800ms var(--ease-out);
+    }
+  
+    > * {
+      grid-area: card;
+    }
+  
+    svg {
+      position: relative;
+      z-index: 1;
+      width: 30%;
+      height: auto;
+      color: var(--surface-3);
+      transition: 300ms var(--ease-out);
+      transition-property: color, scale;
+    }
+}
+
+.console-category span{
+    color: #ced4da;
+    text-align: center;
+}
+
+.console-drawer {
+    display: grid;
+    grid-template-columns: repeat(var(--count, 1), 1fr);
+    row-gap: 1rem;
+    margin: auto;
+    max-width: min(var(--max, 15rem), 100%);
+
+    @media (min-width: 25rem) {
+        --count: 2;
+        --max: 30rem;
+    }
+    @media (min-width: 45rem) {
+        --count: 3;
+        --max: 60rem;
+    }
+}
+
+/* 抽屉 */
+.console-drawer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* aspect-ratio: 1/1; */
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.console-drawer-item:hover {
+    background-color: rgba(0,0,0,0.05);
+    transform: translateY(-5px);
+}
+
+.console-drawer-item img {
+    width: 7rem; /* 设置图片固定宽度 */
+    height: 7rem; /* 设置图片固定高度 */
+    object-fit: contain; /* 保持图片比例 */
+    filter: saturate(0.8);
+}
+
+.console-drawer-item p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #adb5bd;
+}
+
+/* 评论 */
+.console-comment {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.console-comment-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: calc(100% + 20px);    /* 左右各扩大10px */
+    height: calc(100% + 20px);   /* 上下各扩大10px */
+    margin: -10px -10px -10px -10px; /* 上右下左负边距 */
+    padding: 10px;               /* 内边距补偿负边距 */
+    transition: border-color 0.2s ease;
+}
+
+.console-comment-item:hover {
+    border: 1px solid var(--theme);
+}
+
+.console-comment-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #3d3d3f;
+}
+
+.console-comment-meta p{
+    font-size: 16px;
+}
+
+.console-comment-meta span{
+    margin-left: auto;
+    font-size: 14px;
+    opacity: 0.6;
+    font-weight: 500;
+}
+
+.console-comment-avatar {
+    display: flex;
+	align-items: center;
+	justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    height: 25px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+}
+
+.console-comment-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.console-comment-content a {
+    color: #adb5bd;
+}
+
+.console-comment-content span {
+    font-size: 12px;
+    color: #495057;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    
+}
+.console-comment-content span svg {
+    height: 15px;
+    width: 15px;
+    margin-right: 2px;
+}
+
+.console-comment-content span p {
+    max-width: 40%;
+}
+
+/* 按钮 */
+.console-buttom-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.console-buttom-circle {
+    width: 10%;
+    aspect-ratio: 1/1;
+    background-color: #000000;
+    color: #ced4da;
+    border-radius: 50%;
+    border: 1px solid #242424;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+}
+
+.console-buttom-circle:hover {
+    background-color: var(--btn-bg);
+    color: #1b1c20;
+    box-shadow: 0 8px 12px -3px #f2b94b23;
+    border: 1px solid transparent;
+}
+
+.console-buttom-circle svg {
+    fill: var(--btn-bg);
+}
+
+.console-buttom-circle:hover svg{
+    fill: #F7F7FA;
+}
+
+.console-buttom-square {
+    width: 10%;
+    aspect-ratio: 1/1;
+    background-color: #000000;
+    color: #ced4da;
+    border-radius: 0.5rem;
+    border: 1px solid #242424;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+}
+
+.console-buttom-square:hover {
+    background-color: var(--btn-bg);
+    color: #1b1c20;
+    box-shadow: 0 8px 12px -3px #f2b94b23;
+    border: 1px solid transparent;
+}
+.console-buttom-square svg {
+    fill: var(--btn-bg);
+}
+.console-buttom-square:hover svg {
+    fill: #F7F7FA;
+}
+
+.console-no-bg::before {
+    background-image: none !important;
+}
+
+/* 音乐 */
+.console-music {
+    margin-top: 0.7rem;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+}
+
+.console-music-buttom {
+    width: 22%;
+    aspect-ratio: 4/3;
+    background-color: #000000;
+    color: #ced4da;
+    border-radius: 0.5rem;
+    border: 1px solid #242424;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.25s ease;
+}
+
+.console-music-buttom:hover{
+    transform: scale(1.1);
+}
+
+.console-music-buttom a{
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.console-music-buttom a svg{
+    position: absolute;
+    fill: #ffffff;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.console-music-buttom a svg.showing{
+    visibility: visible;
+    opacity: 1;
+}
+
+.console-music-buttom a svg.hovering{
+    visibility: visible;
+    opacity: 0;
+}
+
+.console-music-buttom a svg.hidding{
+    visibility: hidden;
+    opacity: 0;
+}
+
+.console-music-buttom a:hover svg.hovering{
+    opacity: 1;
+}
+
+.console-music-buttom a [id^="playing-"].showing{
+    animation: rotate 3s linear infinite;
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}

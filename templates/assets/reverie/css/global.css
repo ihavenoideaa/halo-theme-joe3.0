@@ -1,0 +1,76 @@
+/*自定义tooltip*/
+.reverie-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.reverie-tooltip:hover{
+    transform: scale(1.15);
+    transition: transform 0.15s ease-in-out;
+}
+  
+.reverie-tooltip::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    background-color: #1e293bce;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 50;
+    transition: opacity 0.3s;
+}
+
+.reverie-tooltip:hover::before {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* 提示框位置 */
+.reverie-tooltip-top::before {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+}
+  
+.reverie-tooltip-right::before {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+}
+  
+.reverie-tooltip-bottom::before {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+}
+  
+.reverie-tooltip-left::before {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 8px;
+}
+
+/* 提示框颜色 */
+.reverie-tooltip-primary::before {
+    background-color: #3b82f6;
+}
+  
+.reverie-tooltip-secondary::before {
+    background-color: #10b981;
+}
+
+.reverie-bigbanner-no-bg::before {
+    background-image: none !important;
+}
+.reverie-bigbanner-no-bg::after {
+    background: none !important;
+}

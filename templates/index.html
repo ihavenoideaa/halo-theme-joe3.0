@@ -109,7 +109,7 @@
 
         <!--音乐播放器-->
         <th:block th:if="${theme.config.musicplayer.music_action.index.enable}">
-          <th:block th:replace="~{reverie/music_action :: music_action}" />
+          <th:block th:replace="~{reverie/widgets/music_action :: music_action(null)}" />
         </th:block>
         
         <th:block th:if="${theme.config.footer.enable_footer}">

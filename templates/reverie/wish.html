@@ -1,0 +1,73 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{modules/layout :: html(title = ${site.title},htmlType = wish,header = null,leftSidebar = true,content = ~{::content}, head = null, footer = null)}"
+>
+  <th:block th:fragment="content">
+    <body>
+        <script src="/res/js/tailwind_3.4.16.min.js"></script>
+        <link href="/res/fontawesome/fontawesome-free-6.7.2-web/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/assets/reverie/css/wish.css}" />
+      <div id="Joe">
+        <th:block th:replace="~{modules/macro/navbar :: navbar}" />
+        <div class="pb-5 mb-auto mt-20 flex flex-col items-center justify-items-start Barlow"
+          th:classappend="|${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}|">
+            <div
+            class="joe_container joe_main_container flex-col"
+            th:classappend="|${theme.config.theme.enable_show_in_up ? 'animated showInUp':''} ${theme.config.aside.aside_position == 'left' ? 'revert':''}|"
+            >
+                <div class="joe_main">
+                    <div class="md:w-[800px] sm:w-[440px]">
+                        <header class="block text-[35px] font-semibold ml-28 mb-10 text-[#111827] dark:text-[#d1d5db]">
+                            [[${theme.config.todo.title ?: '待办清单'}]]
+                        </header>
+                        <blockquote class="blockquote ml-20  text-[#111827] dark:text-[#d1d5db]">
+                            <p>[[${theme.config.todo.description ?: '这里是待办清单📅'}]]</p>
+                        </blockquote>
+                    </div>
+                </div>
+
+                <div class="wish_main">
+                    <th:block th:each="wish, iteration : ${theme.config.todo.todo_list}">
+                        <div class="wish-card">
+                            <section class="js-preview card markdown-body card-notebook wechat">
+                                <section class="card-content">
+                                    <section class="card-content-inner">
+                                        <h1>
+                                            <span class="wish-title">[[${wish.todo_name ?: 'Life Wish List'}]]</span>
+                                        </h1>
+                                        <blockquote>
+                                            <p class="wish-brief">
+                                                [[${wish.todo_brief ?: '🎇'}]]
+                                            </p>
+                                        </blockquote>
+                                        <p class="wish-image-wrap" th:if="${wish.todo_img != ''}">
+                                            <img th:src="${wish.todo_img}" alt>
+                                        </p>
+                                        <hr>
+                                        <ul class="contains-wish-list" th:id="'wish-list-index-'+${iteration.index}">
+                                        </ul>
+                                        <hr>
+                                    </section>
+                                </section> 
+                            </section>
+                        </div>
+                    </th:block>
+                </div>
+
+          </div>
+        </div>
+        <!--    action-->
+        <th:block th:replace="~{modules/common/actions :: actions}" />
+        <th:block th:replace="~{modules/common/footer :: footer}" />
+
+        <script th:inline="javascript">
+            const wishList = /*[[${theme.config.todo.todo_list}]]*/[];
+        </script>
+        <script th:src="@{/assets/reverie/js/wish.js}"></script>
+      </div>
+      <th:block th:replace="~{modules/macro/tail :: tail}" />
+    </body>
+  </th:block>
+</html>

@@ -32,5 +32,17 @@ const sco = {
     });
 
     this.isMusicBind = true;
+  },
+  musicSkipBack: function () {
+    document.querySelector("meting-js").aplayer.skipBack()
+  },
+
+  //音乐下一曲
+  musicSkipForward: function () {
+      document.querySelector("meting-js").aplayer.skipForward()
+  },
+
+  musicSwitch: function (index) {
+    document.querySelector("meting-js").aplayer.list.switch(index)
   }
 };

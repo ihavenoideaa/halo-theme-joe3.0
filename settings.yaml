@@ -874,6 +874,16 @@ spec:
           help: '填写图片地址或者随机图api地址'
         - $formkit: select
           if: '$get(enable_big_banner).value === true'
+          name: big_banner_img_mask
+          label: 是否开启图片遮罩
+          value: true
+          options:
+            - value: true
+              label: 开启
+            - value: false
+              label: 关闭
+        - $formkit: select
+          if: '$get(enable_big_banner).value === true'
           name: enable_big_banner_hitokoto
           id: enable_big_banner_hitokoto
           label: 是否启用一言
@@ -3560,7 +3570,6 @@ spec:
               name: link_url
               label: 链接地址
               value: ''
-              validation: 'required'
             - $formkit: attachment
               name: link_icon
               label: 链接图标

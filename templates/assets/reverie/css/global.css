@@ -67,4 +67,10 @@
 .reverie-tooltip-secondary::before {
     background-color: #10b981;
 }
-  
+
+.reverie-bigbanner-no-bg::before {
+    background-image: none !important;
+}
+.reverie-bigbanner-no-bg::after {
+    background: none !important;
+}

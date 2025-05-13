@@ -4,6 +4,7 @@
     <div
       id="EvanBigBanner"
       class="evan-big-banner"
+      th:classappend="|${theme.config.beauty.big_banner_img_mask ? '':'reverie-bigbanner-no-bg'}|"
       th:style="'background-image:url('+${theme.config.beauty.big_banner_Photos}+');'+${htmlType == 'index'? 'height:calc(100vh - 60px);margin-top: initial;':''}"
     >
       <th:block th:if="${theme.config.beauty.enable_big_banner_video}">

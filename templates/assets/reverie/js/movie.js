@@ -37,16 +37,16 @@ async function createCardHtml(movie, index) {
 
         <div class="back px-2 text-black lazypic" data-bg="${imageUrl}">
             <div class="back-content flex flex-col">
-                <div class="text-lg/loose font-extrabold leading-6">${movie.title}</div>
-                <div class="text-base/2 font-[500] mt-2">${movie.area?movie.area[0]:""} ${movie.language[0]} (${movie.year})</div>
+                <div class="text-lg/loose font-medium line-clamp-2 leading-6">${movie.title}</div>
+                <div class="text-base/2 font-[400] mt-2">${movie.area?movie.area[0]:""} ${movie.language[0]} (${movie.year})</div>
                 <div>
                     ${starRating}
                     <span class="pl-1">${rating}</span>
                 </div>
-                <p class="w-full font-[500] mt-1 leading-4 text-black line-clamp-4">${movie.description}</p>
+                <p class="w-full font-[400] mt-1 leading-4 text-black line-clamp-4">${movie.description}</p>
                 <a class="w-auto mx-5 py-1 mt-2 bg-[#2f54eb9c] rounded-lg text-white" target="_blank" 
-                    href="${detialUrl}">Details</a>
-                <button id="show_more" data-id="${index}" class="w-auto mx-5 py-1 mt-1 bg-[#2f54eb9c] rounded-lg text-white">Show Mine</button>
+                    href="${detialUrl}">更多信息</a>
+                <button id="show_more" data-id="${index}" class="w-auto mx-5 py-1 mt-1 bg-[#2f54eb9c] rounded-lg text-white">我的标记</button>
             </div>
         </div>
     `;
@@ -173,14 +173,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateLineContent();
 
     // loading screen
-    function hideLoadingScreen() {
-        tl.pause(); // 暂停GSAP时间线动画
-        const loadingScreen = document.querySelector('.loading-screen');
-        loadingScreen.classList.add('fade-out');
-    }
-    requestAnimationFrame(() => {
-        setTimeout(hideLoadingScreen, 1500);
-    });
+    // function hideLoadingScreen() {
+    //     tl.pause(); // 暂停GSAP时间线动画
+    //     const loadingScreen = document.querySelector('.loading-screen');
+    //     loadingScreen.classList.add('fade-out');
+    // }
+    // requestAnimationFrame(() => {
+    //     setTimeout(hideLoadingScreen, 1500);
+    // });
 });
 
 // 显示电影台词
@@ -246,6 +246,7 @@ function externalUrl(urls){
 
 
 // loading
+/*
 var title = document.getElementById('main-title').cloneNode(true);
 document.querySelector('.titleCont').appendChild(title);
 title.classList.add("overTitle")
@@ -341,3 +342,4 @@ const noise = () => {
 };
 
 noise();
+*/

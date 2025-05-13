@@ -3566,7 +3566,6 @@ spec:
               label: 链接图标
               value: ''
               help: '请填写图标的链接地址'
-              validation: 'required'
     - group: todo
       label: 待办清单
       formSchema:
@@ -3623,16 +3622,6 @@ spec:
           name: newest_post_size
           label: 最新文章显示数量
           value: '6'
-        - $formkit: repeater
-          name: posts
-          label: 控制面板推荐文章
-          max: 6
-          children:
-            - $formkit: postSelect
-              name: post
-              label: 文章
-              value: ""
-              validation: required
         - $formkit: categorySelect
           name: categories
           key: categories

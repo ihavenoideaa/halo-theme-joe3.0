@@ -8,11 +8,12 @@ function showConsole() {
     
     isAnimating = true;
     consoleWrap.style.removeProperty('display');
-    consoleWrap.classList.add('animated', 'fadeInUp');
+    consoleWrap.classList.add('animated', 'showInUp');
     
     // 使用动画结束事件替代定时器
     const onFadeInEnd = () => {
-        consoleWrap.classList.remove('fadeInUp');
+        consoleWrap.style.backgroundColor = '#00000080';
+        consoleWrap.classList.remove('showInUp');
         consoleWrap.removeEventListener('animationend', onFadeInEnd);
         isAnimating = false;
     };
@@ -29,6 +30,7 @@ function hideConsole() {
     consoleWrap.classList.add('bounceOutRight');
     
     // 使用动画结束事件替代定时器
+    consoleWrap.style.backgroundColor = 'transparent';
     const onFadeOutEnd = () => {
         consoleWrap.style.display = 'none';
         consoleWrap.classList.remove('animated', 'bounceOutRight');
@@ -360,6 +362,9 @@ function musicInit() {
         ]);
     });
     ap.volume(0.15, false);
+    ap.on('ended', function () {
+        console.log('player ended');
+    });
 }
 
 let nowMusicIndex = -1; // 当前音乐索引
@@ -376,33 +381,45 @@ function musicPlay(e, index) {
         document.getElementById(`playing-${index}`).classList = "showing";
     }
     else if (nowMusicIndex === index) {  // 暂停
-        document.querySelector("meting-js").aplayer.toggle();
         if(isMusicStop) {
-            document.getElementById(`pause-${index}`).classList = "showing";
-            document.getElementById(`playing-${index}`).classList = "hidding";
-            isMusicStop = false;
+            musicPause();
         }
         else {
-            document.getElementById(`pause-${index}`).classList = "hidding";
-            document.getElementById(`playing-${index}`).classList = "showing";
-            isMusicStop = true;
+            musicRePlay();
         }
 
     }
     else { // 切歌
-        document.querySelector("meting-js").aplayer.pause();
-        document.querySelector("meting-js").aplayer.list.switch(index);
-        document.querySelector("meting-js").aplayer.play();
-
-        document.getElementById(`pause-${nowMusicIndex}`).classList = "hidding";
-        document.getElementById(`playing-${nowMusicIndex}`).classList = "hidding";
-        document.getElementById(`start-${nowMusicIndex}`).classList = "hovering";
-
-        nowMusicIndex = index;
-        isMusicStop = true;
-        document.getElementById(`start-${index}`).classList = "hidding";
-        document.getElementById(`playing-${index}`).classList = "showing";
-
+        musicSwitch(index);
     }    
+}
+
+function musicPause() {
+    document.querySelector("meting-js").aplayer.pause();
+    document.getElementById(`pause-${nowMusicIndex}`).classList = "showing";
+    document.getElementById(`playing-${nowMusicIndex}`).classList = "hidding";
+    isMusicStop = false;
+}
+
+function musicRePlay() {
+    document.querySelector("meting-js").aplayer.play();
+    document.getElementById(`pause-${nowMusicIndex}`).classList = "hidding";
+    document.getElementById(`playing-${nowMusicIndex}`).classList = "showing";
+    isMusicStop = true;
+}
+
+function musicSwitch(index) {
+    document.querySelector("meting-js").aplayer.pause();
+    document.querySelector("meting-js").aplayer.list.switch(index);
+    document.querySelector("meting-js").aplayer.play();
+
+    document.getElementById(`pause-${nowMusicIndex}`).classList = "hidding";
+    document.getElementById(`playing-${nowMusicIndex}`).classList = "hidding";
+    document.getElementById(`start-${nowMusicIndex}`).classList = "hovering";
+
+    nowMusicIndex = index;
+    isMusicStop = true;
+    document.getElementById(`start-${index}`).classList = "hidding";
+    document.getElementById(`playing-${index}`).classList = "showing";
 }
 

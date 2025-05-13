@@ -40,9 +40,10 @@ html {
     display: flex;
     flex-direction: column;
     align-items: end;
-    background: #00000080;
+    /* background-color: #00000080; */
     /* opacity: 0.5; */
     z-index: 8888;
+    transition: background-color 0.2s ease-in;
 }
 
 .console-main {
@@ -73,7 +74,7 @@ html {
 }
 
 .console-item{
-    margin-top: 0.8rem;
+    margin-top: 0.78rem;
     width: 100%;
     background-color: #000000;
     color: #ced4da;
@@ -448,6 +449,9 @@ html {
     color: #ced4da;
     border-radius: 50%;
     border: 1px solid #242424;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
 }
 .console-buttom-circle:hover {
@@ -499,6 +503,7 @@ html {
     margin-top: 0.7rem;
     display: flex;
     justify-content: space-evenly;
+    gap: 0.5rem;
 }
 
 .console-music-buttom {
@@ -554,4 +559,16 @@ html {
 
 .console-music-buttom a:hover svg.hovering{
     opacity: 1;
+}
+
+.console-music-buttom a [id^="playing-"].showing{
+    animation: rotate 3s linear infinite;
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
 }

@@ -341,7 +341,6 @@ function swtichSidebar() {
 
 // 背景切换
 function swtichBackgroud() {
-    console.log("切换背景1");
     document.body.classList.toggle('console-no-bg');
 }
 
@@ -362,15 +361,11 @@ function musicInit() {
         ]);
     });
     ap.volume(0.15, false);
-    ap.on('ended', function () {
-        console.log('player ended');
-    });
 }
 
 let nowMusicIndex = -1; // 当前音乐索引
 let isMusicStop = true; // 是否暂停
 function musicPlay(e, index) {
-    console.log(e)
     if (nowMusicIndex === -1) { // 播放
         nowMusicIndex = index;
         musicInit();
@@ -423,3 +418,70 @@ function musicSwitch(index) {
     document.getElementById(`playing-${index}`).classList = "showing";
 }
 
+// 点赞按钮
+document.addEventListener("DOMContentLoaded", function () {
+    function initConsoleLike() {
+        window.encryption = (str) => window.btoa(unescape(encodeURIComponent(str)));
+        window.decrypt = (str) => decodeURIComponent(escape(window.atob(str)));
+
+        const consolePosts = document.querySelectorAll(".console-post-like");
+        let agreeArr = localStorage.getItem(encryption("agree"))
+            ? JSON.parse(decrypt(localStorage.getItem(encryption("agree")))) : [];
+
+        consolePosts.forEach((post) => {
+            const cid = post.dataset.cid;
+            let flag = agreeArr.includes(cid);
+
+            const postTitle = post.querySelector(".r-underline");
+            const Icon = post.querySelector(".console-icon-wrap");
+            const consoleIconLike = Icon.querySelector(".console-icon-like");
+            const consoleIconLiked = Icon.querySelector(".console-icon-liked");
+            if (flag) {
+                consoleIconLiked.classList.add("active");
+            } else {
+                consoleIconLike.classList.add("active");
+            }
+
+            Icon.addEventListener("click", function (e) {
+                e.stopPropagation();
+
+                if(!flag) {
+                    $.ajax({
+                        url: "/apis/api.halo.run/v1alpha1/trackers/upvote",
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            group: "content.halo.run",
+                            plural: "posts",
+                            name: cid,
+                        }),
+                    })
+                    .then((_res) => {
+                        console.log('like++');
+                        agreeArr.push(cid);
+
+                        consoleIconLike.classList.remove("active");
+                        consoleIconLiked.classList.add("active");
+
+                        const name = encryption("agree");
+                        const val = encryption(JSON.stringify(agreeArr));
+                        localStorage.setItem(name, val);
+                        flag = true;
+                    })
+                    .catch((err) => {
+                        _loading = false;
+                    });
+                }
+                
+            });
+
+            Icon.addEventListener('mouseenter', function() {
+                postTitle.style.color = "#fff";
+            });
+            Icon.addEventListener('mouseleave', function() {
+                postTitle.style.removeProperty('color');
+            });
+        });
+    }
+    initConsoleLike();
+});

@@ -1,7 +1,8 @@
 <th:block th:fragment="console">
 <th:block th:if="${true}">
     <link rel="stylesheet" href="https://cdn-font.hyperos.mi.com/font/css?family=MiSans_VF:VF:Chinese_Simplify,Latin&amp;display=swap" type="text/css" media="all">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/css/console.css}" />
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/css/console.css}" /> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/css/min/console.min.css}" />
     <div id="r-console" class="r-console animated showInUp" style="display: none;">
         <div class="console-main font-Misans">
             <a onclick="hideConsole()" class="console-close" data-tooltip="关闭控制台">
@@ -24,7 +25,7 @@
                     <th:block th:each="music, iteration : ${theme.config.console_panel.musics}">
                         <div class="console-music-buttom reverie-tooltip reverie-tooltip-top" th:data-tooltip="${music.music_name}" 
                             th:style="'background-image: url(\'' + ${music.music_cover ?: theme.config.basic.random_img_api_url} + '\');'">
-                            <a href="javascript:0" th:onclick="musicPlay(this,[[${iteration.index}]])">
+                            <a href="javascript:void(0)" th:onclick="musicPlay(this,[[${iteration.index}]])">
                                 <svg th:id="'start-'+${iteration.index}" class="hovering" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path d="M21.409 9.353a2.998 2.998 0 0 1 0 5.294L8.597 21.614C6.534 22.737 4 21.277 4 18.968V5.033c0-2.31 2.534-3.769 4.597-2.648z"/></svg>
                                 <svg th:id="'pause-'+${iteration.index}" class="hidding" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path d="M5.746 3a1.75 1.75 0 0 0-1.75 1.75v14.5c0 .966.784 1.75 1.75 1.75h3.5a1.75 1.75 0 0 0 1.75-1.75V4.75A1.75 1.75 0 0 0 9.246 3zm9 0a1.75 1.75 0 0 0-1.75 1.75v14.5c0 .966.784 1.75 1.75 1.75h3.5a1.75 1.75 0 0 0 1.75-1.75V4.75A1.75 1.75 0 0 0 18.246 3z"/></svg>
                                 <svg th:id="'playing-'+${iteration.index}" class="hidding" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path d="M14 20q-1.65 0-2.825-1.175T10 16t1.175-2.825T14 12q.575 0 1.063.138t.937.412V4h6v3h-4v9q0 1.65-1.175 2.825T14 20M2 16q0-2.475.95-4.663t2.575-3.812T9.338 4.95T14 4v2q-2.05 0-3.875.788t-3.187 2.15t-2.15 3.174T4 16zm4 0q0-1.65.638-3.113t1.725-2.55T10.9 8.625T14 8v2q-2.5 0-4.25 1.75T8 16z"/></svg>
@@ -102,13 +103,16 @@
                     </div>
                     <ul class="console-posts text-sm font-medium">
                         <th:block th:each="post_name : ${postsName}">
-                            <li class="console-post" th:with="post = ${postFinder.getByName(post_name.post)}">
+                            <li class="console-post console-post-like" th:data-cid="${post_name.post}"
+                            th:with="post = ${postFinder.getByName(post_name.post)}">
                                 <a class="r-underline" th:href="@{${post.status.permalink}}">
                                     <i class="joe-font joe-icon-dianzan"></i>
                                     <p class="line-clamp-1 theme-cursor">[[${post.spec.title}]]</p>
                                 </a>
-                                <i class="joe-font joe-icon-like"></i>
-                                <!-- <span>[[${#dates.format(post.spec.publishTime,'yyyy-MM-dd')}]]</span>                             -->
+                                <a class="console-icon-wrap">
+                                    <i class="joe-font joe-icon-like console-icon console-icon-like" th:data-cid="${post_name}"></i>
+                                    <i class="joe-font joe-icon-like-fill console-icon console-icon-liked" th:data-cid="${post_name}"></i>
+                                </a>
                             </li>
                         </th:block>
                     </ul>
@@ -164,7 +168,7 @@
                     <div class="console-drawer">
                         <th:block th:each="drawer : ${theme.config.console_panel.drawers}">
                             <th:block th:each="item : ${theme.config.drawer.link_list}" th:if="${item.link_name == drawer.drawer_name}">
-                                <a class="console-drawer-item" th:href="@{${item.link_url}}">
+                                <a class="console-drawer-item" th:href="${item.link_url ?: 'javascript:void(0)'}">
                                     <img th:src="@{${item.link_icon}}" alt="icon" />
                                     <p>[[${item.link_name}]]</p>
                                 </a>
@@ -236,13 +240,13 @@
             <div class="console-buttom-wrap">
                 <!--背景切换-->
                 <div class="console-buttom-square theme-cursor reverie-tooltip reverie-tooltip-top" data-tooltip="背景控制">
-                    <a href="javascript:0" onclick="swtichBackgroud()">
+                    <a href="javascript:void(0)" onclick="swtichBackgroud()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 432 432"><path d="M43 45v150H0V45q0-17 12.5-29.5T43 3h149v42zm128 192l63 79l43-57l64 85H85zm149-95.5q0 13.5-9.5 22.5t-22.5 9t-22.5-9t-9.5-22.5t9.5-23T288 109t22.5 9.5t9.5 23M384 3q18 0 30.5 12.5T427 45v150h-43V45H235V3zm0 384V237h43v150q0 17-12.5 29.5T384 429H235v-42zM43 237v150h149v42H43q-18 0-30.5-12.5T0 387V237z"/></svg>
                     </a>
                 </div>
                 <!--侧边栏切换-->
                 <div class="console-buttom-square theme-cursor reverie-tooltip reverie-tooltip-top" data-tooltip="侧边栏控制">
-                    <a href="javascript:0" onclick="swtichSidebar()">
+                    <a href="javascript:void(0)" onclick="swtichSidebar()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path  d="M13 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h9zm2 18V3h5a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1zM11 8.5v7L7 12z"/></svg>
                     </a>
                 </div>
@@ -260,7 +264,7 @@
                 </div>
                 <!--随机文章-->
                 <div class="console-buttom-square theme-cursor reverie-tooltip reverie-tooltip-top" data-tooltip="随机文章">
-                    <a href="javascript:0" onclick="randomPost()">
+                    <a href="javascript:void(0)" onclick="randomPost()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 512 512"><path d="M440.88 129.37L288.16 40.62a64.14 64.14 0 0 0-64.33 0L71.12 129.37a4 4 0 0 0 0 6.9L254 243.85a4 4 0 0 0 4.06 0L440.9 136.27a4 4 0 0 0-.02-6.9M256 152c-13.25 0-24-7.16-24-16s10.75-16 24-16s24 7.16 24 16s-10.75 16-24 16m-18 118.81L54 163.48a4 4 0 0 0-6 3.46v173.92a48 48 0 0 0 23.84 41.39L234 479.48a4 4 0 0 0 6-3.46V274.27a4 4 0 0 0-2-3.46M96 368c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m96-32c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m266-172.49L274 271.56a4 4 0 0 0-2 3.45V476a4 4 0 0 0 6 3.46l162.15-97.23A48 48 0 0 0 464 340.86V167a4 4 0 0 0-6-3.49M320 424c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m0-88c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m96 32c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24m0-88c-8.84 0-16-10.75-16-24s7.16-24 16-24s16 10.75 16 24s-7.16 24-16 24"/></svg>
                     </a>
                 </div>
@@ -278,6 +282,7 @@
     <script th:inline="javascript">
         const consoleMusics = /*[[${theme.config.console_panel.musics}]]*/ [];
     </script>
-    <script th:src="@{/assets/reverie/js/console.js}"></script> 
+    <script th:src="@{/assets/reverie/js/min/console.min.js}"></script> 
+    <!-- <script th:src="@{/assets/reverie/js/console.js}"></script>  -->
 </th:block>
 </th:block>

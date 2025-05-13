@@ -24,7 +24,8 @@
             </div>
             <div class="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4" >
                 <div class="w-[150px]" th:each="link : ${theme.config.drawer.link_list}">
-                    <a class="flex flex-col justify-center items-center" th:href="${link.link_url}" target="_blank" rel="noopener noreferrer">
+                    <a class="flex flex-col justify-center items-center" th:href="${link.link_url?:'javascript:void(0)'}" 
+                        th:target="${link.link_url != '' ? '_blank' : ''}" th:rel="${link.link_url != '' ? 'noopener noreferrer':''}">
                         <img class="lazyload hover:-translate-y-2 hover:scale-110 transition ease-in-out delay-80"
                         th:data-src="${link.link_icon ?: '/themes/theme-Joe3/assets/reverie/img/question.png'}"
                         th:title="${link.link_name}"/>

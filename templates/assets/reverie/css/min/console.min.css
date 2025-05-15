@@ -70,6 +70,7 @@ svg{position:relative;z-index:1;width:30%;height:auto;color:var(--surface-3);tra
 .console-comment-content span svg{height:15px;width:15px;margin-right:2px}
 .console-comment-content span p{max-width:40%}
 .console-buttom-wrap{display:flex;justify-content:center;gap:0.5rem;margin-top:1rem}
+.console-buttom-click{padding:4px}
 .console-buttom-circle{width:10%;aspect-ratio:1/1;background-color:#000000;color:#ced4da;border-radius:50%;border:1px solid #242424;display:flex;align-items:center;justify-content:center;transition:background-color 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,border 0.2s ease}
 .console-buttom-circle:hover{background-color:var(--btn-bg);color:#1b1c20;box-shadow:0 8px 12px -3px #f2b94b23;border:1px solid transparent}
 .console-buttom-circle svg{fill:var(--btn-bg)}

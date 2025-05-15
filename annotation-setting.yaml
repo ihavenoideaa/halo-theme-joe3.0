@@ -7,6 +7,20 @@ spec:
     group: content.halo.run
     kind: Post
   formSchema:
+    - $formkit: "checkbox"
+      name: "enable_hidden"
+      label: "在首页文章列表隐藏此文章"
+      value: "false"
+      help: 开启此选项后，在首页的文章列表中将不展示此文章，包括归档页面等其他地方不影响
+    - $formkit: "select"
+      name: "enable_aside"
+      label: "是否启用侧边栏"
+      value: "true"
+      options:
+        - value: "true"
+          label: 是
+        - value: "false"
+          label: 否
     - $formkit: "select"
       name: "enable_aside"
       label: "是否启用侧边栏"
@@ -138,15 +152,6 @@ spec:
       name: "enable_fold_long_code"
       label: "是否开启长代码块自动折叠"
       value: "true"
-      options:
-        - value: "true"
-          label: 是
-        - value: "false"
-          label: 否
-    - $formkit: "select"
-      name: "enable_hidden"
-      label: "是否在主页列表隐藏文章"
-      value: "false"
       options:
         - value: "true"
           label: 是

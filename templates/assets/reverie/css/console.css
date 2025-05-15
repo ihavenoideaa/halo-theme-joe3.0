@@ -489,6 +489,10 @@ html {
     margin-top: 1rem;
 }
 
+.console-buttom-click{
+    padding:4px;
+}
+
 .console-buttom-circle {
     width: 10%;
     aspect-ratio: 1/1;

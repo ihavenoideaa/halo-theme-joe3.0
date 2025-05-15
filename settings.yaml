@@ -3685,6 +3685,51 @@ spec:
               name: music_lrc
               label: 音乐歌词
               value: ""
+    - group: pets
+      label: 宠物博客
+      formSchema:
+        - $formkit: text
+          name: title
+          label: 页面标题
+          value: '我的宠物'
+          validation: 'required'
+        - $formkit: textarea
+          name: description
+          label: 页面简介
+          value: '<h1>welcome to my blog~!</h1><p>Hello</p><p>Come and take a look at my pets</p>'
+          validation: 'required'
+        - $formkit: repeater
+          name: pet_list
+          label: 宠物们
+          value: []
+          children:
+            - $formkit: text
+              name: pet_name
+              label: 宠物名称
+              value: ''
+              validation: 'required'
+            - $formkit: attachment
+              name: pet_photo
+              label: 宠物图片
+              value: ''
+            - $formkit: textarea
+              name: pet_brief
+              label: 宠物简介
+              value: ''
+              help: '分段用";"'
+            - $formkit: text
+              name: pet_breed
+              label: 宠物品种
+              value: ''
+            - $formkit: date
+              name: pet_birthday
+              label: 宠物生日
+              value: ''
+              help: '格式：2023-01-01'
+            - $formkit: text
+              name: pronoun
+              label: 代词
+              value: '猫猫/it'
     - group: custom
       label: 自定义
       formSchema:

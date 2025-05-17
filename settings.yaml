@@ -1691,6 +1691,8 @@ spec:
                   label: 侧边栏广告
                 - value: 'enable_custom'
                   label: 自定义内容
+                - value: 'enable_jinrishici'
+                  label: 今日诗词
             - $formkit: group
               if: $value.template_aside === 'enable_notice'
               name: aside_notice
@@ -3613,7 +3615,7 @@ spec:
     - group: console_panel
       label: 控制面板
       formSchema:
-        - $formkit: text
+        - $formkit: textarea
           name: words
           label: 控制面板显示文字
           value: ''

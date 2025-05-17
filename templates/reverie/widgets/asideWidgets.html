@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+    <!--今日诗词-->
+    <th:block th:fragment="enable_jinrishici">
+        <style>
+            html{--shici-bottom:#5d9e8d;--shici-shadow:0 0px 10px -5px #949494;&[data-mode ="dark"]{--shici-bottom:#284730;--shici-shadow:0 0px 10px -3px #000000}}
+            .shici-main{position:relative;min-height:7.5rem;svg{bottom:-16px;position:absolute}
+              .shici-wrap{padding:18px 15px 25px 15px;display:flex;flex-direction:column;gap:0.2rem;align-items:center;justify-content:center;color:var(--main);.shici-title{color:var(--minor);font-size:12px;margin-bottom:0.4rem}
+                .shici-content{display:flex;align-items:center;justify-content:center;font-size:15px;.hiden{display:none}
+                  #jinrishici-full{line-height:1.5rem}
+                }
+                .shici-origin{font-size:12px;color:var(--minor)}
+              }
+            }
+        </style>
+        <section class="joe_aside__item aside_custom" style="box-shadow: var(--shici-shadow);">
+            <div class="shici-main">
+            <div class="shici-wrap">
+                <div class="shici-title">
+                    今日诗词
+                </div>
+                <div class="shici-content" id="jinrishici-content">
+                    <div id="jinrishici-short">正在加载今日诗词....</div>
+                    <div id="jinrishici-full" class="hiden"></div>
+                </div>
+                <div class="shici-origin">
+                    <span id="shici-metadata">诗词名·作者</span>
+                </div>
+            </div>
+            <svg width="300px" height="70px" viewBox="300 70 500 126" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M1310.09105,191.626557 C1496.65509,191.626557 1770.14929,157.346326 1920,106.258614 L1920,226.585567 C1920,226.585567 57.7507064,226.769694 1.29607535,226.778064 L0,226.778064 C0.301412873,150.421181 0.452119309,112.242739 0.452119309,112.242739 C402.829314,254.28206 430.581953,106.258614 671.986104,106.258614 C913.390256,106.258614 1123.52701,191.626557 1310.09105,191.626557 Z" id="路径-1" fill-opacity="0.6" fill=var(--shici-bottom)></path><path d="M0.0139194415,226.56425 C0.0139194415,207.632936 0.00602482649,190.017506 -0.00976440346,173.717958 C-0.00976440346,173.717958 64.0945019,127.498953 182.10043,132.182456 C300.106358,136.865959 566.945531,199.128662 690.656287,199.128662 C926.193135,199.128662 1181.88325,106.258614 1429.28183,106.258614 C1676.68041,106.258614 1762.21292,199.128662 1920,132.182456 C1920,132.182456 1920,163.707219 1920,226.756746 L1918.70393,226.756746 C1862.24971,226.748377 0.0139194415,226.56425 0.0139194415,226.56425 Z" id="路径-1" fill-opacity="0.6" fill=var(--shici-bottom)></path><path d="M1463.25587,166.368856 C1551.98939,166.368856 1579.00033,142.163535 1682.98644,125.993122 C1786.97255,109.822709 1903.42761,144.008202 1920,142.125085 L1920,226.246611 C1920,226.246611 57.7382953,226.430738 1.31380552,226.439107 L0,226.439107 C0.875870348,212.023153 1.31380552,204.815176 1.31380552,204.815176 C1.31380552,204.815176 171.201223,92.2827368 319.815615,99.6364213 C498.755382,108.490655 535.30872,172.276704 680.584032,172.276704 C825.859343,172.276704 892.163947,69.0953634 1074.42656,72.7600803 C1256.68917,76.4247971 1374.52235,166.368856 1463.25587,166.368856 Z" id="路径-1" fill-opacity="0.3" fill=var(--shici-bottom)></path></g></svg>        
+            </div>
+            <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+            <script type="text/javascript">
+                jinrishici.load(function(result) {
+                    document.getElementById('shici-metadata').textContent = `[${result.data.origin.dynasty}] ${result.data.origin.title}·${result.data.origin.author}`;
+                    const shiciDom = document.getElementById('jinrishici-content');
+                    const sentenceDom = document.getElementById('jinrishici-short');
+                    const fullDom = document.getElementById('jinrishici-full');
+                    sentenceDom.textContent = result.data.content;
+                    console.log(result)
+                    let fullhtml ='';
+                    result.data.origin.content.forEach(item => {
+                        fullhtml += `<div>${item}</div>`;
+                    });
+                    fullDom.innerHTML = fullhtml;
+                    shiciDom.classList.add("theme-cursor");
+                    shiciDom.addEventListener('click', function() {
+                        sentenceDom.classList.toggle('hiden');
+                        fullDom.classList.toggle('hiden');
+                    })
+                });
+            </script>
+        </section>
+    </th:block>
+</html>

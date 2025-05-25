@@ -3615,10 +3615,28 @@ spec:
     - group: console_panel
       label: 控制面板
       formSchema:
+        - $formkit: select
+          name: enable_console
+          label: 启用控制面板
+          value: true
+          options:
+            - label: 启用
+              value: true
+            - label: 关闭
+              value: false
         - $formkit: textarea
           name: words
           label: 控制面板显示文字
           value: ''
+        - $formkit: radio
+          name: side_buttom
+          label: 面板按钮位置
+          value: true
+          options:
+            - label: 左侧
+              value: true
+            - label: 底部
+              value: false
         - $formkit: repeater
           name: posts
           label: 控制面板推荐文章
@@ -3732,6 +3750,42 @@ spec:
               name: pronoun
               label: 代词
               value: '猫猫/it'
+    - group: goods
+      label: 好物页面
+      formSchema:
+        - $formkit: text
+          name: title
+          label: 页面标题
+          value: '好物分享~'
+          validation: 'required'
+        - $formkit: textarea
+          name: description
+          label: 页面简介
+          value: '好物分享页面，分享一些我拥有的好物'
+          validation: 'required'
+        - $formkit: repeater
+          name: goods_list
+          label: 好物列表
+          value: []
+          children:
+            - $formkit: text
+              name: good_name
+              label: 物品名称
+              value: ''
+              validation: 'required'
+            - $formkit: attachment
+              name: good_photo
+              label: 物品图片
+              value: ''
+            - $formkit: textarea
+              name: good_brief
+              label: 物品简介
+              value: '<span class="good-tag-new">NEW</span>'
+              help: '分段用";", 退役: <span class="good-tag">已退役</span>, NEW: <span class="good-tag-new">NEW</span>'
+            - $formkit: postSelect
+              name: post
+              label: 关联文章
+              value: ""
     - group: custom
       label: 自定义
       formSchema:

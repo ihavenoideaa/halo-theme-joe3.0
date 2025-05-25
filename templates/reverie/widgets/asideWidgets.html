@@ -37,8 +37,7 @@
                     const sentenceDom = document.getElementById('jinrishici-short');
                     const fullDom = document.getElementById('jinrishici-full');
                     sentenceDom.textContent = result.data.content;
-                    console.log(result)
-                    let fullhtml ='';
+                    let fullhtml = '';
                     result.data.origin.content.forEach(item => {
                         fullhtml += `<div>${item}</div>`;
                     });

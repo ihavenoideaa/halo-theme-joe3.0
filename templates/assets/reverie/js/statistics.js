@@ -157,7 +157,7 @@ function createHaloTagList() {
         const tagItem = document.createElement('li');
         tagItem.className = "item mt-1 mr-3 mb-2.5 bg-[#446385] dark:bg-[#35353e] border border-[#c6e0fb] dark:border-[#454545] group";
         tagItem.innerHTML = `
-            <a th:href="${tag.status.permalink}" th:title="${tag.spec.displayName}" >
+            <a href="${tag.status.permalink}" title="${tag.spec.displayName}" >
                 <span class="text-slate-200">${tag.spec.displayName}</span>
                 <em class="text-[#fb8f1c] dark:text-[#9999ff]">${tag.status.visiblePostCount ? tag.status.visiblePostCount : 0 }篇</em>
             </a>

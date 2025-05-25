@@ -20,11 +20,15 @@
                         你是愿意当个无名之辈，一辈子安生，还是就算活不到三十岁，也要名流青史呢。
                     </blockquote>
               <div class="bangumi-tabs">
+                <a class="bangumi-tab theme-cursor bangumi-active" id="bangumi-tab0" href="javascript:;" rel="external" target="_self"
+                   onclick="return false" data-pjax-state="">
+                    全部
+                    ([[${bangumiFinder.getDataTotal(1,0)}]])</a>
                 <a class="bangumi-tab theme-cursor" id="bangumi-tab1" href="javascript:;" rel="external" target="_self"
                    onclick="return false" data-pjax-state="">
                     想看
                     ([[${bangumiFinder.getDataTotal(1,1)}]])</a>
-                <a class="bangumi-tab theme-cursor bangumi-active" id="bangumi-tab2" href="javascript:;" rel="external"
+                <a class="bangumi-tab theme-cursor" id="bangumi-tab2" href="javascript:;" rel="external"
                    target="_self" onclick="return false" data-pjax-state="">
                     在看
                     ([[${bangumiFinder.getDataTotal(1,2)}]])</a>
@@ -32,9 +36,16 @@
                    onclick="return false" data-pjax-state="">
                     已看
                     ([[${bangumiFinder.getDataTotal(1,3)}]])</a>
+                <a class="bangumi-tab theme-cursor" id="bangumi-tab4" href="javascript:;" rel="external" target="_self"
+                   onclick="return false" data-pjax-state="">
+                    追剧
+                    ([[${bangumiFinder.getDataTotal(2,0)}]])</a>
             </div>
 
             <div class="bangumi-content">
+              <div id="bangumi-item0" class="bangumi-hide">
+                  <th:block th:replace="~{reverie/widgets/bangumi-item :: bangumi-item(${bangumiFinder.getBiliDataAll(1,0)})}"/>
+              </div>
               <div id="bangumi-item1" class="bangumi-hide">
                   <th:block th:replace="~{reverie/widgets/bangumi-item :: bangumi-item(${bangumiFinder.getBiliDataAll(1,1)})}"/>
               </div>
@@ -43,6 +54,9 @@
               </div>
               <div id="bangumi-item3" class="bangumi-hide">
                   <th:block th:replace="~{reverie/widgets/bangumi-item :: bangumi-item(${bangumiFinder.getBiliDataAll(1,3)})}"/>
+              </div>
+              <div id="bangumi-item4" class="bangumi-hide">
+                  <th:block th:replace="~{reverie/widgets/bangumi-item :: bangumi-item(${bangumiFinder.getBiliDataAll(2,0)})}"/>
               </div>
           </div>
           <script>
@@ -93,7 +107,7 @@
                           }
                       })
                   })();
-                  document.getElementsByClassName('bangumi-tab')[1].click();
+                  document.getElementsByClassName('bangumi-tab')[0].click();
                   /* eslint-disable no-plusplus, func-style */
                   (function () {
                       var a = Math.ceil;

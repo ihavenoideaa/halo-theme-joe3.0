@@ -1,0 +1,146 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{modules/layout :: html(title = ${category.spec.displayName}+' | '+${site.title},htmlType = category,header = null,leftSidebar = true,content = ~{::content}, head = null, footer = null)}"
+>
+  <th:block th:fragment="content">
+    <body data-petsTheme="light-blue" onload="initTheme()">
+      <link rel="stylesheet" type="text/css" th:href="@{/assets/reverie/pets/css/pets.css}" />       
+      <div id="Joe">
+        <th:block th:replace="~{modules/macro/navbar :: navbar}" />
+        <header class="pets-header"><h1 id=""><a href="#">[[${theme.config.pets.title}]]</a></h1></header>
+        <main>
+          <nav class="pets-nav languages links">
+            <ul>
+                <li>
+                    <a id="header-pet-name" href="javascript:void(0)" onclick="switchTheme()">
+                      [[${theme.config.pets.pet_list[0].pet_name}]]
+                    </a>
+                </li>
+            </ul>
+          </nav>
+        <div id="content">
+            <!--侧边栏-->
+            <aside id="sidebar">
+              <div id="pet-side-info">
+                <div id="avatar">
+                    <img class="flower" th:src="@{/assets/reverie/pets/imgs/icon.png}" />
+                </div>
+                
+                <div id="bio">
+                    <p th:each="brief : ${#strings.listSplit(theme.config.pets.pet_list[0].pet_brief, ';')}"
+                      th:utext="${brief}">
+                    </p>
+                </div>
+                
+                <div class="small-box">
+                    <ul>
+                        <li>name: [[${theme.config.pets.pet_list[0].pet_name}]]</li>
+                        <li>breed: [[${theme.config.pets.pet_list[0].pet_breed}]]</li>
+                        <li id="pet-age" th:data-birthday="${theme.config.pets.pet_list[0].pet_birthday}">
+                          age: 计算中...
+                        </li>
+                        <li>pronouns: [[${theme.config.pets.pet_list[0].pronoun}]]</li>
+                    </ul>
+                </div>
+              </div>
+                <nav class="pets-nav links">
+                    <ul>
+                        <li th:each="pet, iter: ${theme.config.pets.pet_list}">
+                          <a href="javascript:void(0)" th:onclick="switchPet([[${iter.index}]])">
+                            [[${pet.pet_name}]]
+                          </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <main>
+                <!--顶部介绍栏-->
+                <article id="top" class="pets-article clearfix">
+                    <section>
+                    <div class="img-right">
+                        <img th:src="@{/assets/reverie/pets/imgs/cat.png}" />
+                    </div>
+                    <div th:utext="${theme.config.pets.description}">
+                    </div>
+                    </section>
+                    <section id="pet-hobbies">
+                        <h4 class="color-title">All of my lovely pets : </h4>
+                        <ul>
+                            <li th:each="pet : ${theme.config.pets.pet_list}">
+                                [[${pet.pet_name}]]
+                            </li>
+                        </ul>
+                    </section>
+                </article>
+                <!--文章列表-->
+                <article th:each="post, iter : ${posts.items}" th:id="${'post-' + iter.index}" class="pets-article posts-list" th:data-html="${postFinder.content(post.metadata.name).content}">
+                    <!--tags-->
+                    <h2><a th:href="${post.status.permalink}">[[${post.spec.title}]]</a></h2>
+                   
+                    <th:block th:if="${#lists.size(post.spec.tags) > 0}" th:with="tagCount = ${#lists.size(post.spec.tags)}">
+                      tags:
+                      <a class="pets-tag" th:each="tag, iter : ${tagFinder.getByNames(post.spec.tags)}" th:href="${tag.status.permalink}">
+                        [[${tag.spec.displayName}]]
+                        <th:block th:if="${iter.index < tagCount - 1}">,</th:block>
+                      </a>
+                    </th:block>
+                    <div class="post-header">
+                        @作者
+                        <span class="timestamp">[[${#dates.format(post.spec.publishTime,'MM/dd/yyyy')}]]</span>
+                    </div>
+
+                    <div class="post-content readmore">
+                      <div class="text-content">
+                          <p th:text="${#strings.abbreviate(post.status.excerpt, 50)}">
+                          </p>
+                      </div>
+                      <div class="full-content" style="display: none;">
+                          <p th:text="${post.status.excerpt}">
+                          </p>
+                      </div>
+                      <!--根据长度-->
+                      <summary th:if="${#strings.length(post.status.excerpt) > 50}" class="read-more-btn" th:onclick="toggleReadMore([[${'post-' + iter.index}]])" style="display: inline;">read more</summary>
+                  </div>
+        
+                  <div id="article-images">
+                      <!--上方图片-->
+                      <div class="photosetx2" id="top-2images">
+                      </div>
+                      <!--下方图片-->
+                      <div class="photosetx3" id="bottom-3images">
+                      </div>
+                    </div>
+                </article>
+
+              <ul class="pagination pagination-default" th:with="pageIndex = ${posts.page}, totalPages = ${posts.totalPages}">
+                <li class="page-item" th:classappend="${posts.first} ? ' disabled':''">
+                    <a th:href="${category.status.permalink}" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;&laquo;</span></a>
+                  </li>
+                  <li class="page-item" th:classappend="${posts.first} ? ' disabled':''">
+                    <a th:href="${posts.prevUrl}" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;</span></a>
+                  </li>
+                  <li class="page-item active">
+                    <a aria-current="page" aria-label="Page 1" class="page-link" role="button">[[${pageIndex + ' / ' + totalPages}]]</a>
+                  </li>
+                  <li class="page-item" th:classappend="${posts.last} ? ' disabled':''">
+                    <a th:href="${posts.nextUrl}" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+                  </li>
+                  <li class="page-item" th:classappend="${posts.last} ? ' disabled':''">
+                    <a th:href="${category.status.permalink + '/page/' + totalPages}" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+                  </li>
+              </ul>
+            <script th:inline="javascript">
+              const petList = /*[[${theme.config.pets.pet_list}]]*/ [];
+            </script>
+            <script th:src="@{/assets/reverie/pets/js/pets.js}"></script>
+        </main>
+        </main>
+        <th:block th:replace="~{modules/common/actions :: actions}" />
+        <th:block th:replace="~{modules/common/footer :: footer}" />
+      </div>
+      <th:block th:replace="~{modules/macro/tail :: tail}" />
+    </body>
+  </th:block>
+</html>

@@ -170,6 +170,10 @@ img {
 	font-size: 1rem;
 	color: var(--classF);
 	background-color: var(--sib-background);
+	a{
+		text-decoration:underline;
+		color:inherit !important;
+	}
 }
 
 .button {

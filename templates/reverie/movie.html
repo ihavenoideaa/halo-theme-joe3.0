@@ -25,7 +25,7 @@
 
       <div id="Joe">
         <th:block th:replace="~{modules/macro/navbar :: navbar}" />
-        <div class="flex flex-col items-center mb-12 mt-20"  th:classappend="${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}">
+        <div class="flex flex-col items-center mb-auto mt-20"  th:classappend="${theme.config.theme.enable_show_in_up ? 'animated showInUp':''}">
             <div id="spinner"></div>
             <div class="content lg:w-[1100px] md:w-[880px] sm:w-[440px]">
                 <h1 class="heading">[[${theme.config.movie.title ?: '书影音'}]]</h1>
@@ -53,7 +53,7 @@
                   <div class="mt-2.5">
                     <p class="star-title text-lg mb-1 font-[900]">评分</p>
                     <span class="movie-comment_stars pl-1"></span> 
-                    <i class="movie-rating_grade ml-1.5 text-sm"></i>
+                    <span class="movie-rating_grade ml-1.5 text-sm"></span>
                   </div>
                   <div class="flex-grow">
                     <h2 class="comment-title text-lg mt-3.5 font-[900]">评论</h2>

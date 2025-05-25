@@ -72,9 +72,15 @@
             />
           </th:block>
           <th:block th:case="'enable_custom'">
-            <!--        侧边栏广告-->
+            <!--        自定义内容-->
             <th:block
               th:insert="~{modules/widgets/asideWidget :: enable_custom(custom_data = ${aside.aside_custom})}"
+            />
+          </th:block>
+          <th:block th:case="'enable_jinrishici'">
+            <!--        今日诗词-->
+            <th:block
+              th:insert="~{reverie/widgets/asideWidgets :: enable_jinrishici}"
             />
           </th:block>
         </th:block>

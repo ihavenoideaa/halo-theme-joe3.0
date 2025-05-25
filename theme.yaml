@@ -34,6 +34,10 @@ spec:
         description: 日志类模板
         screenshot:
         file: reverie/diary/diarys.html
+      - name: 宠物博客
+        description: 宠物博客模板
+        screenshot:
+        file: reverie/pets/pets.html
     page:
       - name: 留言板
         description: 留言板文章
@@ -95,4 +99,8 @@ spec:
         description: 追番页面
         screenshot:
         file: reverie/bangumi.html
+      - name: 好物页面
+        description: 好物页面
+        screenshot:
+        file: reverie/goods.html
 

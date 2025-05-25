@@ -177,7 +177,7 @@ $(document).ready(async function () {
         container.appendChild(filter_all);
         for (const [index, tag] of photo_tags.entries()) {
             const filter_item = document.createElement('li');
-            filter_item.setAttribute('data-sjslink', tag);
+            filter_item.setAttribute('data-sjslink', `随手拍/${tag}`);
             filter_item.innerHTML = `<a>${tag}</a>`;
             container.appendChild(filter_item);
         }

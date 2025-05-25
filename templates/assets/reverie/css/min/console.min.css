@@ -5,7 +5,7 @@ html{--btn-bg:#f2b94bdd;&[data-mode="dark"]{--btn-bg:#9999ff}
 .line-clamp-3{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}
 .text-sm{font-size:.875rem;line-height:1.25rem}
 .font-medium{font-weight:500}
-.r-console{position:fixed;height:100%;width:100%;display:flex;flex-direction:column;align-items:end;z-index:8888;transition:background-color 0.2s ease-in}
+.r-console{position:fixed;height:100%;width:100%;display:flex;justify-content:end;align-items:center;z-index:8888;transition:background-color 0.2s ease-in}
 .console-main{width:27rem;height:100vh;padding:0.5rem 1rem 4rem 0;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
 .console-main::-webkit-scrollbar{display:none}
 .console-close{position:fixed;right:13rem;display:flex;align-items:center;justify-content:center;bottom:1rem;border-radius:50%;width:1.5rem;height:1.5rem;background-color:#343a40;z-index:9999}
@@ -69,17 +69,28 @@ svg{position:relative;z-index:1;width:30%;height:auto;color:var(--surface-3);tra
 .console-comment-content span{font-size:12px;color:#495057;display:flex;align-items:center;justify-content:flex-end}
 .console-comment-content span svg{height:15px;width:15px;margin-right:2px}
 .console-comment-content span p{max-width:40%}
-.console-buttom-wrap{display:flex;justify-content:center;gap:0.5rem;margin-top:1rem}
-.console-buttom-click{padding:4px}
-.console-buttom-circle{width:10%;aspect-ratio:1/1;background-color:#000000;color:#ced4da;border-radius:50%;border:1px solid #242424;display:flex;align-items:center;justify-content:center;transition:background-color 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,border 0.2s ease}
+.console-bottom-buttom{display:flex;justify-content:center;gap:0.5rem;margin-top:1rem}
+.console-side-buttom{display:flex;flex-direction:column;gap:0.4rem;width:42px;margin-right:1rem}
+.console-buttom-click{padding:4px;display:flex;justify-content:center;align-items:center}
+.console-buttom-circle{width:42px;aspect-ratio:1/1;background-color:#000000;color:#ced4da;border-radius:50%;border:1px solid #242424;display:flex;align-items:center;justify-content:center;transition:background-color 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,border 0.2s ease}
 .console-buttom-circle:hover{background-color:var(--btn-bg);color:#1b1c20;box-shadow:0 8px 12px -3px #f2b94b23;border:1px solid transparent}
-.console-buttom-circle svg{fill:var(--btn-bg)}
-.console-buttom-circle:hover svg{fill:#F7F7FA}
-.console-buttom-square{width:10%;aspect-ratio:1/1;background-color:#000000;color:#ced4da;border-radius:0.5rem;border:1px solid #242424;display:flex;align-items:center;justify-content:center;transition:background-color 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,border 0.2s ease}
+.console-buttom-square{width:42px;aspect-ratio:1/1;background-color:#000000;color:#ced4da;border-radius:0.5rem;border:1px solid #242424;display:flex;align-items:center;justify-content:center;transition:background-color 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,border 0.2s ease}
 .console-buttom-square:hover{background-color:var(--btn-bg);color:#1b1c20;box-shadow:0 8px 12px -3px #f2b94b23;border:1px solid transparent}
-.console-buttom-square svg{fill:var(--btn-bg)}
+.console-side-buttom svg{fill:#ced4da}
+.console-bottom-buttom svg{fill:var(--btn-bg)}
+.console-buttom-circle:hover svg{fill:#F7F7FA}
 .console-buttom-square:hover svg{fill:#F7F7FA}
 .console-no-bg::before{background-image:none !important}
+.console-volume-title{display:flex;gap:0.5rem}
+.console-volume-control{display:flex;align-items:center}
+#console-volume-btn{padding:2px 4px 2px 2px;border-radius:5px}
+#console-volume-btn:hover{background-color:#7c7c7c80}
+.console-volume-control.bg{position:relative;top:-5px;padding:5px 0px 5px 10px;background-color:#101012;border-radius:50px}
+.console-volume-control i{font-size:14px;margin-top:1px}
+.console-volume-container{display:flex;align-items:center;transition:all 0.3s ease;transform:scale(0.8)}
+.console-volume-container.hidden{display:none}
+#console-volume-slider{height:4px;width:110px;position:relative;left:-12px}
+#console-volume-percentage{text-align:right;transition:all 0.2s ease}
 .console-music{margin-top:0.7rem;display:flex;justify-content:space-evenly;gap:0.5rem}
 .console-music-buttom{width:22%;aspect-ratio:4/3;background-color:#000000;color:#ced4da;border-radius:0.5rem;border:1px solid #242424;display:flex;align-items:center;justify-content:center;transition:background-color 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,border 0.2s ease;background-size:cover;background-position:center;transition:transform 0.25s ease}
 .console-music-buttom:hover{transform:scale(1.1)}

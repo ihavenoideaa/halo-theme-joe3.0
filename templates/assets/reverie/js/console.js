@@ -51,7 +51,7 @@ function switchConsole() {
 }
 
 // 点击控制台外部时隐藏
-window.addEventListener('click', (event) => {
+consoleWrap.addEventListener('click', (event) => {
     if (event.target === consoleWrap) {
         hideConsole();
     }
@@ -346,7 +346,8 @@ function swtichBackgroud() {
 
 let nowMusicIndex = -1; // 当前音乐索引
 let isMusicStop = true; // 是否暂停
-let consoleAplayer;
+let consoleAplayer = null;
+let consoleVolume = 0.15;
 function musicInit() {
     consoleAplayer = document.querySelector("meting-js")?.aplayer;
     if(!consoleAplayer) {
@@ -365,7 +366,7 @@ function musicInit() {
             }
         ]);
     });
-    consoleAplayer.volume(0.15, false);
+    consoleAplayer.volume(consoleVolume, false);
     consoleAplayer.on('ended', function () {
         musicSwitchEvent((nowMusicIndex + 1) % consoleMusics.length);
     });
@@ -452,8 +453,8 @@ function musicSwitchEvent(index) {
     document.getElementById(`playing-${index}`).classList = "showing";
 }
 
-// 点赞按钮
 document.addEventListener("DOMContentLoaded", function () {
+    // 点赞按钮
     function initConsoleLike() {
         window.encryption = (str) => window.btoa(unescape(encodeURIComponent(str)));
         window.decrypt = (str) => decodeURIComponent(escape(window.atob(str)));
@@ -518,4 +519,23 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     initConsoleLike();
+
+    // 音量控制
+    document.getElementById('console-volume-btn').addEventListener('click', function() {
+        document.getElementById('console-volume-container').classList.toggle('hidden');
+    });
+    document.getElementById('console-volume-slider').addEventListener('input', function() {
+        consoleVolume = this.value / 100;
+        document.getElementById('console-volume-percentage').textContent = this.value;
+        if(consoleAplayer) {
+            consoleAplayer.volume(consoleVolume, false);
+        }
+    });
+    consoleWrap.addEventListener('click', (event) => {
+        if (!document.getElementById('console-volume-control').contains(event.target)) {
+            if(!document.getElementById('console-volume-container').classList.contains('hidden')) {
+                document.getElementById('console-volume-container').classList.add('hidden');
+            }
+        }
+    });
 });
